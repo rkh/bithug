@@ -1,0 +1,19 @@
+Install Gitosis
+	-> PREREQ: sudo apt-get install python-setuptools
+	-> git clone git://eagain.net/gitosis.git
+	-> cd gitosis
+	-> python setup.py install
+	-> adduser --disabled-password git
+	-> su git; ssh-keygen -b 8096
+	-> sudo -H -u git gitosis-init < /home/git/.ssh/id_rsa.pub
+	-> sudo chmod 755 /home/git/repositories/gitosis-admin.git/hooks/post-update
+	-> git clone git@nada1.de:gitosis-admin.git
+	-> cd gitosis-admin
+
+Creating new repositories
+	-> as user "git": "echo [group REPO]
+				members = OWNER
+				writable = REPO" > gitosis.conf; git commit -a -m ""; git push
+
+Adding Users
+	-> as user "git" copy key into keydir
