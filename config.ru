@@ -1,2 +1,2 @@
-require 'bithub'
+require 'webserver'
 run Sinatra::Application
