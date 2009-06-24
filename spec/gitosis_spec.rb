@@ -37,7 +37,7 @@ describe Gitosis do
   # for each user, filled with his keys  
   it "creates proper key files" do
     users = create_dummy_users
-    keyfiles = Dir["gitosis-admin/keydir/*")]
+    keyfiles = Dir["gitosis-admin/keydir/*"]
 
     @gitosis.dump_users users
     keyfiles.size.should == 3
