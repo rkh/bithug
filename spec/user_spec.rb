@@ -6,12 +6,12 @@ describe Bithug::User do
   end
 
   it "has a name" do
-    user.should.respond_to?(:username)
-    user.username.should.is_a?(String)
+    @user.should.respond_to?(:name)
+    @user.name.should.is_a?(String)
   end
 
   it "has some public keys" do
-    user.should.respond_to?(:keys)
-    user.keys.should.is_a?(Array) 
+    @user.should.respond_to?(:keys)
+    @user.keys.should.is_a?(Array) 
   end
 end

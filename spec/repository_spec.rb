@@ -6,12 +6,12 @@ describe Bithug::Repository do
   end
 
   it "has a name" do
-    repos.should.respond_to?(:name)
-    repos.reposname.should.is_a?(String)
+    @repos.should.respond_to?(:name)
+    @repos.name.should.is_a?(String)
   end
 
   it "has some members" do
-    repos.should.respond_to?(:members)
-    repos.members.should.is_a?(Array)
+    @repos.should.respond_to?(:members)
+    @repos.members.should.is_a?(Array)
   end
 end
