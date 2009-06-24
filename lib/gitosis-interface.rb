@@ -4,7 +4,7 @@ require 'erubis'
 class  Gitosis
 
   CONFIG_TEMPLATE = <<-EOS
-    [gitosis <%= name %>]
+    [group <%= name %>]
     writable = <%= name %>
     members = <%= members %>
 
@@ -25,7 +25,7 @@ class  Gitosis
   # add them
   def dump_users users
     users.each do |u|
-      keyfile = @path+"keydir/"+u.username
+      keyfile = @path+"keydir/"+u.username+".pub"
       File.open(keyfile, 'w') do |f|
         u.keys.each do |k|
           f << k
