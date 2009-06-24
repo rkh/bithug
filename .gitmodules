@@ -7,3 +7,6 @@
 [submodule "vendor/net-ldap"]
 	path = vendor/net-ldap
 	url = git://github.com/innovationfactory/ruby-net-ldap.git
+[submodule "vendor/haml"]
+	path = vendor/haml
+	url = git://github.com/nex3/haml.git
