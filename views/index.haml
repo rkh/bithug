@@ -1,0 +1,7 @@
+%h1 Repository index
+- user.each do |u|
+  #user
+    %h2= u.name
+    - u.repositories.each do |r|
+      %a{:href => "/#{u.name}/#{r.name}"}
+        = r.name

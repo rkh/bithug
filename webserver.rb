@@ -3,4 +3,6 @@ require 'config/dependencies'
 require 'sinatra'
 require 'haml'
 
-get("/") { "Hello World!" }
+get "/" do
+  haml :index, {}, :user => User.find
+end
