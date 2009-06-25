@@ -7,7 +7,7 @@ end
 
 %w[                      
   dm-core dm-aggregates dm-migrations dm-timestamps dm-types dm-validations dm-serializer 
-  data_objects do_sqlite3
+  data_objects do_sqlite3 net/ldap bcrypt
   sinatra/base grit erubis haml
   bithug
 ].each { |lib| require lib }
