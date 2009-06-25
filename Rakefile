@@ -7,11 +7,11 @@ end
 
 namespace :db do
   desc "AutoMigrate the db (deletes data)"
-  task :migrate => :environment do
+  task :migrate do
     DataMapper.auto_migrate!
   end
   desc "AutoUpgrade the db (preserves data)"
-  task :upgrade => :environment do
+  task :upgrade do
     DataMapper.auto_upgrade!
   end
 end
