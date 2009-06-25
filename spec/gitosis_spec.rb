@@ -1,17 +1,19 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/spec_helper'
 require 'fakefs'
-include Grit
 
 describe Gitosis do
+  include Grit
+  include FakeFS
+
   before do
-    @gitdir = "gitosis-admin"
-    @keydir = "gitosis-admin/keydir"
+    @gitdir = ENV["HOME"]+"/gitosis-admin"
+    @keydir = @gitdir+"/keydir"
+    fs = FileSystem
+    FileUtils.mkdir_p @keydir
     @mock_repo = mock('repo').as_null_object
-    @gitosis = Gitosis.new("gitosis-admin")
-    Library.add @gitdir
-    Library.add @keydir
+    @gitosis = Gitosis.new(@gitdir)
     Repo.should_receive(:new).
-      with("gitosis-admin").
+      with(@gitdir).
       and_return(@mock_repo)
   end
 
