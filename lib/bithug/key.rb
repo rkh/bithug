@@ -1,6 +1,6 @@
 module Bithug
   
-  class Key
+  class PublicKey
     
     include DataMapper::Resource
     
