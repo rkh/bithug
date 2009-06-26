@@ -21,6 +21,6 @@ end
 
 post"/login" do
   res = options.authentication_agent.
-    athenticate params[:name], params[:password]
+    authenticate params[:name], params[:password]
   res.to_s
 end
