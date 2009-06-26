@@ -13,6 +13,10 @@ module Bithug
     has n, :repositories
 
     alias_method :keys, :public_keys
+
+    def password=(pw)
+      super BCrypt::Password.create(pw)
+    end
     
   end
   
