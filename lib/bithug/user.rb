@@ -3,7 +3,7 @@ module Bithug
   class User
     
     include DataMapper::Resource
-    
+
     property :name, String, :key => true
     property :password, String
     property :created_at, DateTime
@@ -15,7 +15,7 @@ module Bithug
     alias_method :keys, :public_keys
 
     def password=(pw)
-      super BCrypt::Password.create(pw)
+      attribute_set(:password, BCrypt::Password.create(pw))
     end
     
   end
