@@ -7,7 +7,7 @@ describe Gitosis do
 
   before do
     @gitdir = ENV["HOME"]+"/gitosis-admin"
-    @keydir = @gitdir+"/keydir"
+    @keydir = @gitdir+"/keydir/"
     fs = FileSystem
     FileUtils.mkdir_p @keydir
     @mock_repo = mock('repo').as_null_object
@@ -20,8 +20,10 @@ describe Gitosis do
   def create_dummy_users
     ["user1", "user2", "user3"].collect do |n|
       u = OpenStruct.new
-      u.username = n
-      u.keys = ["1stKey", "2ndKey"]
+      u.name = n
+      u.keys = [OpenStruct.new, OpenStruct.new]
+      u.keys[0].content = "1stKey"
+      u.keys[1].content = "2ndKey"
       u
     end
   end
@@ -39,29 +41,28 @@ describe Gitosis do
   # for each user, filled with his keys  
   it "creates proper key files" do
     users = create_dummy_users
-    keyfiles = Dir["gitosis-admin/keydir/*"]
-
-    @gitosis.dump_users users
-    keyfiles.size.should == 3
-    keyfiles.first.should == "user1.pub"
-    File.open(@keydir+keyfiles.first) do |f|
-      f.readline.should == "1stKey\n"
-      f.readline.should == "2ndKey\n"
-    end
     @mock_repo.should_receive(:commit_all).once
     @mock_repo.should_receive(:push).once
+    @gitosis.dump_users users
+    keyfiles = Dir[@keydir+"*"]
+
+    keyfiles.size.should == 3
+    keyfiles.first.should == @keydir+"user1.pub"
+    lines = File.readlines(keyfiles.first)
+    lines[0].should == "1stKey"
+    lines[1].should == "2ndKey"
   end
 
   it "creates a proper config file" do
     repos = create_dummy_repos
+    @mock_repo.should_receive(:commit_all).once
+    @mock_repo.should_receive(:push).once
     @gitosis.dump_repos repos
-    File.open(@gitdir+"/gitosis.conf") do |f|
-      lines = f.readlines
-      lines.size.should == 4*3+2 # 3 repo-entries and 2 header-lines
-      lines.first.should == "[gitosis]"
-      lines.should.include? "[group repo1]\n"
-      lines.should.include? "writable = repo1\n"
-      lines.should.include? "member = u1 u2\n"
-    end
+    lines = File.readlines(@gitdir+"/gitosis.conf")
+    lines.size.should == 4*3+2 # 3 repo-entries and 2 header-lines
+    lines.first.should == "[gitosis]"
+    lines.include?("    [group repo1]").should == true
+    lines.include?("    writable = repo1").should == true
+    lines.include?("    members = u1 u2").should == true
   end
 end
