@@ -1,5 +1,6 @@
 require "bithug/user"
 require "bithug/repository"
+require "bithug/public_key"
 
 module Bithug
   
