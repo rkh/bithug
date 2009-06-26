@@ -9,8 +9,8 @@ module Bithug
     property :created_at, DateTime
     property :updated_at, DateTime
 
+    has n, :keys, :class_name => 'PublicKey'
     has n, :repositories
-    #has n, :keys, :class_name => 'Bithug::PublicKey'
     
   end
   
