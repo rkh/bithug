@@ -10,7 +10,9 @@ module Bithug
     property :updated_at, DateTime
 
     has n, :members, :class_name => 'User'
-    belongs_to :owner, :class_name => 'User', :child_key => [:name]
+    belongs_to :user, :class_name => 'User', :child_key => [:name]
+    
+    alias_method :owner, :user
     
   end
   
