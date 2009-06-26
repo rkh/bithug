@@ -37,32 +37,40 @@ describe Gitosis do
     end
   end
 
-  # This should nicely dump a key file 
-  # for each user, filled with his keys  
   it "creates proper key files" do
-    users = create_dummy_users
-    @mock_repo.should_receive(:commit_all).once
-    @mock_repo.should_receive(:push).once
-    @gitosis.dump_users users
+    @gitosis.dump_users [create_dummy_users[0]]
     keyfiles = Dir[@keydir+"*"]
-
-    keyfiles.size.should == 3
-    keyfiles.first.should == @keydir+"user1.pub"
     lines = File.readlines(keyfiles.first)
     lines[0].should == "1stKey"
     lines[1].should == "2ndKey"
   end
 
-  it "creates a proper config file" do
-    repos = create_dummy_repos
-    @mock_repo.should_receive(:commit_all).once
-    @mock_repo.should_receive(:push).once
-    @gitosis.dump_repos repos
+  it "creates one keyfile for each user with the username" do
+    @gitosis.dump_users create_dummy_users
+    keyfiles = Dir[@keydir+"*"]
+    keyfiles.size.should == 3
+    keyfiles.first.should == @keydir+"user1.pub"
+  end  
+
+  it "creates entries for each repo in the config file" do
+    @gitosis.dump_repos create_dummy_repos
     lines = File.readlines(@gitdir+"/gitosis.conf")
     lines.size.should == 4*3+2 # 3 repo-entries and 2 header-lines
     lines.first.should == "[gitosis]"
+  end
+
+  it "creates proper entries for a repo (with formatting, too)" do
+    @gitosis.dump_repos [create_dummy_repos[1]]
+    lines = File.readlines(@gitdir+"/gitosis.conf")
     lines.include?("    [group repo1]").should == true
     lines.include?("    writable = repo1").should == true
     lines.include?("    members = u1 u2").should == true
+  end
+
+  it "pushes the repository after each action" do
+    @mock_repo.should_receive(:commit_all).at_least(:twice)
+    @mock_repo.should_receive(:push).at_least(:twice)
+    @gitosis.dump_repos create_dummy_repos
+    @gitosis.dump_users create_dummy_users
   end
 end
