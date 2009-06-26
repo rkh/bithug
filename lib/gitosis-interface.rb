@@ -1,5 +1,7 @@
 require 'grit'
 require 'erubis'
+require 'pathname'
+require 'extlib'
 
 class  Gitosis
 
@@ -8,21 +10,23 @@ class  Gitosis
     writable = <%= name %>
     members = <%= members %>
   EOS
+  
+  DEFAULT_PATH = Pathname(ENV['HOME']) / "gitosis-admin"
 
   include Grit
 
   # Optionally initialize with non-standard 
   # gitosis-admin path
-  def initialize path=ENV["HOME"]+"/gitosis-admin/"
-    @path = path
-    @conffile = @path+"/gitosis.conf"
-    @repo = Repo.new(@path)
+  def initialize(path)
+    @path = path || DEFAULT_PATH
+    @conffile = @path / "gitosis.conf"
+    @repo = Repo.new @path.to_s
   end
 
   # dump an array of users with their keys into
   # properly named key files, so that gitosis can
   # add them
-  def dump_users users
+  def dump_users(users)
     users.each do |u|
       keyfile = @path+"/keydir/"+u.name+".pub"
       File.open(keyfile, 'w') do |f|
@@ -37,7 +41,7 @@ class  Gitosis
 
   # dump an array of repositories with associated 
   # member info into the config file
-  def dump_repos repos
+  def dump_repos(repos)
       File.open(@conffile, 'w') do |f|
         f << "[gitosis]\n\n"
         repos.each do |r|
