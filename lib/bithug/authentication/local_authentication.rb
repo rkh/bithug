@@ -7,7 +7,7 @@ require 'bcrypt'
   def authenticate username, password
     user = User.get(username)
     return nil if user.nil?
-    password = BCrypt::Password.new(user.password)
+    BCrypt::Password.new(user.password) == password
   end
 
   def register(username, password)
