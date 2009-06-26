@@ -11,14 +11,14 @@ describe Gitosis do
     fs = FileSystem
     FileUtils.mkdir_p @keydir
     @mock_repo = mock('repo').as_null_object
-    @gitosis = Gitosis.new(@gitdir)
     Repo.should_receive(:new).
       with(@gitdir).
       and_return(@mock_repo)
+    @gitosis = Gitosis.new(@gitdir)
   end
 
   def create_dummy_users
-    "user1, user2, user3".collect do |n|
+    ["user1", "user2", "user3"].collect do |n|
       u = OpenStruct.new
       u.username = n
       u.keys = ["1stKey", "2ndKey"]
