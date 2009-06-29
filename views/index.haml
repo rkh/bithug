@@ -6,9 +6,9 @@
     Password:
     %input{:name => "password", :type => "text"}
     %input{:value => "Submit", :type => "submit"}
-- user.each do |u|
+- if !user.nil?
   #user
-    %h2= u.name
-    - u.repositories.each do |r|
-      %a{:href => "/#{u.name}/#{r.name}"}
+    %h2= user.name
+    - user.repositories.each do |r|
+      %a{:href => "/#{user.name}/#{r.name}"}
         = r.name
