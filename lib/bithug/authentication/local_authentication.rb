@@ -11,7 +11,17 @@ require 'bcrypt'
   end
 
   def register(username, password)
-    User.create!(:name => username,
-      :password => password)
+    user = User.new
+    user.attributes = {:name => username, :password => password}
+    user.save!
+    user
+  end
+
+  def update(username, details)
+    if details[:password] == details[:repeated_password]
+      user = User.get(username) || register(username, details[:password])
+      user = nil unless user.update(details)
+    end
+    user
   end
 end
