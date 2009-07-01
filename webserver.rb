@@ -8,11 +8,12 @@ include Bithug
 enable :sessions
 
 get "/" do
-  haml :index, {}, :user => User.get(session["username"])
+  haml :index, {}, :user => session["user"]
 end
 
 get "/update_user" do
-  haml :user, {}, :user => User.get(session["username"])
+  session["user"] ||= User.new
+  haml :user, {}, :user => session["user"]
 end
 
 post "/update_user" do
@@ -21,24 +22,24 @@ post "/update_user" do
 end
 
 post "/add_user_key" do
-  User.get(session["username"].add_key(params[:key]))
+  session["user"].add_key(params[:key])
   redirect "/"
 end
 
 post "/login" do
   if options.authentication_agent.authenticate params[:name], params[:password]
-    session["username"] = params[:name]
+    session["user"] = User.get(params[:name])
   end
   redirect "/"
 end
 
 get "/logout" do
-  session["username"] = nil
+  session["user"] = User.new
   redirect "/"
 end
 
 get "/:username" do
-  haml :index, {}, :user => User.get(params[:username])
+  haml :index, {}, :user => params[:user]
 end
 
 get "/create_repository" do
@@ -47,6 +48,6 @@ end
 
 post "/create_repository" do
   users = params[:userlist].gsub(" ", "").split(",")
-  Repository.new.update(session["username"], 
+  Repository.new.update(session["user"].name, 
                         params[:name], users)
 end
