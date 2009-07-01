@@ -15,10 +15,14 @@ get "/register" do
   haml :register
 end
 
-post "/register" do
+post "/update_user" do
   options.authentication_agent.
     register params[:name], params[:password]
   redirect "/"
+end
+
+post "/add_user_key" do
+  User.get(session["username"].add_key(params[:key])
 end
 
 post "/login" do
