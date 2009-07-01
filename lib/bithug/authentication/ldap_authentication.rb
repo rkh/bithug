@@ -10,4 +10,8 @@ class LDAPAuthenticationAgent
     @ldap.auth username, password
     @ldap.bind
   end
+
+  [:register, :update].each do |item|
+    define_method(item) { nil }
+  end
 end

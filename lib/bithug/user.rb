@@ -25,6 +25,10 @@ module Bithug
       end
       save
     end
+
+    def update(details)
+      update_attributes(details.subhash(:email, :password))
+    end
     
   end
   

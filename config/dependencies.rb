@@ -8,9 +8,9 @@ end
 %w[
   dm-core dm-aggregates dm-migrations dm-timestamps dm-types dm-validations dm-serializer 
   data_objects do_sqlite3 net/ldap bcrypt
-  sinatra/base grit erubis haml 
+  sinatra/base grit erubis haml bithug/ext/subhash
   bithug bithug/authentication/local_authentication
-  bithug/authentication/ldap_authentication
+  bithug/authentication/ldap_authentication 
 ].each { |lib| require lib }
 
 DataMapper.setup :default, "sqlite3:///#{Bithug::ROOT}/#{Bithug.environment}.db"

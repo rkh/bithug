@@ -11,23 +11,22 @@ get "/" do
   haml :index, {}, :user => User.get(session["username"])
 end
 
-get "/register" do
-  haml :register
+get "/update_user" do
+  haml :user, {}, :user => User.get(session["username"])
 end
 
 post "/update_user" do
-  options.authentication_agent.
-    register params[:name], params[:password]
+  options.authentication_agent.update params[:name], params
   redirect "/"
 end
 
 post "/add_user_key" do
-  User.get(session["username"].add_key(params[:key])
+  User.get(session["username"].add_key(params[:key]))
+  redirect "/"
 end
 
 post "/login" do
-  if options.authentication_agent.
-    authenticate params[:name], params[:password]
+  if options.authentication_agent.authenticate params[:name], params[:password]
     session["username"] = params[:name]
   end
   redirect "/"
