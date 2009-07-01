@@ -1,7 +1,7 @@
 module Bithug
   
   class User
-    
+
     include DataMapper::Resource
 
     property :name, String, :key => true
@@ -14,6 +14,12 @@ module Bithug
     has n, :repositories
 
     alias_method :keys, :public_keys
+
+    def public_key
+      keys.collect do |key|
+        key.content
+      end.join("\n")
+    end
 
     def password=(pw)
       attribute_set(:password, BCrypt::Password.create(pw))
@@ -29,7 +35,7 @@ module Bithug
     def update(details)
       update_attributes(details.subhash(:email, :password))
     end
-    
+
   end
   
 end
