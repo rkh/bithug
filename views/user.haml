@@ -1,0 +1,18 @@
+.userInfo  
+  .details
+    %form{:method => "post", :action => 'update_user'}
+      %label{:for => "name"} Username:
+      %input{:type => "text", :value => user.name, :name => "name"}/
+      %label{:for => "email"} E-Mail:
+      %input{:type => "text", :value => user.email, :name => "email"}/
+      %label{:for => "password"} Password:
+      %input{:type => "password", :name => "password"}
+      %label{:for => "password"} Repeat Password:
+      %input{:type => "password", :name => "repeated_password"}
+      %input{:type => "submit", :value => "Submit" } 
+  .keys
+    - unless user.new_record? 
+      %form{:method => 'post', :action => 'add_user_key'}
+        %label{:for => "key"} Public Key:
+        %textarea{:name => "key"}= user.public_key
+        %input{:type => "submit", :value => "Add Key"} 
