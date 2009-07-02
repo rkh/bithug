@@ -28,7 +28,7 @@ class Gitosis
   # add them
   def dump_users(users)
     users.each do |u|
-      keyfile = @path+"/keydir/"+u.name+".pub"
+      keyfile = "#{@path}/keydir/#{u.name}.pub"
       File.open(keyfile, 'w') do |f|
         u.keys.each do |k|
           f << k.content
