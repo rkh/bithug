@@ -3,17 +3,23 @@ require 'config/dependencies'
 require 'sinatra'
 require 'haml'
 
+
 include Bithug
 
 enable :sessions
 
+helpers do
+  def current_user
+    session["user"] || User.new
+  end
+end
+
 get "/" do
-  haml :index, {}, :user => session["user"]
+  haml :index, {}, :user => current_user
 end
 
 get "/update_user" do
-  session["user"] ||= User.new
-  haml :user, {}, :user => session["user"]
+  haml :user, {}, :user => current_user
 end
 
 post "/update_user" do
@@ -34,7 +40,7 @@ post "/login" do
 end
 
 get "/logout" do
-  session["user"] = User.new
+  session["user"] = nil
   redirect "/"
 end
 
@@ -48,6 +54,6 @@ end
 
 post "/create_repository" do
   users = params[:userlist].gsub(" ", "").split(",")
-  Repository.new.update(session["user"].name, 
+  Repository.new.update(current_user.name, 
                         params[:name], users)
 end
