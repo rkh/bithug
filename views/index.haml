@@ -1,10 +1,10 @@
 %h1 Repository index
 .login
   %form{:method => "post", :action => "login"}
-    Username:
+    %label{:for => "name"} Username:
     %input{:name => "name", :type => "text"}
-    Password:
-    %input{:name => "password", :type => "text"}
+    %label{:for => "password"} Password:
+    %input{:name => "password", :type => "password"}
     %input{:value => "Submit", :type => "submit"}
 - unless user.new_record?
   #user
