@@ -17,7 +17,7 @@ class Gitosis
 
   # Optionally initialize with non-standard 
   # gitosis-admin path
-  def initialize(path)
+  def initialize(path=nil)
     @path = path || DEFAULT_PATH
     @conffile = @path / "gitosis.conf"
     @repo = Repo.new @path.to_s
