@@ -3,7 +3,7 @@ require 'erubis'
 require 'pathname'
 require 'extlib'
 
-class  Gitosis
+class Gitosis
 
   CONFIG_TEMPLATE = <<-EOS
     [group <%= name %>]
