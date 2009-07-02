@@ -8,6 +8,7 @@ end
 %w[
   dm-core dm-aggregates dm-migrations dm-timestamps dm-types dm-validations dm-serializer 
   data_objects do_sqlite3 net/ldap bcrypt
+  gitosis-interface
   sinatra/base grit erubis haml bithug/ext/subhash
   bithug bithug/authentication/local_authentication
   bithug/authentication/ldap_authentication 
@@ -16,3 +17,4 @@ end
 DataMapper.setup :default, "sqlite3:///#{Bithug::ROOT}/#{Bithug.environment}.db"
 
 Sinatra::Default.set :authentication_agent, LocalAuthenticationAgent.new
+Sinatra::Default.set :gitosis, Gitosis.new

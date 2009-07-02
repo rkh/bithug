@@ -24,11 +24,13 @@ end
 
 post "/update_user" do
   options.authentication_agent.update params[:name], params
+  options.gitosis.dump_users(User.all)
   redirect "/"
 end
 
 post "/add_user_key" do
   session["user"].add_key(params[:key])
+  options.gitosis.dump_users(User.all)
   redirect "/"
 end
 
@@ -54,6 +56,7 @@ end
 
 post "/create_repository" do
   users = params[:userlist].gsub(" ", "").split(",")
+  options.gitosis.dump_repos(Repository.all)
   Repository.new.update(current_user.name, 
                         params[:name], users)
 end
