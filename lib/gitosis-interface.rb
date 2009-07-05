@@ -3,6 +3,12 @@ require 'erubis'
 require 'pathname'
 require 'extlib'
 
+Grit::Repo.class_eval do 
+  define_method :push do 
+    system("cd #{@path}; git push origin master")
+  end
+end
+
 class Gitosis
 
   CONFIG_TEMPLATE = <<-EOS
