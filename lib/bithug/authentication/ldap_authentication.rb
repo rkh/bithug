@@ -1,9 +1,9 @@
 require 'net/ldap'
 
 class LDAPAuthenticationAgent
-  def initialize(options)
-    @ldap = Net::LDAP.new :host => "nads1",
-      :port => 389
+  def initialize(options={})
+    @ldap = Net::LDAP.new :host => (options[:host] || "nads2"),
+      :port => (options[:port] || 389)
   end
 
   def authenticate(username, password)
