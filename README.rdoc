@@ -9,15 +9,30 @@ This skeleton uses the followin libraries:
 * Extlib (with monkey-lib) for sane ruby extensions
 * Any ORM you want (with branches available for: currently none)
 
-Example usage:
-
-  monk init -s gerippe
-
 == Custom Monk tasks
 
   monk name                     # displayes the projects name, currently Project
   monk rename NAME              # changes the projects name to NAME
   monk create TYPE NAME [ARGS]  # generate routes and such
+
+Example usage:
+
+  $ monk init -s gerippe
+      fetching  git://github.com/rkh/gerippe.git
+   initialized  .
+  $ monk name
+          name  Project
+  $ monk rename example
+        rename  lib/project => lib/example
+        modify  init.rb
+        modify  routes/stylesheets.rb
+        modify  README.rdoc
+        modify  config.ru
+  $ monk name
+          name  Example
+  $ monk create route pages /page/:name.html /index.html
+       written  routes/pages.rb
+  
 
 == Alternate directory structure
 
