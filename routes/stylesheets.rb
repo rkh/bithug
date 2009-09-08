@@ -11,8 +11,7 @@ module Project
     
     helpers do
       def compass(file, options = {})
-        options[:sass] ||= {}
-        options[:sass].merge! Compass.sass_engine_options
+        options.merge! Compass.sass_engine_options
         sass file, options
       end
     end

@@ -11,6 +11,7 @@ require "sass"
 
 module Project   
   class Routes < Monk::Glue
+    ::Main = self
     set :app_file, __FILE__
     set :views, root_path("views")
     use Rack::Session::Cookie
