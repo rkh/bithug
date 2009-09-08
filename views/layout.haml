@@ -1,0 +1,12 @@
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", :lang => "en", 'xml:lang' => "en" }
+  %head
+    %title Project
+    %link{:href=>"/stylesheets/screen.css", :media=>"screen", :rel=>"stylesheet", :type=>"text/css"}/
+  %body
+    .container
+      .header
+        %h1 Project
+      .body
+        !=yield
+      .footer
+        %p project &copy; 2009
