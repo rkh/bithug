@@ -1,0 +1,32 @@
+= Project
+
+== Skeleton
+
+This skeleton uses the followin libraries:
+
+* Compass for fast layout development
+* RSpec for testing
+* Extlib (with monkey-lib) for sane ruby extensions
+* Any ORM you want (with branches available for: currently none)
+
+Example usage:
+
+  monk init -s gerippe
+
+== Custom Monk tasks
+
+  monk name                     # displayes the projects name, currently Project
+  monk rename NAME              # changes the projects name to NAME
+  monk create TYPE NAME [ARGS]  # generate routes and such
+
+== Alternate directory structure
+
+Instead of the usual app/ structure known from Rails, Merb or other Monk skeletons,
+this project uses a different project structure:
+
+  for controllers/helpers:  routes/
+  for views:                views/
+  for models:               lib/project/
+
+Models should be written in a way to be reusable and viewed as a stand-alone library
+(hence them being in lib)

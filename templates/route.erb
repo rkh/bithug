@@ -1,0 +1,12 @@
+<% @name = "routes/#{@name}.rb" %>
+module Project
+  class Routes < Monk::Glue
+<% @args.each do |path| %>
+
+    get '<%= path %>' do
+      haml <%= path.gsub(/^\//, '').to_sym.inspect %>
+    end
+<% end %>
+
+  end
+end
