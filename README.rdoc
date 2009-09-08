@@ -7,7 +7,6 @@ This skeleton uses the followin libraries:
 * Compass for fast layout development
 * RSpec for testing
 * Extlib (with monkey-lib) for sane ruby extensions
-* Any ORM you want (with branches available for: currently none)
 
 == Custom Monk tasks
 
