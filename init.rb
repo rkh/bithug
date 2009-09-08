@@ -1,6 +1,6 @@
 # Setting up the path
 ROOT_DIR = File.expand_path(File.dirname(__FILE__)) unless defined? ROOT_DIR
-$LOAD_PATH.unshift("lib", *Dir.glob(File.join(ROOT_DIR, "vendor", "*", "lib")))
+$LOAD_PATH.unshift("lib", *Dir.glob(File.join(ROOT_DIR, "vendor", "dependencies", "lib")))
 
 require "dependencies"
 require "monkey-lib"
