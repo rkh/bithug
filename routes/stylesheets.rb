@@ -17,6 +17,7 @@ module Project
     end
 
     get '/stylesheets/:name.css' do
+      response['Cache-Control'] = 'public' if Project::Routes.production?
       content_type 'text/css', :charset => 'utf-8'
       compass :"stylesheets/#{params[:name]}"
     end 
