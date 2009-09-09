@@ -3,7 +3,7 @@ require "extlib"
 
 class Monk < Thor
   
-  STRING_TRANSFORMS = %w[upcase downcase snake_case camel_case to_const_path to_const_string]
+  STRING_TRANSFORMS = %w[to_s upcase downcase snake_case camel_case to_const_path to_const_string]
   
   desc "rename NAME", "rename the project to NAME"
   def rename(name)
