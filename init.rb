@@ -11,11 +11,19 @@ require "sass"
 
 module Project   
   class Routes < Monk::Glue
+    
+    # Monk::Glue relies on Main
     ::Main = self
+    
     set :app_file, __FILE__
     set :views, root_path("views")
+    set :haml, :format => :html5, :escape_html => true
+    
     use Rack::Session::Cookie
+    enable :sessions
+    
     Dir.glob(root_path("{config,routes}/**/*.rb")) { |f| require f }
     run! if run?  
+    
   end
 end
