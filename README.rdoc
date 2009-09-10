@@ -47,5 +47,6 @@ Models should be written in a way to be reusable and viewed as a stand-alone lib
 
 == TODO
 
-Change +views/layout.haml+ and +views/stylesheets/screen.sass+ to use HTML5 tags rather
-than +div+ tags.
+* Change views/layout.haml and views/stylesheets/screen.sass to use HTML5 tags rather than div tags.
+* Write more templates.
+* Write default specs.
