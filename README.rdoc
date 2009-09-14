@@ -29,8 +29,9 @@ Example usage:
         modify  config.ru
   $ monk name
           name  Example
-  $ monk create route pages /page/:name.html /index.html
+  $ monk create route pages page/:name.html index.html
        written  routes/pages.rb
+       written  spec/example/pages_spec.rb
   
 
 == Alternate directory structure
