@@ -48,5 +48,4 @@ Models should be written in a way to be reusable and viewed as a stand-alone lib
 
 == TODO
 
-* Write more templates.
-* Write default specs.
+* Create forks for different ORMs.
