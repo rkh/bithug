@@ -6,7 +6,7 @@ module Project
 <% args.each do |path| %>
 
     get '/<%= path %>' do
-      haml <%= path.to_sym.inspect %>
+      haml <%= name.to_sym.inspect %>
     end
 <% end %>
 
@@ -28,6 +28,6 @@ describe Project::Routes do
   
 end
 
-@@ views/:name/:arg.haml
+@@ views/:name.haml
 %h2 <%= name %>
-template at <%= File.join("views", name, arg)%>
+template at <%= File.join("views", name) %>

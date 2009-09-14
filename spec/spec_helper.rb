@@ -10,7 +10,6 @@ Webrat.configure { |config| config.mode = :sinatra }
 
 module Project
   module TestMethods
-    
     def app
       Project::Routes
     end

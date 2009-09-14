@@ -8,6 +8,18 @@ This skeleton uses the followin libraries:
 * RSpec for testing
 * Extlib (with monkey-lib) for sane ruby extensions
 
+== Alternate directory structure
+
+Instead of the usual app/ structure known from Rails, Merb or other Monk skeletons,
+this project uses a different project structure:
+
+  for controllers/helpers:  routes/
+  for views:                views/
+  for models:               lib/project/
+
+Models should be written in a way to be reusable and viewed as a stand-alone library
+(hence them being in lib)
+
 == Custom Monk tasks
 
   monk name                     # displayes the projects name, currently Project
@@ -29,22 +41,10 @@ Example usage:
         modify  config.ru
   $ monk name
           name  Example
-  $ monk create route pages page/:name.html index.html
+  $ monk create route pages page/:name index
        written  routes/pages.rb
        written  spec/example/routes/pages_spec.rb
-  
-
-== Alternate directory structure
-
-Instead of the usual app/ structure known from Rails, Merb or other Monk skeletons,
-this project uses a different project structure:
-
-  for controllers/helpers:  routes/
-  for views:                views/
-  for models:               lib/project/
-
-Models should be written in a way to be reusable and viewed as a stand-alone library
-(hence them being in lib)
+       written  views/patges.haml
 
 == TODO
 
