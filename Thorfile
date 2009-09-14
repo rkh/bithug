@@ -60,7 +60,7 @@ class Monk < Thor
     end
   end
   
-  desc "types", "list of available types for #$0 create"
+  desc "types", "list of available types for #{File.basename $0} create"
   def types
     Dir.glob("templates/*.erb") do |template|
       say_status template[10..-5], File.read(template).split(TEMPLATE_SEPERATOR).first.strip
