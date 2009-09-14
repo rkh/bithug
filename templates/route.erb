@@ -1,7 +1,9 @@
-<% @name = "routes/#{@name}.rb" %>
+Takes name of routes file and a list of routes.
+
+@@ routes/:name.rb
 module Project
   class Routes < Monk::Glue
-<% @args.each do |path| %>
+<% args.each do |path| %>
 
     get '<%= path %>' do
       haml <%= path.gsub(/^\//, '').to_sym.inspect %>
@@ -10,3 +12,7 @@ module Project
 
   end
 end
+
+@@ views/:name/:arg.haml
+%h2 <%= name %>
+template at <%= File.join("views", name, arg)%>

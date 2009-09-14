@@ -1,9 +1,11 @@
 require "monk"
 require "extlib"
+require "erb"
 
 class Monk < Thor
   
   STRING_TRANSFORMS = %w[to_s upcase downcase snake_case camel_case to_const_path to_const_string]
+  TEMPLATE_SEPERATOR = /^@@\s*([^\s]+)\s*$/
   
   desc "rename NAME", "rename the project to NAME"
   def rename(name)
@@ -34,25 +36,57 @@ class Monk < Thor
   method_option :stdout, :type => :boolean, :aliases => "-o"
   desc "create TYPE NAME [PARAMETERS]", "generates a view, route, whatever"
   def create(type, name, *parameters)
-    template = File.join "templates", "#{type}.erb" 
-    unless File.exist? template
+    template_file = File.join "templates", "#{type}.erb" 
+    unless File.exist? template_file
       say_status :error, "unknown template #{type}"
       exit 1
     end
-    require "erb"
-    @args, @name = parameters, name
-    content = ERB.new(File.read(template), nil, "<>").result(binding)
-    if options.stdout?
-      puts content
-    elsif File.exist? @name
-      say_status :error, "File #{@name} already exists."
-    else
-      File.open(@name, "w") { |f| f << content }
-      say_status :written, @name
+    templates(File.read(template_file), name, *parameters).each do |file, content|
+      if options.stdout?
+        puts "## #{file}", content, ""
+      else
+        if File.exist? file
+          say_status :error, "file #{file} already exists"
+        else
+          dir = File.dirname file
+          unless File.directory? dir
+            say_status :create, dir
+            FileUtils.mkdir_p dir
+          end
+          say_status :create, file
+          File.open(file, "w") { |f| f << content }
+        end
+      end
+    end
+  end
+  
+  desc "types", "list of available types for #$0 create"
+  def types
+    Dir.glob("templates/*.erb") do |template|
+      say_status template[10..-5], File.read(template).split(TEMPLATE_SEPERATOR).first.strip
     end
   end
   
   private
+  
+  def templates(template, name, *args)
+    file = nil
+    output = {}
+    template.split(TEMPLATE_SEPERATOR)[1..-1].each_with_index do |l, i|
+      if i%2 == 0
+        file = l
+      else
+        erb = ERB.new(l.strip, nil, "<>")
+        file.gsub! ":name", name
+        if file[":arg"]
+          args.each { |arg| output[file.gsub(":arg", arg)] = erb.result(binding) }
+        else
+          output[file] = erb.result(binding)
+        end
+      end
+    end
+    output
+  end
   
   def mv(source, target)
     FileUtils.mkdir_p File.dirname(target)
