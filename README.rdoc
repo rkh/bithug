@@ -31,7 +31,7 @@ Example usage:
           name  Example
   $ monk create route pages page/:name.html index.html
        written  routes/pages.rb
-       written  spec/example/pages_spec.rb
+       written  spec/example/routes/pages_spec.rb
   
 
 == Alternate directory structure
