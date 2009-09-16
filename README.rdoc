@@ -8,9 +8,6 @@ This skeleton uses the followin libraries:
 * RSpec for testing
 * Extlib (with monkey-lib) for sane ruby extensions
 
-Note: I do not use the Dependency gem for managing vendor.
-The dependencies file is only for categorization by monk.
-
 == Alternate directory structure
 
 Instead of the usual app/ structure known from Rails, Merb or other Monk skeletons,
