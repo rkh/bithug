@@ -22,7 +22,9 @@ class Monk < Thor
       origin = File.read file
       modified = origin.dup
       replacements.each do |from, to|
-        modified.gsub! /(#{IDENT_SEPERATOR})#{from}(#{IDENT_SEPERATOR})/
+        modified.gsub!(/(#{IDENT_SEPERATOR})#{from}(#{IDENT_SEPERATOR})/) do
+          "#{$1}#{to}#{$2}"
+        end
       end
       if origin != modified
         say_status :modify, file
