@@ -1,5 +1,4 @@
 /config/settings.yml
 /tmp
-/vendor/*
 /.sass-cache
 /doc

@@ -1,0 +1,24 @@
+[submodule "vendor/extlib"]
+	path = vendor/extlib
+	url = git://github.com/datamapper/extlib.git
+[submodule "vendor/haml"]
+	path = vendor/haml
+	url = git://github.com/nex3/haml.git
+[submodule "vendor/rack-test"]
+	path = vendor/rack-test
+	url = git://github.com/brynary/rack-test.git
+[submodule "vendor/monk-glue"]
+	path = vendor/monk-glue
+	url = git://github.com/rkh/glue.git
+[submodule "vendor/monkey-lib"]
+	path = vendor/monkey-lib
+	url = git://github.com/rkh/monkey-lib.git
+[submodule "vendor/rspec"]
+	path = vendor/rspec
+	url = git://github.com/dchelimsky/rspec.git
+[submodule "vendor/sinatra"]
+	path = vendor/sinatra
+	url = git://github.com/sinatra/sinatra.git
+[submodule "vendor/webrat"]
+	path = vendor/webrat
+	url = git://github.com/brynary/webrat.git
