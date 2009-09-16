@@ -8,7 +8,7 @@ class Monk < Thor
   TEMPLATE_SEPERATOR = /^@@\s*([^\s]+)\s*$/
   IDENT_SEPERATOR = /[\:\s\.\,\;\!\"\%\(\)\{\}\[\]'\|\<\>\?\+\*\=\&]/
   DIRECTORIES = "{config,lib,public,routes,spec,templates,views}"
-  FILES = "{Rakefile,*.{rb,ru,rdoc,haml,sass,yml,html,erb}}"
+  FILES = "{Rakefile,*.rb,*.ru,*.rdoc,*.haml,*.sass,*.yml,*.html,*.erb}"
   
   desc "rename NAME", "rename the project to NAME"
   def rename(name)
