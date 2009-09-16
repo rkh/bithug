@@ -1,7 +1,6 @@
 git://github.com/datamapper/extlib.git
 git://github.com/nex3/haml.git
 git://github.com/brynary/rack-test.git
-git://github.com/rkh/glue.git
 git://github.com/rkh/monkey-lib.git
 git://github.com/dchelimsky/rspec.git
 git://github.com/sinatra/sinatra.git
