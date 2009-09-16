@@ -11,13 +11,11 @@ require "sass"
 module Project   
   class Routes < Sinatra::Base
     
-    def self.root_path(*args)
-      File.join(ROOT_DIR, *args)
-    end
-    
-    def root_path
-      self.class.root_path
-    end
+    def self.root_path(*args); File.join(ROOT_DIR, *args); end
+    def self.root_glob(*args, &block); Dir.glob(root_path(*args), &block); end
+    def self.route_files(&block); root_glob("routes", "**", "*.rb", &block); end
+    def root_path(*args); self.class.root_path(*args); end
+    def root_glob(*args, &block); self.class.root_glob(*args, &block); end
     
     set :app_file, __FILE__
     set :views, root_path("views")
@@ -26,7 +24,7 @@ module Project
     use Rack::Session::Cookie
     enable :sessions
     
-    Dir.glob(root_path("{config,routes}/**/*.rb")) { |f| require f }
+    root_glob("{config,routes}", "**", "*.rb") { |f| require f }
     run! if run?  
     
   end
