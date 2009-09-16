@@ -21,11 +21,13 @@ class Monk < Thor
       end
     end
     Dir.glob("{#{FILES},{DIRECTORIES}/**/#{FILES}}") do |file|
+      say_status :looking_at file
       next unless !File.directory?(file) && File.writable?(file) && File.readable?(file)
       origin = File.read file
       modified = origin.dup
       replacements.each do |from, to|
         modified.gsub!(/(#{IDENT_SEPERATOR})#{from}(#{IDENT_SEPERATOR})/) do
+          say_status :replace, "#{from} => #{to}"
           "#{$1}#{to}#{$2}"
         end
       end
