@@ -7,9 +7,6 @@
 [submodule "vendor/rack-test"]
 	path = vendor/rack-test
 	url = git://github.com/brynary/rack-test.git
-[submodule "vendor/monk-glue"]
-	path = vendor/monk-glue
-	url = git://github.com/rkh/glue.git
 [submodule "vendor/monkey-lib"]
 	path = vendor/monkey-lib
 	url = git://github.com/rkh/monkey-lib.git

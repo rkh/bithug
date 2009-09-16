@@ -1,5 +1,5 @@
 module Project
-  class Routes < Monk::Glue
+  class Routes < Sinatra::Base
 
     get '/' do
       require 'rdoc/markup/to_html'

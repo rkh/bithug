@@ -1,5 +1,5 @@
 module Project
-  class Routes < Monk::Glue
+  class Routes < Sinatra::Base
 
     configure do
       Compass.configuration do |config|
