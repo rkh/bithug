@@ -8,6 +8,7 @@ class Monk < Thor
   TEMPLATE_SEPERATOR = /^@@\s*([^\s]+)\s*$/
   IDENT_SEPERATOR = /[\:\s\.\,\;\!\"\%\(\)\{\}\[\]'\|\<\>\?\+\*\=\&]/
   DIRECTORIES = "{config,lib,public,routes,spec,templates,views}"
+  FILES = "{Rakefile,*.{rb,ru,rdoc,haml,sass,yml,html,erb}}"
   
   desc "rename NAME", "rename the project to NAME"
   def rename(name)
@@ -19,7 +20,7 @@ class Monk < Thor
         mv file, file.gsub(old_path_name, new_path_name) if File.exist? file
       end
     end
-    Dir.glob("{*,{DIRECTORIES}/**/*}") do |file|
+    Dir.glob("{#{FILES},{DIRECTORIES}/**/#{FILES}}") do |file|
       next unless !File.directory?(file) && File.writable?(file) && File.readable?(file)
       origin = File.read file
       modified = origin.dup
