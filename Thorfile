@@ -6,7 +6,7 @@ class Monk < Thor
   
   STRING_TRANSFORMS = %w[to_s upcase downcase snake_case camel_case to_const_path to_const_string]
   TEMPLATE_SEPERATOR = /^@@\s*([^\s]+)\s*$/
-  IDENT_SEPERATOR = /[:\s\.,;!"%\(\)\{\}\[\]'\|<>\?\+\*\=&]/
+  IDENT_SEPERATOR = /[\:\s\.\,\;\!\"\%\(\)\{\}\[\]'\|\<\>\?\+\*\=\&]/
   DIRECTORIES = "{config,lib,public,routes,spec,templates,views}"
   
   desc "rename NAME", "rename the project to NAME"
