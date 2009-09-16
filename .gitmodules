@@ -22,3 +22,6 @@
 [submodule "vendor/webrat"]
 	path = vendor/webrat
 	url = git://github.com/brynary/webrat.git
+[submodule "vendor/compass"]
+	path = vendor/compass
+	url = git://github.com/chriseppstein/compass.git
