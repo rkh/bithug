@@ -20,6 +20,7 @@ class Monk < Thor
       end
     end
     Dir.glob("{*,{DIRECTORIES}/**/*}") do |file|
+      next unless !File.directory?(file) && File.writable?(file) && File.readable?(file)
       origin = File.read file
       modified = origin.dup
       replacements.each do |from, to|
