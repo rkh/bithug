@@ -7,18 +7,19 @@ class Monk < Thor
   STRING_TRANSFORMS = %w[to_s upcase downcase snake_case camel_case to_const_path to_const_string]
   TEMPLATE_SEPERATOR = /^@@\s*([^\s]+)\s*$/
   IDENT_SEPERATOR = /[:\s\.,;!"%\(\)\{\}\[\]'\|<>\?\+\*\=&]/
+  DIRECTORIES = "{config,lib,public,routes,spec,templates,views}"
   
   desc "rename NAME", "rename the project to NAME"
   def rename(name)
     replacements = STRING_TRANSFORMS.inject({}) { |h, m| h.merge project_name.send(m) => name.send(m) }
     old_path_name = project_name.to_const_path
     new_path_name = name.to_const_path
-    until (files = Dir.glob("*/#{old_path_name}{.*,}")).empty?
+    until (files = Dir.glob("#{DIRECTORIES}/**/#{old_path_name}{.*,}")).empty?
       files.each do |file|
         mv file, file.gsub(old_path_name, new_path_name) if File.exist? file
       end
     end
-    Dir.glob("**/{*.rb,*.rdoc,*.ru}") do |file|
+    Dir.glob("{*,{DIRECTORIES}/**/*}") do |file|
       origin = File.read file
       modified = origin.dup
       replacements.each do |from, to|
