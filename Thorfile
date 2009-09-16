@@ -21,7 +21,7 @@ class Monk < Thor
       end
     end
     Dir.glob("{#{FILES},{DIRECTORIES}/**/#{FILES}}") do |file|
-      say_status :looking_at file
+      say_status :looking_at, file
       next unless !File.directory?(file) && File.writable?(file) && File.readable?(file)
       origin = File.read file
       modified = origin.dup
