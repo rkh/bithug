@@ -20,7 +20,7 @@ class Monk < Thor
         mv file, file.gsub(old_path_name, new_path_name) if File.exist? file
       end
     end
-    Dir.glob("{#{FILES},{DIRECTORIES}/**/#{FILES}}") do |file|
+    Dir.glob("{#{FILES},#{DIRECTORIES}/**/#{FILES}}") do |file|
       say_status :looking_at, file
       next unless !File.directory?(file) && File.writable?(file) && File.readable?(file)
       origin = File.read file
