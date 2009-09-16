@@ -11,6 +11,11 @@ require "sass"
 module Project   
   class Routes < Sinatra::Base
     
+    configure :development do
+      require "project/reloader"
+      use Reloader
+    end
+    
     def self.root_path(*args); File.join(ROOT_DIR, *args); end
     def self.root_glob(*args, &block); Dir.glob(root_path(*args), &block); end
     def self.route_files(&block); root_glob("routes", "**", "*.rb", &block); end
@@ -25,7 +30,7 @@ module Project
     enable :sessions
     
     root_glob("{config,routes}", "**", "*.rb") { |f| require f }
-    run! if run?  
+    run! if __FILE__ == $0  
     
   end
 end
