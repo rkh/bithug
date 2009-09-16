@@ -1,0 +1,10 @@
+--- 
+extlib: git://github.com/datamapper/extlib.git
+haml: git://github.com/nex3/haml.git
+rack-test: git://github.com/brynary/rack-test.git
+monk-glue: git://github.com/rkh/glue.git
+monkey-lib: git://github.com/rkh/monkey-lib.git
+rspec: git://github.com/dchelimsky/rspec.git
+sinatra: git://github.com/sinatra/sinatra.git
+webrat: git://github.com/brynary/webrat.git
+compass: git://github.com/chriseppstein/compass.git
