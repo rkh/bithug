@@ -6,6 +6,7 @@ class Monk < Thor
   
   STRING_TRANSFORMS = %w[to_s upcase downcase snake_case camel_case to_const_path to_const_string]
   TEMPLATE_SEPERATOR = /^@@\s*([^\s]+)\s*$/
+  IDENT_SEPERATOR = /[:\s\.,;!"%\(\)\{\}\[\]'\|<>\?\+\*\=&]/
   
   desc "rename NAME", "rename the project to NAME"
   def rename(name)
@@ -20,7 +21,9 @@ class Monk < Thor
     Dir.glob("**/{*.rb,*.rdoc,*.ru}") do |file|
       origin = File.read file
       modified = origin.dup
-      replacements.each { |args| modified.gsub!(*args) }
+      replacements.each do |from, to|
+        modified.gsub! /(#{IDENT_SEPERATOR})#{from}(#{IDENT_SEPERATOR})/
+      end
       if origin != modified
         say_status :modify, file
         File.open(file, "w") { |f| f << modified }
