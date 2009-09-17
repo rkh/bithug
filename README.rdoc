@@ -1,4 +1,4 @@
-= Project
+= Gerippe
 
 == Skeleton
 
@@ -20,37 +20,64 @@ this project uses a different project structure:
 Models should be written in a way to be reusable and viewed as a stand-alone library
 (hence them being in lib)
 
+== Usage
+
+This skeleton can be used with monk, priest or as stand-alone. It does not depend in any
+way on monk, but plays well with it.
+
+=== Stand-alone usage
+
+Run this to create a new project called example_project:
+
+  git clone git://github.com/rkh/gerippe.git example_path
+  cd example_path
+  bin/project rename example_project
+
+If you have dependency issues, you can install those either as git submodules:
+
+  rake vendor:install:submodules
+
+Or globally as gems:
+
+  rake vendor:install:gems
+
+There after you'll be able to create routes and such:
+
+  bin/example_project create route pages page/:name
+
+=== Monk usage
+
+  monk add gerippe git://github.com/rkh/gerippe.git
+  monk init example_path -s gerippe
+  cd example_path
+  dep vendor --all
+  monk create route pages page/:name
+
+=== Priest usage
+Priest is an extended monk version (http://github.com/rkh/priest).
+
+  priest add gerippe git://github.com/rkh/gerippe.git
+  priest init example_path -s gerippe --keep-remote
+  cd example_path
+  rake vendor:install:submodules
+  priest create route pages page/:name
+
+Note: You can also add --keep-remote to the "priest add" line, so
+it will be default option for every "priest init" of gerippe.
+However, this will cause the gerippe skeleton entry to be unusable
+from the original monk command line tool, as monk and priest share
+the same config file. Future versions of monk will be able to cope
+with priest's extended config entries. If you just use priest this
+should not cause any problems.
+
 == Custom Monk tasks
 
   monk name                     # displayes the projects name, currently Project
   monk rename NAME              # changes the projects name to NAME
   monk create TYPE NAME [ARGS]  # generate routes and such
+  monk types                    # lists types available for monk create
 
-Example usage:
-
-  $ monk init -s gerippe
-      fetching  git://github.com/rkh/gerippe.git
-   initialized  .
-  $ monk name
-          name  Project
-  $ monk rename example
-        rename  lib/project => lib/example
-        modify  init.rb
-        modify  routes/stylesheets.rb
-        modify  README.rdoc
-        modify  config.ru
-  $ monk name
-          name  Example
-  $ monk create route pages page/:name index
-       written  routes/pages.rb
-       written  spec/example/routes/pages_spec.rb
-       written  views/patges.haml
-
-Also, I do not use monk but priest instead, so you would use something like
-
-  $ priest init -s gerippe
-
-instead. But monk should work just fine.
+Note: "monk" can be replaced with "priest" or "bin/PROJECT_NAME"
 
 == TODO
 
