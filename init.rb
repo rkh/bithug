@@ -4,7 +4,7 @@ $LOAD_PATH.unshift("lib", *Dir.glob(File.join(ROOT_DIR, "vendor", "*", "lib")))
 
 require "monkey-lib"
 require "compass"
-require "sinatra/Base"
+require "sinatra/base"
 require "haml"
 require "sass"
 
