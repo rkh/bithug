@@ -8,11 +8,11 @@ require "sinatra/base"
 require "haml"
 require "sass"
 
-module Project   
+module Bithug   
   class Routes < Sinatra::Base
     
     configure :development do
-      require "project/reloader"
+      require "bithug/reloader"
       use Reloader
     end
     

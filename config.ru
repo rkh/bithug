@@ -1,6 +1,6 @@
 require "init"
  
-Project.set :run, false
-Project.set :environment, :production
+Bithug.set :run, false
+Bithug.set :environment, :production
  
-run Project
+run Bithug

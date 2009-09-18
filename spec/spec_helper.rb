@@ -8,10 +8,10 @@ require "rack/test"
 
 Webrat.configure { |config| config.mode = :sinatra }
 
-module Project
+module Bithug
   module TestMethods
     def app
-      Project::Routes
+      Bithug::Routes
     end
   end
 end
@@ -19,5 +19,5 @@ end
 Spec::Runner.configure do |conf|
   conf.include Webrat::Methods
   conf.include Rack::Test::Methods
-  conf.include Project::TestMethods
+  conf.include Bithug::TestMethods
 end

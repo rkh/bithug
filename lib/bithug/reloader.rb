@@ -1,4 +1,4 @@
-module Project
+module Bithug
   
   # This Rack middleware will reload routes files in development mode,
   # if they were changed after they have been loaded the last time.
@@ -18,7 +18,7 @@ module Project
 
     def reload
       @last_load ||= {}
-      Project::Routes.route_files.each do |file|
+      Bithug::Routes.route_files.each do |file|
         mtime = File.stat(file).mtime
         @last_load[file] ||= mtime
         if @last_load[file] < mtime

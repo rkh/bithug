@@ -1,4 +1,4 @@
-module Project
+module Bithug
   class Routes < Sinatra::Base
 
     get '/' do

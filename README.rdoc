@@ -1,4 +1,4 @@
-= Project
+= Bithug
 
 == Skeleton
 
@@ -11,11 +11,11 @@ This skeleton uses the followin libraries:
 == Alternate directory structure
 
 Instead of the usual app/ structure known from Rails, Merb or other Monk skeletons,
-this project uses a different project structure:
+this bithug uses a different bithug structure:
 
   for controllers/helpers:  routes/
   for views:                views/
-  for models:               lib/project/
+  for models:               lib/bithug/
 
 Models should be written in a way to be reusable and viewed as a stand-alone library
 (hence them being in lib)
@@ -27,11 +27,11 @@ way on monk, but plays well with it.
 
 === Stand-alone usage
 
-Run this to create a new project called example_project:
+Run this to create a new bithug called example_project:
 
   git clone git://github.com/rkh/gerippe.git example_path
   cd example_path
-  bin/project rename example_project
+  bin/bithug rename example_project
 
 If you have dependency issues, you can install those either as git submodules:
 
@@ -72,7 +72,7 @@ should not cause any problems.
 
 == Custom Monk tasks
 
-  monk name                     # displayes the projects name, currently Project
+  monk name                     # displayes the projects name, currently Bithug
   monk rename NAME              # changes the projects name to NAME
   monk create TYPE NAME [ARGS]  # generate routes and such
   monk types                    # lists types available for monk create

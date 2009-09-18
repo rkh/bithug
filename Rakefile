@@ -60,7 +60,7 @@ end
 Rake::RDocTask.new("doc") do |rdoc|
   rdoc.rdoc_dir = 'doc'
   rdoc.options += %w[--all --inline-source --line-numbers --main README.rdoc --quiet
-    --tab-width 2 --title Project]
+    --tab-width 2 --title Bithug]
   rdoc.rdoc_files.add ['*.{rdoc,rb}', '{config,lib,routes}/**/*.rb']
 end
 
