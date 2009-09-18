@@ -1,4 +1,4 @@
-= Gerippe
+= Project
 
 == Skeleton
 
