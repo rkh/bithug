@@ -2,7 +2,7 @@ require "fileutils"
 require "yaml"
 
 module Project
-  module Routes
+  class Routes < Sinatra::Base
     
     def config_path(*args)
       root_path("config", *args)
