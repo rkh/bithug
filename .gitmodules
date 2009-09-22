@@ -22,3 +22,6 @@
 [submodule "vendor/compass"]
 	path = vendor/compass
 	url = git://github.com/chriseppstein/compass.git
+[submodule "vendor/fakefs"]
+	path = vendor/fakefs
+	url = git://github.com/defunkt/fakefs.git
