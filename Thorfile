@@ -15,9 +15,10 @@ class Monk < Thor
   FILES = "{Rakefile,*.rb,*.ru,*.rdoc,*.haml,*.sass,*.yml,*.html,*.erb}"
   
   desc "rename NAME", "rename the project to NAME"
-  def rename(name)
-    replacements = STRING_TRANSFORMS.inject({}) { |h, m| h.merge project_name.send(m) => name.send(m) }
-    old_path_name = project_name.to_const_path
+  def rename(name, old = nil)
+    old ||= project_name
+    replacements = STRING_TRANSFORMS.inject({}) { |h, m| h.merge old.send(m) => name.send(m) }
+    old_path_name = old.to_const_path
     new_path_name = name.to_const_path
     until (files = Dir.glob("#{DIRECTORIES}/**/#{old_path_name}{.*,}")).empty?
       files.each do |file|
