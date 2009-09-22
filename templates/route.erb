@@ -2,7 +2,7 @@ Takes name of routes file and a list of routes.
 
 @@ routes/:name.rb
 module Project
-  class Routes < Monk::Glue
+  class Routes < Sinatra::Base
 <% args.each do |path| %>
 
     get '/<%= path %>' do
