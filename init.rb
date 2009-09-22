@@ -29,6 +29,7 @@ module Project
     use Rack::Session::Cookie
     enable :sessions
     
+    require root_path("config", "settings")
     root_glob("{config,routes}", "**", "*.rb") { |f| require f }
     run! if __FILE__ == $0  
     
