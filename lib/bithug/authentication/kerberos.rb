@@ -21,7 +21,7 @@ module Bithug
 
       def authenticate(username, password)
         begin
-          @ldap.get_init_creds_password(username, password)
+          @krb5.get_init_creds_password(username, password)
         rescue Krb5Auth::Krb5::Exception
           false
         end
