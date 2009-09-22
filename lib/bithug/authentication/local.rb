@@ -1,5 +1,5 @@
-require 'bithug/user'
 require 'bcrypt'
+require 'yaml'
 
 module Bithug
   module Authentication
@@ -8,25 +8,64 @@ module Bithug
     # local database
     class Local
 
+      def with_lock(exclusive = false, thread_safe = true, &block)
+        if thread_safe
+          if defined? Thread and Thread.list.size > 1
+            require "thread"
+            @mutex ||= Mutex.new
+            @mutex.synchronize { with_lock(exclusive, false, &block) }
+          else
+            with_lock(exclusive, false, &block)
+          end
+        else
+          mode = exclusive ? "w" : "r"
+          File.open(@file, mode) do |f|
+            f.flock(exclusive ? File::LOCK_EX : File::LOCK_SH)
+            result = yield f
+            f.flock File::LOCK_UN
+            result
+          end
+        end
+      end
+      
+      def users
+        reload unless @users
+        @users
+      end
+      
+      def outdated?
+        @mtime.nil? or File.mtime(@file) > @mtime
+      end
+      
+      def reload
+        with_lock do |file|
+          @mtime = file.mtime
+          @users = YAML.load(file)
+        end
+      end
+      
+      def store
+        with_lock(true) do |file|
+          file << users.to_yaml
+          @mtime = file.mtime
+        end
+      end
+      
+      def initialize(options = {})
+        @file = File.expand_path(options["file"] || "config/user.yml")
+        File.open(@file, "w") { |f| f.write({}.to_yaml) } unless File.exist? @file
+      end
+
       def authenticate(username, password)
-        user = User.get(username)
-        return nil if user.nil?
-        BCrypt::Password.new(user.password) == password
+        reload if outdated?
+        hashed = users[username]
+        hashed && BCrypt::Password.new(hashed) == password
       end
 
       def register(username, password)
-        user = User.new
-        user.attributes = {:name => username, :password => password}
-        user.save!
-        user
-      end
-
-      def update(username, details)
-        if details[:password] == details[:repeated_password]
-          user = User.get(username) || register(username, details[:password])
-          user = nil unless user.update(details)
-        end
-        user
+        reload if outdated?
+        users[username] = BCrypt::Password.create(password)
+        store
       end
 
     end

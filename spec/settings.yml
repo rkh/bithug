@@ -1,4 +1,4 @@
 ---
 authentication:
   type: local
-  file: config/user.yml
+  file: spec/user.yml
