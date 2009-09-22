@@ -64,7 +64,7 @@ module Bithug
 
       def register(username, password)
         reload if outdated?
-        users[username] = BCrypt::Password.create(password)
+        users[username] = BCrypt::Password.create(password).to_s
         store
       end
 

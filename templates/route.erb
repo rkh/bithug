@@ -1,11 +1,11 @@
 Takes name of routes file and a list of routes.
 
 @@ routes/:name.rb
-module Bithug
-  class Routes < Monk::Glue
+module Project
+  class Routes < Sinatra::Base
 <% args.each do |path| %>
 
-    get '/<%= path %>' do
+  get '/<%= path %>/?' do
       haml <%= name.to_sym.inspect %>
     end
 <% end %>

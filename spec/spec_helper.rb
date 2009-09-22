@@ -10,9 +10,17 @@ Webrat.configure { |config| config.mode = :sinatra }
 
 module Bithug
   module TestMethods
+
     def app
       Bithug::Routes
     end
+
+    def logged_in
+      user, password = "user", "password"
+      app.auth_agent.register user, password
+      basic_auth user, password
+    end
+
   end
 end
 
