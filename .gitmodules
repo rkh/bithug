@@ -28,3 +28,6 @@
 [submodule "vendor/net-ldap"]
 	path = vendor/net-ldap
 	url = git://github.com/innovationfactory/ruby-net-ldap.git
+[submodule "vendor/gitauth"]
+	path = vendor/gitauth
+	url = git://github.com/brownbeagle/gitauth.git
