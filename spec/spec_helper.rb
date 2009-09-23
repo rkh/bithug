@@ -6,7 +6,7 @@ require "spec"
 require "webrat"
 require "rack/test"
 
-Webrat.configure { |config| config.mode = :sinatra }
+Webrat.configure { |config| config.mode = :rack }
 
 module Bithug
   module TestMethods

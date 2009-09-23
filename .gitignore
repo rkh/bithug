@@ -2,3 +2,6 @@
 /tmp
 /.sass-cache
 /doc
+config/user.yml
+spec/user.yml
+webrat.log

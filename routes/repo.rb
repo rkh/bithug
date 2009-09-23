@@ -11,7 +11,7 @@ module Bithug
       end
     end
     
-    get '/:username/:repo/?' do
+    get '/admin/:repo/?' do
       haml :repo, {}, :owner => owner?
     end
 

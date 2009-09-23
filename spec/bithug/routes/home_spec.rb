@@ -3,11 +3,14 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "spec_hel
 
 describe Bithug::Routes do
   
-  it "returns css for /stylesheets/screen.css" do
-    logged_in
-    visit "/stylesheets/screen.css"
+  it "enables login" do
+    app.auth_agent.register "foo", "bar"
+    basic_auth "foo", "bar"
+    visit "/"
     last_response.should be_ok
-    last_response.content_type.should =~ /^text\/css/
+    basic_auth "foo", "blah"
+    visit "/"
+    last_response.should_not be_ok
   end
   
 end

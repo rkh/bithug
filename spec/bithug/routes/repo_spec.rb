@@ -3,19 +3,4 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "spec_hel
 
 describe Bithug::Routes do
   
-  it "responds to #{path}" do
-    get "/#{path}"
-    last_response.should be_ok
-  end
-  
-  it "responds to #{path}" do
-    get "/#{path}"
-    last_response.should be_ok
-  end
-  
-  it "responds to #{path}" do
-    get "/#{path}"
-    last_response.should be_ok
-  end
-  
 end
