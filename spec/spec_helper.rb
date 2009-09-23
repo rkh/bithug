@@ -1,6 +1,7 @@
 ENV['RACK_ENV'] = 'test'
 
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))
+$LOAD_PATH.unshift Bithug::Routes.root_path("spec")
 
 require "spec"
 require "webrat"
@@ -19,6 +20,10 @@ module Bithug
       user, password = "user", "password"
       app.auth_agent.register user, password
       basic_auth user, password
+    end
+
+    %w[root_path root_glob route_files].each do |m|
+      define_method(m) { |*a| Bithug::Routes.send(m, *a) }
     end
 
   end

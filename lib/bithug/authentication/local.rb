@@ -66,6 +66,7 @@ module Bithug
         reload if outdated?
         users[username] = BCrypt::Password.create(password).to_s
         store
+        true
       end
 
     end
