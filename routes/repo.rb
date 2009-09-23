@@ -10,22 +10,30 @@ module Bithug
         redirect request.path_info.split("/")[0..-2].join("/")
       end
     end
-    
-    get '/admin/:repo/?' do
-      haml :repo, {}, :owner => owner?
+
+    get "/repositories/?" do
+      "list of repositories you have access to"
     end
 
-    get '/create_repo/?' do
-      haml :repo_create
+    get "/repositories/new" do
+      "form for creating a repo"
     end
 
-    get '/delete_repo/?' do
-      haml :repo_delete
+    post "/repositories/?" do
+      "create a new repo"
     end
 
-    get '/:username/:repo/add_committer/?' do
-      deny! unless owner?
-      haml :repo_add_committer
+    get "/repositories/:name" do
+      "show a repo"
+    end 
+
+    put "/repositories/:name" do
+      "modify a repo"
     end
+
+    delete "/repositories/:name" do
+      "remove a repo"
+    end
+
   end
 end
