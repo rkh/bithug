@@ -1,14 +1,26 @@
 !!!
 %html
   %head
-    %title Monk Gerippe
-    %meta{:charset=>"utf-8"}/
-    %link{:href=>"/stylesheets/screen.css", :media=>"screen", :rel=>"stylesheet", :type=>"text/css"}/
-  %body
-    .container
+    %title= settings :frontend, :title
+    %meta{:charset => "utf-8"}/
+    %meta{:"http-equiv" => "X-UA-Compatible", :content => "chrome=1"}/
+    %link{:href =>"/stylesheets/screen.css", :media =>"screen", :rel => "stylesheet", :type => "text/css"}/
+    /[if IE]
+      %script{:type => "text/javascript", :src =>"http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"}
+      :javascript
+        CFInstall.check({
+          preventPrompt: true,
+          onmissing: function() { window.location = "http://www.google.com/chromeframe/eula.html" }
+        });
+  %body.blueprint
+    %section#container
       %header
-        Monk Gerippe
-      %section.body
-        !=yield
+        = settings :frontend, :title
+        %nav
+          %a{:href => "/"} Home
+          %a{:href => "/repositories/new"} Create Repository
+      %section#body
+        != yield
       %footer
-        bithug &copy; 2009
+        Powered by <a href="http://github.com/rkh/bithug">Bithug</a>,
+        <a href="http://www.sinatrarb.com">Sinatra</a> and <a href="http://code.google.com/p/redis/">Redis</a>.
