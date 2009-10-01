@@ -67,3 +67,6 @@ end
 Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_files = Dir.glob 'spec/**/*_spec.rb'
 end
+
+desc "run watchr"
+task("watch") { sh "watchr spec/spec.watchr" }

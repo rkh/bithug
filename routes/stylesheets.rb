@@ -17,7 +17,7 @@ module Bithug
     end
 
     get '/stylesheets/:name.css' do
-      response['Cache-Control'] = 'public' if Bithug::Routes.production?
+      response['Cache-Control'] = 'public' if Bithug::Routes.environment == :production
       content_type 'text/css', :charset => 'utf-8'
       compass :"stylesheets/#{params[:name]}"
     end 
