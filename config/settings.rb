@@ -21,7 +21,7 @@ module Bithug
         FileUtils.cp config_path("settings.example.yml"), settings_file unless File.exist? settings_file
         YAML.load_file settings_file
       end
-      args.inject(@settings) { |s,a| s[a.to_s] }
+      args.inject(@settings) { |s,a| s[a.to_s] unless s.nil? }
     end
 
     helpers do
