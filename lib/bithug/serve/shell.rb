@@ -9,7 +9,9 @@ class Shell
   @@write_command = Regexp.new "git[ |-]receive-pack"
 
   def initialize(username) 
-    @user = User.get(:username, username)
+    unless @user = User.find(:username, username).first
+      raise Serve::UnknownUserError
+    end
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
     @command = $1
     @repository = $2
@@ -17,6 +19,7 @@ class Shell
   end
 
   def check_access_rights(repo)
+    ### TODO: Move this to the Repository model
     unless repo.readaccess.includes(@user)
       raise Serve::ReadAccessDeniedError
     else
@@ -27,7 +30,10 @@ class Shell
   end
 
   def run
-    check_access_rights Repositories.get(:name, @repository)
+    unless repo = Repository.find(:name, @repository).first 
+      raise Serve::UnknownRepositoryError
+    end
+    repo.check_access_rights(@user, @writeaccess) 
     Dir.chdir(Pathname.expand_path("~"))
     exit(system("git shell -c #{@command} #{@repository}"))
   end
