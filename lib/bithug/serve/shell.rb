@@ -9,24 +9,13 @@ class Shell
   @@write_command = Regexp.new "git[ |-]receive-pack"
 
   def initialize(username) 
-    unless @user = User.find(:username, username).first
+    unless @user = User.find(:name, username).first
       raise Serve::UnknownUserError
     end
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
     @command = $1
     @repository = $2
     @writeaccess = ((@@write_command =~ @command) == 0)
-  end
-
-  def check_access_rights(repo)
-    ### TODO: Move this to the Repository model
-    unless repo.readaccess.includes(@user)
-      raise Serve::ReadAccessDeniedError
-    else
-      unless (repo.writeaccess.includes(@user) || !@writeaccess)
-        raise Serve::WriteAccessDeniedError
-      end
-    end
   end
 
   def run
