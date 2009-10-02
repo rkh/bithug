@@ -1,7 +1,3 @@
-# ALL of this only works if PermitUserEnvironment option is set
-# Also, you might want to set the default shell for the user to sth
-# like /dev/null 
-
 class AccessManager
   require 'fileutils'
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
@@ -37,8 +33,7 @@ class AccessManager
   end
 
   def add_repository(project_name)
-    ## TODO: Remember to extend this in the model to create the Git folder as well!
-    repo = Repository.create(name: project_name, admin: @user)    
+    repo = Repository.create(name: project_name, owner: @user)    
   end
 
   def remove_repository(project_name)
@@ -48,6 +43,6 @@ class AccessManager
     unless repo.owners.include?(@user) 
       raise Serve::AdminAccessDeniedError
     end
-    repo.delete ## TODO: Remember to extend this in the model to remove the Git folder as well!
+    repo.delete 
   end
 end
