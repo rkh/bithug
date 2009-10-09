@@ -19,8 +19,8 @@ class AccessManager
     # BUG: SANITIZE USERNAME FOR REGEX!
 
     File.open(@keys_file+Time.now.to_i.to_s, 'w') do |out|
-      File.open(@keys_file, 'r+') do |in|
-        line = f.readline
+      File.open(@keys_file, 'r+') do |infile|
+        line = infile.readline
         unless line == "environment=\"GITUSER=#{@user.name}\" #{key}"
           out << line
         end
@@ -33,7 +33,7 @@ class AccessManager
   end
 
   def add_repository(project_name)
-    repo = Repository.create(name: project_name, owner: @user)    
+    repo = Repository.create(:name => project_name, :owner => @user)    
   end
 
   def remove_repository(project_name)
