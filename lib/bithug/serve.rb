@@ -8,6 +8,7 @@ module Bithug
   module Serve
     require 'access_manager'
     require 'shell'
+    require 'exceptions'
 
     Ohm.connect
   end

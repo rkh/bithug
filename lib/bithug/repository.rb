@@ -25,10 +25,10 @@ class Repository < Ohm::Model
 
   def check_access_rights(user, writeaccess=false)
     unless self.readaccess.include?(user)
-      raise Serve::ReadAccessDeniedError
+      raise ReadAccessDeniedError
     else
       unless (self.writeaccess.include?(user) || !writeaccess)
-        raise Serve::WriteAccessDeniedError
+        raise WriteAccessDeniedError
       end
     end
   end

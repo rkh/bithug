@@ -4,6 +4,8 @@
 #   git-receive-pack/git receive-pack for push
 # So this is basically the git-user's shell on the server
 
+require 'exceptions'
+
 class Shell
   @@read_command = Regexp.new "git[ |-]upload-pack"
   @@write_command = Regexp.new "git[ |-]receive-pack"
@@ -18,7 +20,7 @@ class Shell
 
   def run
     unless repo = Repository.find(:name, @repository).first 
-      raise Serve::UnknownRepositoryError
+      raise UnknownRepositoryError, "Could not find a repository named #{@repository}" 
     end
     repo.check_access_rights(@user, @writeaccess) 
     Dir.chdir(Pathname.expand_path("~"))
