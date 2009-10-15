@@ -10,7 +10,7 @@ class Shell
 
   def initialize(username) 
     unless @user = User.find(:name, username).first
-      raise Serve::UnknownUserError
+      User.create :name => username
     end
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
     @command = $1
