@@ -49,7 +49,7 @@ class Repository < Ohm::Model
 
   def self.create(hash)
     create_empty_git_repo(repo_path_for(hash))
-    repo = super(name: hash[:name])
+    repo = super(:name => hash[:name])
     repo.owners << hash[:owner]
     repo.save
     repo
