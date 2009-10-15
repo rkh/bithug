@@ -1,6 +1,6 @@
 require 'ohm'
 
-def User < Ohm::Model
+class User < Ohm::Model
   attribute :name
   index :name
 
