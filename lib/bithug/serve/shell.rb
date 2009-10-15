@@ -9,9 +9,7 @@ class Shell
   @@write_command = Regexp.new "git[ |-]receive-pack"
 
   def initialize(username) 
-    unless @user = User.find(:name, username).first
-      User.create :name => username
-    end
+    @user = User.find(:name, username).first
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
     @command = $1
     @repository = $2

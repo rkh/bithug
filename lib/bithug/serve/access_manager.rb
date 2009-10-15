@@ -3,9 +3,7 @@ class AccessManager
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
 
   def initialize(user)
-    unless @user = User.find(:username, user).first
-      raise Serve::UnknownUserError
-    end
+    @user = User.find(:username, user).first
   end
 
   def add_key(key)
