@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'user'
 require 'ohm'
 
 class Repository < Ohm::Model
