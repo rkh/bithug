@@ -9,3 +9,4 @@ git://github.com/chriseppstein/compass.git
 git://github.com/defunkt/fakefs.git
 git://github.com/innovationfactory/ruby-net-ldap.git
 git://github.com/brownbeagle/gitauth.git
+git://github.com/codahale/bcrypt-ruby.git
