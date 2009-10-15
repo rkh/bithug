@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'serve'
+Shell.new(ARGV[0]).run
