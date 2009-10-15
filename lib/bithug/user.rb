@@ -2,6 +2,8 @@ require 'ohm'
 
 class User < Ohm::Model
   attribute :name
+  set :keys
+
   index :name
 
   def validate
