@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
-require 'optparse'
+require 'pathname'
+$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..", "lib", "bithug").expand_path.to_s)
 require 'serve'
+require 'optparse'
 
 options = {}
 OptionParser.new do |opts|
