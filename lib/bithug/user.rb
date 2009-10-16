@@ -11,8 +11,7 @@ class User < Ohm::Model
   end
 
   def self.find(attrs, value)
-    result = super
-    result << User.create(attrs => value) if result.empty? 
-    result
+    result = super(attrs, value).first || self.create(attrs.to_sym => value) 
+    [result]
   end
 end
