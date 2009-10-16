@@ -5,6 +5,7 @@
 # So this is basically the git-user's shell on the server
 
 require 'exceptions'
+require 'fileutils'
 
 class Shell
   @@read_command = Regexp.new "git[ |-]upload-pack"
@@ -23,8 +24,7 @@ class Shell
       raise UnknownRepositoryError, "Could not find a repository named #{@repository}" 
     end
     repo.check_access_rights(@user, @writeaccess) 
-    Dir.chdir(Pathname.expand_path("~"))
-    exit(system("git shell -c #{@command} #{@repository}"))
+    exec(@command, File.join(File.expand_path("~"), @repository))
   end
 end
 
