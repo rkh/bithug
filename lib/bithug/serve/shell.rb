@@ -14,12 +14,12 @@ class Shell
     @user = User.find(:name, username).first
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
     @command = $1
-    @repository = $2
+    @repository = $2.delete("'") # Git quotes the path, so unquote that
     @writeaccess = ((@@write_command =~ @command) == 0)
   end
 
   def run
-    unless repo = Repository.find(:name, @repository).first 
+    unless repo = Repository.find(:name, @repository).first
       raise UnknownRepositoryError, "Could not find a repository named #{@repository}" 
     end
     repo.check_access_rights(@user, @writeaccess) 
