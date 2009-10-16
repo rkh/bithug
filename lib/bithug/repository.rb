@@ -35,7 +35,7 @@ class Repository < Ohm::Model
   end
 
   def self.repo_path_for(hash)
-    "#{Pathname.expand_path("~")}/#{hash[:owner]}/#{hash[:name]}"
+    "#{File.expand_path("~")}/#{hash[:owner].name}/#{hash[:name]}"
   end
 
   def self.create_empty_git_repo(path)
@@ -48,9 +48,10 @@ class Repository < Ohm::Model
     FileUtils.rm_rf(path)
   end
 
-  def self.create(hash)
+  def self.create(*args)
+    hash = args.first
     create_empty_git_repo(repo_path_for(hash))
-    repo = super(:name => hash[:name])
+    repo = super(:name => "#{hash[:owner].name}/#{hash[:name]}")
     repo.owners << hash[:owner]
     repo.save
     repo
