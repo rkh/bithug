@@ -14,8 +14,8 @@ module Bithug
         AccessManager.new(current_user)
       end
 
-      def path
-	current_user+"/"+params[:name]
+      def path(name="")
+	current_user + "/" + (params[:name] || name)
       end
 
       def hostname
@@ -45,7 +45,7 @@ module Bithug
 
     post "/repositories/new/?" do
       reponame = params["post"]["name"]
-      manager.add_repository(params["name"])
+      manager.add_repository(reponame)
       redirect "/repositories/#{reponame}"
     end
 
