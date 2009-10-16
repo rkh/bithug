@@ -9,6 +9,10 @@ module Bithug
       def deny!
         redirect request.path_info.split("/")[0..-2].join("/")
       end
+
+      def manager
+        AccessManager.new(current_user)
+      end
     end
 
     get "/repositories/?" do
@@ -16,7 +20,13 @@ module Bithug
     end
 
     get "/repositories/new" do
-      "form for creating a repo"
+       haml :"repositories/new"
+    end
+
+    post "/repositories/new" do
+       reponame = params["post"]["name"]
+       manager.add_repository(params["name"])
+       redirect "/repositories/#{reponame}"
     end
 
     post "/repositories/?" do
