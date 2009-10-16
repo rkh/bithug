@@ -5,7 +5,7 @@ require 'ohm'
 class Repository < Ohm::Model
   attribute :name
   attribute :public
-  set :owners, User
+  attribute :owner
   set :readaccess, User
   set :writeaccess, User
 
@@ -25,11 +25,13 @@ class Repository < Ohm::Model
   end
 
   def check_access_rights(user, writeaccess=false)
-    unless self.readaccess.include?(user)
-      raise ReadAccessDeniedError
-    else
-      unless (self.writeaccess.include?(user) || !writeaccess)
-        raise WriteAccessDeniedError
+    unless self.owner == user.name
+      unless self.readaccess.include?(user) || (self.public == true)
+        raise ReadAccessDeniedError, "#{self.owners} User #{user.name} does not have read-access"
+      else
+        unless (self.writeaccess.include?(user) || !writeaccess)
+          raise WriteAccessDeniedError, "User #{user.name} does not have write-access"
+        end
       end
     end
   end
@@ -51,8 +53,7 @@ class Repository < Ohm::Model
   def self.create(*args)
     hash = args.first
     create_empty_git_repo(repo_path_for(hash))
-    repo = super(:name => "#{hash[:owner].name}/#{hash[:name]}")
-    repo.owners << hash[:owner]
+    repo = super(:name => "#{hash[:owner].name}/#{hash[:name]}", :owner => hash[:owner].name)
     repo.save
     repo
   end
