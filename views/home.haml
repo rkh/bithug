@@ -1,6 +1,9 @@
-%h1= current_user
+%h1= user.name
 .keys
   %h3 Your registered keys
-  = current_user.keys.each do |key|
-    %input{:type=>"textarea", :readonly=>"true", :value=key} 
+  = user.keys.each do |key|
+    %input{:type=>"textarea", :readonly=>"true", :value=>"#{key}"} 
+  %form{:method => "post"}
+    %input{:type=>"textarea", :name=>"post[key]"}
+    %input{:type => "submit", :value => "Add Key"}
 
