@@ -10,6 +10,7 @@ class Repository < Ohm::Model
   set :writeaccess, User
 
   index :name
+  index :owner
 
   def validate
     assert_present :name
