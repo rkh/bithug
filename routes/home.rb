@@ -7,7 +7,13 @@ module Bithug
 
 
     get '/' do      
-      haml :home, {}, :user => User.find(:name, current_user).first
+      haml :home, {}, :user => User.find(:name, current_user).first,
+	 :repositories => (Repository.find(:owner, current_user) || [])
+    end
+
+    get '/:username/?' do      
+      haml :home, {}, :user => User.find(:name, params[:username]).first,
+	 :repositories => (Repository.find(:owner, params[:username]) || [])
     end
 
     post "/" do

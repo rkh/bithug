@@ -1,10 +1,16 @@
 %h1= user.name
 .keys
-  %h3 Your registered keys
-  %form{:method => "post"}
-    = user.keys.each do |key|
-      %input{:type=>"textarea", :readonly=>"true", :value=>"#{key}"} 
-  %form{:method => "post"}
-    %input{:type=>"textarea", :name=>"post[key]"}
-    %input{:type => "submit", :value => "Add Key"}
-
+  - if user.name == current_user
+    %h3= "Your keys and repositories" 
+    %form{:method => "post"}
+      - user.keys.each do |key|
+        %input{:type=>"textarea", :readonly=>"true", :value=>"#{key}"} 
+    %form{:method => "post"}
+      %input{:type=>"textarea", :name=>"post[key]"}
+      %input{:type => "submit", :value => "Add Key"}
+  - else 
+    %h3= "#{user.name}'s repositories" 
+.repositories
+  - repositories.each do |r|
+    %a{:href => "/repositories/#{r.name}"}= r.name
+    %br
