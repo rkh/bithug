@@ -49,15 +49,15 @@ module Bithug
       redirect "/repositories/#{reponame}"
     end
 
-    get "/repositories/:name/?" do
+    get "/repositories/:username/:name/?" do
       haml :"repositories/view"
     end 
 
-    put "/repositories/:name/?" do
+    put "/repositories/:username/:name/edit/?" do
       "modify a repo"
     end
 
-    delete "/repositories/:name/?" do
+    delete "/repositories/:username/:name/delete/?" do
       "remove a repo"
     end
 
