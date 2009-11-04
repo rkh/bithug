@@ -30,12 +30,13 @@ class Repository < Ohm::Model
   end
 
   def check_access_rights(user, writeaccess=false)
-    unless self.owner == user.name
-      unless self.readaccess.include?(user) || (self.public == true)
-        raise ReadAccessDeniedError, "#{self.owners} User #{user.name} does not have read-access"
+    user_name = username(user)
+    unless self.owner == user_name
+      unless self.readaccess.include?(user_name) || (self.public == true)
+        raise ReadAccessDeniedError, "#{self.owners} User #{user_name} does not have read-access"
       else
-        unless (self.writeaccess.include?(user) || !writeaccess)
-          raise WriteAccessDeniedError, "User #{user.name} does not have write-access"
+        unless (self.writeaccess.include?(user_name) || !writeaccess)
+          raise WriteAccessDeniedError, "User #{user_name} does not have write-access"
         end
       end
     end
