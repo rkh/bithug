@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+require 'pathname'
+$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..", "lib", "bithug").expand_path.to_s)
+require 'serve'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: bithug-cmd [options]"
+
+  opts.on("--user=USER", String, "Username") do |u|
+    options[:username] = u
+  end
+
+  opts.on("--add-key=KEY", String, "Add a key") do |k|
+    options[:key] = k
+  end
+
+  opts.on("--add-repo=REPOSITORY", String, "Create a repo") do |r|
+    options[:repo] = r
+  end
+end.parse!
+
+exit if options[:username].nil?
+mgr = AccessManager.new(options[:username])
+if options[:key] 
+  mgr.add_key(options[:key])
+  puts "Added key"
+end
+if options[:repo] 
+  mgr.add_repository(options[:repo])
+  puts "Created repo"
+end
+

@@ -1,40 +1,50 @@
 require 'fileutils'
+require 'user'
 require 'ohm'
+require 'ohm_ext'
 
 class Repository < Ohm::Model
   attribute :name
   attribute :public
-  set :owners, User
-  set :readaccess, User
-  set :writeaccess, User
+  attribute :owner
+  set :readaccess
+  set :writeaccess
 
   index :name
+  index :owner
 
   def validate
     assert_present :name
   end
 
+  def username(user)
+    user if user.respond_to? :to_str || user.name
+  end
+
   def grant_readaccess(user)
-    self.readaccess << user
+    self.readaccess << username(user) unless username(user) == owner
   end
   
   def grant_writeaccess(user)
     grant_readaccess(user)
-    self.writeaccess << user
+    self.writeaccess << username(user) unless username(user) == owner
   end
 
   def check_access_rights(user, writeaccess=false)
-    unless self.readaccess.include?(user)
-      raise Serve::ReadAccessDeniedError
-    else
-      unless (self.writeaccess.include?(user) || !writeaccess)
-        raise Serve::WriteAccessDeniedError
+    user_name = username(user)
+    unless self.owner == user_name
+      unless self.readaccess.include?(user_name) || (self.public == true)
+        raise ReadAccessDeniedError, "#{self.owner} User #{user_name} does not have read-access"
+      else
+        unless (self.writeaccess.include?(user_name) || !writeaccess)
+          raise WriteAccessDeniedError, "User #{user_name} does not have write-access"
+        end
       end
     end
   end
 
   def self.repo_path_for(hash)
-    "#{Pathname.expand_path("~")}/#{hash[:owner]}/#{hash[:name]}"
+    "#{File.expand_path("~")}/#{hash[:owner].name}/#{hash[:name]}"
   end
 
   def self.create_empty_git_repo(path)
@@ -47,10 +57,10 @@ class Repository < Ohm::Model
     FileUtils.rm_rf(path)
   end
 
-  def self.create(hash)
+  def self.create(*args)
+    hash = args.first
     create_empty_git_repo(repo_path_for(hash))
-    repo = super(name: hash[:name])
-    repo.owners << hash[:owner]
+    repo = super(:name => "#{hash[:owner].name}/#{hash[:name]}", :owner => hash[:owner].name)
     repo.save
     repo
   end

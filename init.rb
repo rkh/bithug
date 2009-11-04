@@ -1,6 +1,6 @@
 # Setting up the path
 ROOT_DIR = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift("lib", *Dir.glob(File.join(ROOT_DIR, "vendor", "*", "lib")))
+$LOAD_PATH.unshift("lib", File.join("lib", "bithug"), *Dir.glob(File.join(ROOT_DIR, "vendor", "*", "lib")))
 
 require "monkey-lib"
 require "compass"
@@ -10,6 +10,8 @@ require "sass"
 
 module Bithug   
   class Routes < Sinatra::Base
+
+    require 'serve'
     
     configure :development do
       require "bithug/reloader"

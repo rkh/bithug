@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'pathname'
+$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..", "lib", "bithug").expand_path.to_s)
+require 'serve'
+Shell.new(ARGV[0]).run

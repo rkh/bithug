@@ -4,27 +4,27 @@
 #   git-receive-pack/git receive-pack for push
 # So this is basically the git-user's shell on the server
 
+require 'exceptions'
+require 'fileutils'
+
 class Shell
   @@read_command = /^git[ |-]upload-pack/
   @@write_command = /^git[ |-]receive-pack/
 
   def initialize(username) 
-    unless @user = User.find(:name, username).first
-      raise Serve::UnknownUserError
-    end
+    @user = User.find(:name, username).first
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
-    @command = $1
-    @repository = $2
+    @command, @repository = $1, $2
+    @repository.gsub!("'", "") # Git quotes the path, so unquote that
     @writeaccess = (@command =~ @@write_command)
   end
 
   def run
-    unless repo = Repository.find(:name, @repository).first 
-      raise Serve::UnknownRepositoryError
+    unless repo = Repository.find(:name, @repository).first
+      raise UnknownRepositoryError, "Could not find a repository named #{@repository}" 
     end
     repo.check_access_rights(@user, @writeaccess) 
-    Dir.chdir(Pathname.expand_path("~"))
-    exit(system("git shell -c #{@command} #{@repository}"))
+    exec(@command, File.join(File.expand_path("~"), @repository))
   end
 end
 

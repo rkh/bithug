@@ -2,17 +2,6 @@ require 'krb5_auth'
 
 module Bithug
   module Authentication
-
-    # Add this to /etc/krb5.conf
-    #
-    # [libdefaults]
-    # default_realm = HPI.UNI-POTSDAM.DE
-    #
-    # [realms]
-    # HPI.UNI-POTSDAM.DE = {
-    #     kdc = 141.89.221.28
-    #     admin_server = 141.89.221.28
-    # }
     class Kerberos
 
       def initialize(options=nil)
