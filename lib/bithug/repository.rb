@@ -6,8 +6,8 @@ class Repository < Ohm::Model
   attribute :name
   attribute :public
   attribute :owner
-  set :readaccess, User
-  set :writeaccess, User
+  set :readaccess
+  set :writeaccess
 
   index :name
   index :owner
@@ -16,13 +16,17 @@ class Repository < Ohm::Model
     assert_present :name
   end
 
+  def username(user)
+    user if user.respond_to? :to_str || user.name
+  end
+
   def grant_readaccess(user)
-    self.readaccess << user
+    self.readaccess << username(user)
   end
   
   def grant_writeaccess(user)
     grant_readaccess(user)
-    self.writeaccess << user
+    self.writeaccess << username(user)
   end
 
   def check_access_rights(user, writeaccess=false)
