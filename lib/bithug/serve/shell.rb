@@ -5,8 +5,8 @@
 # So this is basically the git-user's shell on the server
 
 class Shell
-  @@read_command = Regexp.new "git[ |-]upload-pack"
-  @@write_command = Regexp.new "git[ |-]receive-pack"
+  @@read_command = /^git[ |-]upload-pack/
+  @@write_command = /^git[ |-]receive-pack/
 
   def initialize(username) 
     unless @user = User.find(:name, username).first
@@ -15,7 +15,7 @@ class Shell
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
     @command = $1
     @repository = $2
-    @writeaccess = ((@@write_command =~ @command) == 0)
+    @writeaccess = (@command =~ @@write_command)
   end
 
   def run
