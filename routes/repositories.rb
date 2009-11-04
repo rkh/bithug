@@ -14,8 +14,18 @@ module Bithug
         AccessManager.new(current_user)
       end
 
-      def path(name="")
-	current_user + "/" + (params[:name] || name)
+      def path(name=nil)
+	current_user + "/" + (name || params[:name]).to_s
+      end
+
+      def repository(name=nil)
+	name ||= path
+	repo = Repository.find(:name, path).first
+	unless repo
+	  redirect "/error/404"
+	else
+	  repo
+	end
       end
 
       def hostname
@@ -23,15 +33,11 @@ module Bithug
       end
 
       def writers
-	Repository.find(:name, path).first.writeaccess.all.collect do |w|
-	  w.name
-	end << current_user
+	repository.writeaccess.all << current_user
       end
 
       def readers
-	Repository.find(:name, path).first.readaccess.all.collect do |r|
-	  r.name
-	end
+	repository.readaccess.all - writers
       end
     end
 
@@ -46,11 +52,23 @@ module Bithug
     post "/repositories/new/?" do
       reponame = params["post"]["name"]
       manager.add_repository(reponame)
-      redirect "/repositories/#{reponame}"
+      redirect "/repositories/#{path(reponame)}"
     end
 
     get "/repositories/:username/:name/?" do
       haml :"repositories/view"
+    end 
+
+    post "/repositories/:username/:name/?" do
+
+      params["post"]["readers"].delete(" ").split(",").each do |reader|
+	 repository.grant_readaccess(reader)
+      end
+
+      params["post"]["writers"].delete(" ").split(",").each do |writer|
+	 repository.grant_writeaccess(writer)
+      end
+      redirect request.path_info
     end 
 
     put "/repositories/:username/:name/edit/?" do
