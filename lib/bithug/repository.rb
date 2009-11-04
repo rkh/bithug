@@ -34,7 +34,7 @@ class Repository < Ohm::Model
     user_name = username(user)
     unless self.owner == user_name
       unless self.readaccess.include?(user_name) || (self.public == true)
-        raise ReadAccessDeniedError, "#{self.owners} User #{user_name} does not have read-access"
+        raise ReadAccessDeniedError, "#{self.owner} User #{user_name} does not have read-access"
       else
         unless (self.writeaccess.include?(user_name) || !writeaccess)
           raise WriteAccessDeniedError, "User #{user_name} does not have write-access"
