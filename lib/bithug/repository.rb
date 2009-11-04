@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'user'
 require 'ohm'
+require 'ohm_ext'
 
 class Repository < Ohm::Model
   attribute :name

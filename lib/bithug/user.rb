@@ -1,4 +1,5 @@
 require 'ohm'
+require 'ohm_ext'
 
 class User < Ohm::Model
   attribute :name
