@@ -56,7 +56,7 @@ module Bithug
     end
 
     get "/repositories/:username/:name/?" do
-      haml :"repositories/view"
+      haml :"repositories/view", {}, :path => "#{params[:username]}/#{params[:name]}"
     end 
 
     post "/repositories/:username/:name/?" do
