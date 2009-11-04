@@ -18,7 +18,11 @@ class Repository < Ohm::Model
   end
 
   def username(user)
-    user if user.respond_to? :to_str || user.name
+    if user.respond_to? :to_str 
+      user
+    else
+      user.name
+    end
   end
 
   def grant_readaccess(user)
