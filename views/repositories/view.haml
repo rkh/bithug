@@ -1,2 +1,10 @@
 %h3= path
 %h6= "git clone git@#{hostname}:#{path}"
+- if owner?
+  %form{:method => "post"}
+    Komma-separated lists...
+    %label{:for => "read_only_users"} Read-only users:
+    %input#read_only_users{:type => "text", :name=>"post[readers]", :value => "#{readers.join(', ')}"}
+    %label{:for => "read_write_users"} Write-enabled users:
+    %input#read_write_users{:type => "text", :name=>"post[writers]", :value => "#{writers.join(', ')}"}
+    %input{:type => "submit", :value => "Submit"}
