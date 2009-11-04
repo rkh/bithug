@@ -61,6 +61,8 @@ module Bithug
 
     post "/repositories/:username/:name/?" do
 
+      repository.readaccess.clear
+      repository.writeaccess.clear
       params["post"]["readers"].delete(" ").split(",").each do |reader|
 	 repository.grant_readaccess(reader)
       end
