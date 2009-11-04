@@ -8,15 +8,15 @@ require 'exceptions'
 require 'fileutils'
 
 class Shell
-  @@read_command = Regexp.new "git[ |-]upload-pack"
-  @@write_command = Regexp.new "git[ |-]receive-pack"
+  @@read_command = /^git[ |-]upload-pack/
+  @@write_command = /^git[ |-]receive-pack/
 
   def initialize(username) 
     @user = User.find(:name, username).first
     ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
-    @command = $1
-    @repository = $2.delete("'") # Git quotes the path, so unquote that
-    @writeaccess = ((@@write_command =~ @command) == 0)
+    @command, @repository = $1, $2
+    @repository.gsub!("'", "") # Git quotes the path, so unquote that
+    @writeaccess = (@command =~ @@write_command)
   end
 
   def run
