@@ -49,13 +49,13 @@ class Repository < Ohm::Model
 
   def self.writeable_repos_for_user(user)
     self.all.select do |repo|
-      repo.writeaccess.include?(user)
+      writeaccess.include?(username(user))
     end
   end
 
   def self.readable_repos_for_user(user)
     self.all.select do |repo|
-      repo.readaccess.include?(user)
+      readaccess.include?(username(user))
     end
   end
 
