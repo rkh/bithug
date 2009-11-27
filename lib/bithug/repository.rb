@@ -47,6 +47,18 @@ class Repository < Ohm::Model
     end
   end
 
+  def self.writeable_repos_for_user(user)
+    self.all.select do |repo|
+      writeaccess.include?(username(user))
+    end
+  end
+
+  def self.readable_repos_for_user(user)
+    self.all.select do |repo|
+      readaccess.include?(username(user))
+    end
+  end
+
   def self.repo_path_for(hash)
     "#{File.expand_path("~")}/#{hash[:owner].name}/#{hash[:name]}"
   end
