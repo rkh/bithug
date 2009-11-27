@@ -11,6 +11,15 @@
   - else 
     %h3= "#{user.name}'s repositories" 
 .repositories
-  - repositories.each do |r|
-    %a{:href => "/repositories/#{r.name}"}= r.name
-    %br
+  .owned_repositories
+    - repositories.each do |r|
+      %a{:href => "/repositories/#{r.name}"}= r.name
+      %br
+  .writeable_repositories
+    - writeable_repositories.each do |r|
+      %a{:href => "/repositories/#{r.name}"}= r.name
+      %br
+  .readable_repositories
+    - readable_repositories.each do |r|
+      %a{:href => "/repositories/#{r.name}"}= r.name
+      %br
