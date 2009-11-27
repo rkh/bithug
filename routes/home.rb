@@ -7,15 +7,14 @@ module Bithug
 
 
     get '/' do      
-      haml :home, {}, :user => User.find(:name, current_user).first,
-	 :repositories => (Repository.find(:owner, current_user) || []),
-	 :writeable_repositories => Repository.writeable_repos_for_user(current_user),
-	 :readable_repositories => Repository.readable_repos_for_user(current_user)
+      redirect "/#{current_user}"
     end
 
     get '/:username/?' do      
       haml :home, {}, :user => User.find(:name, params[:username]).first,
-	 :repositories => (Repository.find(:owner, params[:username]) || [])
+	 :repositories => (Repository.find(:owner, params[:username]) || []),
+	 :writeable_repositories => Repository.writeable_repos_for_user(params[:username]),
+	 :readable_repositories => Repository.readable_repos_for_user(params[:username])
     end
 
     post "/" do
