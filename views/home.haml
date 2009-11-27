@@ -10,6 +10,15 @@
       %input{:type => "submit", :value => "Add Key"}
   - else 
     %h3= "#{user.name}'s repositories" 
+    %form{:method => "post"}
+      - unless following
+        %input{:type => "submit", :value => "Follow", :name => "post[follow]"}
+      - else
+        %input{:type => "submit", :value => "Unfollow", :name => "post[unfollow]"}
+.following
+  - user.following.each do |f|
+    %a{:href => "/#{user.name}"}= user.name
+    %br
 .repositories
   .owned_repositories
     - repositories.each do |r|
