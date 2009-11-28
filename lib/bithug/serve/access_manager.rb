@@ -1,5 +1,9 @@
 require 'exceptions'
 
+# The AccessManager manages creation 
+# and removal of repositories and keys 
+# for a single user.
+#
 class AccessManager
   require 'fileutils'
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
@@ -8,6 +12,11 @@ class AccessManager
     @user = User.find(:name, user).first
   end
 
+  # The add_key/remove_key methods will
+  # add or remove the passed public key
+  # to the user's associated keys in the 
+  # .ssh/authorized_keys file of the user 
+  # running bithug
   def add_key(key)
     @user.keys << key
 
@@ -35,6 +44,9 @@ class AccessManager
     FileUtils.mv(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
   end
 
+  # The add/remove_repository methods will
+  # use the Ohm models to create and remove 
+  # the repository with the passed project_name
   def add_repository(project_name)
     repo = Repository.create(:name => project_name, :owner => @user)    
   end
