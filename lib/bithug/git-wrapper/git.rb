@@ -1,5 +1,7 @@
 require 'fileutils'
 
+# The Git class wraps the most common
+# git commands  
 class Git
   def initialize(path,remote)
     @path = path
@@ -18,6 +20,7 @@ class Git
 
   def clone
     init
+    exec("remote", "add origin #{@remote}")
     pull
   end
 
