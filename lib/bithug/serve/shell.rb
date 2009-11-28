@@ -1,12 +1,12 @@
+
+require 'exceptions'
+require 'fileutils'
+
 # When git executes via ssh, it sets the environment
 # variable SSH_ORIGINAL_COMMAND to:
 #   git-upload-pack/git upload-pack for pull
 #   git-receive-pack/git receive-pack for push
 # So this is basically the git-user's shell on the server
-
-require 'exceptions'
-require 'fileutils'
-
 class Shell
   @@read_command = /^git[ |-]upload-pack/
   @@write_command = /^git[ |-]receive-pack/
