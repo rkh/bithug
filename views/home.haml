@@ -31,7 +31,7 @@
       %a{:href => "/repositories/#{r.name}"}= r.name
       %br
 .following
-	%h3= "Rad Guys and Gals that follow you 'till whatever"
+	%h3= "Rad Guys and Gals that follow you 'til whatever"
   - user.following.each do |f|
     - unless f.name == current_user
       %a{:href => "/#{f.name}"}= f.name
