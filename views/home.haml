@@ -15,10 +15,6 @@
         %input{:type => "submit", :value => "Follow", :name => "post[follow]"}
       - else
         %input{:type => "submit", :value => "Unfollow", :name => "post[unfollow]"}
-.following
-  - user.following.each do |f|
-    %a{:href => "/#{user.name}"}= user.name
-    %br
 .repositories
   .owned_repositories
     - repositories.each do |r|
@@ -32,3 +28,8 @@
     - readable_repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
       %br
+.following
+	%h3= "Rad Guys and Gals that follow you 'till whatever"
+  - user.following.each do |f|
+    %a{:href => "/#{f.name}"}= f.name
+    %br
