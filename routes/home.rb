@@ -29,6 +29,9 @@ module Bithug
 	user.following << params[:username]
 	user.save
 	pp user.following
+	user = User.find(:username, user).first
+	user.followers << params[current_user]
+	user.save
       end
       if params["post"]["unfollow"]
 	user = User.find(:name, current_user).first

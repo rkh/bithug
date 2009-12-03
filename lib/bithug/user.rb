@@ -5,6 +5,7 @@ require 'key'
 class User < Ohm::Model
   attribute :name
   set :following
+  set :followers
   set :keys
 
   index :name

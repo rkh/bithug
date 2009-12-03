@@ -36,3 +36,7 @@
     - unless f.name == current_user
       %a{:href => "/#{f.name}"}= f.name
     %br
+.followers
+    %h3= "Rad Guys and Gals that follow you 'til whatever"
+  - user.followers.each do |f|
+      %a{:href => "/#{f.name}"}= f.name 
