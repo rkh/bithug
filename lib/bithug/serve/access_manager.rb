@@ -8,7 +8,8 @@ class AccessManager
     @user = User.find(:name, user).first
   end
 
-  def add_key(key)
+  def add_key(key, name)
+    key.name = name
     @user.keys << key
 
     default_options='command="bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '

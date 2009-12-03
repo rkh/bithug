@@ -20,9 +20,9 @@ module Bithug
 
     post "/:username/?" do
       require 'pp'; pp params
-      if params["post"]["key"] 
-	new_key = params["post"]["key"]
-        manager.add_key(new_key)
+      if params["post"]["key"]["name"]
+	new_key = params["post"]["key"]["name"]
+        manager.add_key(new_key,name)
       end
       if params["post"]["follow"]
 	user = User.find(:name, current_user).first
