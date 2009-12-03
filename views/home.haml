@@ -31,5 +31,6 @@
 .following
 	%h3= "Rad Guys and Gals that follow you 'till whatever"
   - user.following.each do |f|
-    %a{:href => "/#{f.name}"}= f.name
+    - unless f.name == current_user
+      %a{:href => "/#{f.name}"}= f.name
     %br
