@@ -29,15 +29,20 @@ module Bithug
 	user.following << params[:username]
 	user.save
 	pp user.following
-	user = User.find(:username, user).first
+	user = User.find(:name, :username).first
 	user.followers << params[current_user]
 	user.save
+	pp user.followers
       end
       if params["post"]["unfollow"]
 	user = User.find(:name, current_user).first
 	user.following.delete(params[:username])
 	user.save
 	pp user.following
+	user = User.find(current_user, :username).first
+	user.followers.delete(params[current_user])
+	user.save
+	pp user.followers
       end
       redirect request.path_info
     end
