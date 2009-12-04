@@ -5,12 +5,15 @@ class AccessManager
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
 
   def initialize(user)
-    @user = User.find(:name, user).first
+    @user = User.find(:name => user).first
   end
 
   def add_key(key, name)
-    key.name = name
+    key = Key.create(:name => name)
+    key.value = key
+    key.save
     @user.keys << key
+    @user.save
 
     default_options='command="bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '
     File.open(KEYS_FILE, 'a+') do |f|
@@ -41,7 +44,7 @@ class AccessManager
   end
 
   def remove_repository(project_name)
-    unless repo = Repository.find(:name, project_name)
+    unless repo = Repository.find(:name => project_name)
       raise UnknownRepositoryError, "Could not find repository #{project_name}" 
     end
     unless repo.owners.include?(@user) 
