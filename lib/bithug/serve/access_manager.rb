@@ -17,6 +17,16 @@ module Bithug
         end
       end
 
+      def add_key(key, name)
+        key.name = name
+        @user.keys << key
+
+        default_options='command="bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '
+        File.open(KEYS_FILE, 'a+') do |f|
+          f << default_options.gsub("USER", @user.name) << key << "\n"
+        end
+      end
+
       def remove_key(key)
         # BUG: SANITIZE USERNAME FOR REGEX!
         @user.keys.remove(key)
@@ -30,7 +40,7 @@ module Bithug
           end
         end
 
-        # BUG: LOCKING HAS TO BE PLACED HERE, OR CHECK IF THE TSTAMP 
+        # BUG: LOCKING HAS TO BE PLACED HERE, OR CHECK IF THE TSTAMP
         # OF THE OLD FILE CHANGED
         FileUtils.mv(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
       end

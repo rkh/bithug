@@ -1,8 +1,10 @@
-require "ohm"
+require 'ohm'
 
 module Bithug
   class User < Ohm::Model
     attribute :name
+    set :following
+    set :followers
     set :keys
 
     index :name
@@ -12,8 +14,16 @@ module Bithug
     end
 
     def self.find(attrs, value)
-      result = super(attrs, value).first || self.create(attrs.to_sym => value) 
+      result = super(attrs, value).first || self.create(attrs.to_sym => value)
       [result]
+    end
+
+    def == something
+      if something.respond_to? :name
+        return something.name == name
+      else
+        return false
+      end
     end
   end
 end

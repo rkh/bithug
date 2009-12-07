@@ -15,10 +15,13 @@ module Bithug::Serve
 
     def initialize(username) 
       @user = User.find(:name, username).first
-      ENV["SSH_ORIGINAL_COMMAND"] =~ /(git[-| ]upload-pack) (.*)/
-      @command, @repository = $1, $2
-      @repository.gsub!("'", "") # Git quotes the path, so unquote that
-      @writeaccess = (@command =~ @@write_command)
+      if ENV["SSH_ORIGINAL_COMMAND"] =~ /(#{@@read_command}|#{@@write_command}) (.*)/
+        @command, @repository = $1, $2
+        @repository.gsub!("'", "") # Git quotes the path, so unquote that
+        @writeaccess = (@command =~ @@write_command)
+      else
+        raise "this should not happen, ever: #{ENV["SSH_ORIGINAL_COMMAND"].inspect}"
+      end
     end
 
     def run
