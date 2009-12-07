@@ -1,18 +1,19 @@
-require 'ohm'
-require 'ohm_ext'
+require "ohm"
 
-class User < Ohm::Model
-  attribute :name
-  set :keys
+module Bithug
+  class User < Ohm::Model
+    attribute :name
+    set :keys
 
-  index :name
+    index :name
 
-  def validate
-    assert_present :name
-  end
+    def validate
+      assert_present :name
+    end
 
-  def self.find(attrs, value)
-    result = super(attrs, value).first || self.create(attrs.to_sym => value) 
-    [result]
+    def self.find(attrs, value)
+      result = super(attrs, value).first || self.create(attrs.to_sym => value) 
+      [result]
+    end
   end
 end

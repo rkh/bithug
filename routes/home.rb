@@ -5,7 +5,6 @@ module Bithug
       AccessManager.new(current_user)
     end
 
-
     get '/' do      
       haml :home, {}, :user => User.find(:name, current_user).first,
 	 :repositories => (Repository.find(:owner, current_user) || [])
