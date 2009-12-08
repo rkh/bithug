@@ -1,7 +1,9 @@
 class GitSvn < Git
-  def init(user=nil)
-    user ||= "--user"
-    exec("svn", "clone")
+  def initialize(user,remote)
+    @user = user
+    @remote = remote
+    user &&= "--user #{user}"
+    exec("svn", "clone", remote)
   end
 
   def pull
@@ -9,6 +11,6 @@ class GitSvn < Git
   end
 
   def push
-    exec("svn", "dcommit")
+    raise RuntimeError, "Tried to push to a SVN remote!"
   end
 end
