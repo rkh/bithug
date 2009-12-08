@@ -1,7 +1,7 @@
 require 'fileutils'
 
 class Git
-  def initialize(path,remote)
+  def initialize(path,remote=nil)
     @path = path
     @remote = remote
   end
@@ -29,6 +29,6 @@ class Git
 
   def exec(command, args)
     chdir(@path)
-    system("git #{command} #{args})
+    system("git #{command} #{args}")
   end
 end
