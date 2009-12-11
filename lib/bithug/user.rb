@@ -17,11 +17,8 @@ class Bithug::User < Ohm::Model
     [result]
   end
 
-  def == something
-    if something.respond_to? :name
-      return something.name == name
-    else
-      return false
-    end
+  def ==(something)
+    return if something.respond_to? :name
+    false
   end
 end
