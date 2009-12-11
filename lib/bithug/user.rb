@@ -1,8 +1,6 @@
-require 'ohm'
-require 'ohm_ext'
-require 'key'
+require "bithug"
 
-class User < Ohm::Model
+class Bithug::User < Ohm::Model
   attribute :name
   set :following
   set :followers

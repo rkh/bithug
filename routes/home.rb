@@ -5,7 +5,6 @@ module Bithug
       AccessManager.new(current_user)
     end
 
-
     get '/' do      
       redirect "/#{current_user}"
     end

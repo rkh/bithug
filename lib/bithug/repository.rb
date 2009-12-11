@@ -1,9 +1,8 @@
 require 'fileutils'
-require 'user'
 require 'ohm'
 require 'ohm_ext'
 
-class Repository < Ohm::Model
+class Bithug::Repository < Ohm::Model
   attribute :name
   attribute :public
   attribute :owner
@@ -29,7 +28,7 @@ class Repository < Ohm::Model
   def grant_readaccess(user)
     self.readaccess << username(user) unless username(user) == owner
   end
-  
+
   def grant_writeaccess(user)
     grant_readaccess(user)
     self.writeaccess << username(user) unless username(user) == owner

@@ -1,7 +1,7 @@
 require 'ohm'
 require 'ohm_ext'
 
-class Key < Ohm::Model
+class Bithug::Key < Ohm::Model
   attribute :name
   attribute :value
 end
