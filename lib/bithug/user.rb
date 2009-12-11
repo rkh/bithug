@@ -1,10 +1,12 @@
 require 'ohm'
 require 'ohm_ext'
+require 'key'
 
 class User < Ohm::Model
   attribute :name
   set :following
-  set :keys
+  set :followers
+  set :keys, Key
 
   index :name
 
@@ -12,8 +14,8 @@ class User < Ohm::Model
     assert_present :name
   end
 
-  def self.find(attrs, value)
-    result = super(attrs, value).first || self.create(attrs.to_sym => value) 
+  def self.find(hash)
+    result = super(hash).first || self.create(hash) 
     [result]
   end
 
