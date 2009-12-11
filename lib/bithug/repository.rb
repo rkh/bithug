@@ -7,6 +7,7 @@ class Repository < Ohm::Model
   attribute :name
   attribute :public
   attribute :owner
+  attribute :vcs
   set :readaccess
   set :writeaccess
 
@@ -63,26 +64,28 @@ class Repository < Ohm::Model
     "#{File.expand_path("~")}/#{hash[:owner].name}/#{hash[:name]}"
   end
 
-  def self.create_empty_git_repo(path)
-    FileUtils.mkdir_p(path)
-    Dir.chdir(path)
-    system("git init --bare")
+  def self.create_empty_repo(path)
+    const_get(vcs.camelize).new(path).init
   end
 
-  def self.delete_git_repo(path)
+  def self.import_repo(path, remote)
+    const_get(vcs.camelize).new(path, remote).clone
+  end
+
+  def self.delete_repo(path)
     FileUtils.rm_rf(path)
   end
 
   def self.create(*args)
     hash = args.first
-    create_empty_git_repo(repo_path_for(hash))
+    create_empty_repo(repo_path_for(hash))
     repo = super(:name => "#{hash[:owner].name}/#{hash[:name]}", :owner => hash[:owner].name)
     repo.save
     repo
   end
 
   def self.delete
-    delete_git_repo(repo_path_for(hash))
+    delete_repo(repo_path_for(hash))
     super
   end
 end
