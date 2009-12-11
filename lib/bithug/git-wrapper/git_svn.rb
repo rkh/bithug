@@ -15,6 +15,10 @@ class GitSvn < Git
     exec("svn", "clone", user, remote)
   end
 
+  def clone
+    pull
+  end
+
   def pull
     exec("svn", "rebase")
   end
