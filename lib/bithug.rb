@@ -1,5 +1,5 @@
 require "monkey/autoloader"
 
-module Bithug
+class Bithug < BigBand
   extend Monkey::Autoloader
 end

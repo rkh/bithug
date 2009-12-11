@@ -5,7 +5,7 @@ $LOAD_PATH.unshift("lib", *Dir.glob(File.join(ROOT_DIR, "vendor", "*", "lib")))
 require "bithug"
 require "ohm"
 
-Bithug::Webserver.configure do |app|
+Bithug.configure do |app|
   app.app_file = __FILE__
   require app.root_path("config", "settings")
   app.root_glob("{config,routes}", "**", "*.rb") { |f| require f }
