@@ -3,16 +3,16 @@ We use modules to stash away functionality
 Some "interfaces"
 - User
   * name, following, followers, keys, repositories
-  + authenticate(username, password, options = {})
+  +class authenticate(username, password, options = {})
 - Repository
   * vcs, name, owner, readers, writers, origin
-  + create_repository(name, vcs)
-  + remove_repository(name)
+  + create_repository(vcs)
+  + remove_repository
   + import(remote, type)
-  + pull
+  + pull(remote = origin)
+  + cherry-pick(commit-ish, remote = origin)
   + log
 - Key
   * key, name
   + add(user)
   + remove
-
