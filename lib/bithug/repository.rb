@@ -7,84 +7,73 @@ class Bithug::Repository < Ohm::Model
   attribute :public
   attribute :owner
   attribute :vcs
-  set :readaccess
-  set :writeaccess
+  set :readers
+  set :writers
 
   index :name
   index :owner
 
   def validate
     assert_present :name
+    assert_present :vcs
   end
 
-  def username(user)
-    if user.respond_to? :to_str 
-      user
-    else
-      user.name
-    end
+  # Catch missing create implementors
+  def create_repository
+    raise ConfigurationError, "No vcs set or no matching strategy configured"
   end
 
-  def grant_readaccess(user)
-    self.readaccess << username(user) unless username(user) == owner
+  # Catch missing remove implementors
+  def remove_repository
+    raise ConfigurationError, "No vcs set or no matching strategy configured"
   end
 
-  def grant_writeaccess(user)
-    grant_readaccess(user)
-    self.writeaccess << username(user) unless username(user) == owner
-  end
-
+  # This is used by the shell
   def check_access_rights(user, writeaccess=false)
     user_name = username(user)
     unless self.owner == user_name
       unless self.readaccess.include?(user_name) || (self.public == true)
-        raise ReadAccessDeniedError, "#{self.owner} User #{user_name} does not have read-access"
+        raise ReadAccessDeniedError, 
+            "#{self.owner} User #{user_name} does not have read-access"
       else
         unless (self.writeaccess.include?(user_name) || !writeaccess)
-          raise WriteAccessDeniedError, "User #{user_name} does not have write-access"
+          raise WriteAccessDeniedError, 
+              "User #{user_name} does not have write-access"
         end
       end
     end
   end
 
-  def self.writeable_repos_for_user(user)
-    self.all.select do |repo|
-      repo.writeaccess.include?(user)
+  class << self
+    # Return all repositories that are writeable by the given user
+    def writeable_repos(user)
+      all.select do |repo|
+        repo.writeaccess.include?(user)
+      end
     end
-  end
 
-  def self.readable_repos_for_user(user)
-    self.all.select do |repo|
-      repo.readaccess.include?(user)
+    # Return all repositories that are readeable by the given user
+    def readable_repos(user)
+      all.select do |repo|
+        repo.readaccess.include?(user)
+      end
     end
-  end
 
-  def self.repo_path_for(hash)
-    "#{File.expand_path("~")}/#{hash[:owner].name}/#{hash[:name]}"
-  end
+    # This is overwritten to immediately create the underlying repo using the 
+    # configured method, and also modify the name for uniqueness in the system 
+    def create(*args)
+      hash = args.first
+      repo = super(hash.merge(:name => "#{hash[:owner].name}/#{hash[:name]}"))
+      repo.create_repository(hash[:vcs])
+      repo.save
+      repo
+    end
 
-  def self.create_empty_repo(path)
-    const_get(vcs.camelize).new(path).init
-  end
-
-  def self.import_repo(path, remote)
-    const_get(vcs.camelize).new(path, remote).clone
-  end
-
-  def self.delete_repo(path)
-    FileUtils.rm_rf(path)
-  end
-
-  def self.create(*args)
-    hash = args.first
-    create_empty_repo(repo_path_for(hash))
-    repo = super(:name => "#{hash[:owner].name}/#{hash[:name]}", :owner => hash[:owner].name)
-    repo.save
-    repo
-  end
-
-  def self.delete
-    delete_repo(repo_path_for(hash))
-    super
+    # This is overwritten to actually remove the repository from storage or 
+    # whatever is configured on delete
+    def delete
+      remove_repository
+      super
+    end
   end
 end
