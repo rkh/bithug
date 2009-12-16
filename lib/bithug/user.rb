@@ -11,9 +11,4 @@ class Bithug::User < Ohm::Model
   def validate
     assert_present :name
   end
-
-  def self.find(hash)
-    result = super(hash).first || self.create(hash) 
-    [result]
-  end
 end
