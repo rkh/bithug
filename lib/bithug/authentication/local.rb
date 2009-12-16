@@ -5,7 +5,7 @@ module Bithug::Authentication
 
   # This agent authenticates against the 
   # local database
-  class Local
+  module Local
 
     def with_lock(exclusive = false, thread_safe = true, &block)
       if thread_safe

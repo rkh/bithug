@@ -1,7 +1,7 @@
 require 'krb5_auth'
 
 module Bithug::Authentication
-  class Kerberos
+  module Kerberos
 
     def initialize(options=nil)
       @krb5 = Krb5Auth::Krb5.new

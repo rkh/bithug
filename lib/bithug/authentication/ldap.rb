@@ -1,7 +1,7 @@
 require 'net/ldap'
 
 module Bithug::Authentication
-  class LDAP
+  module LDAP
 
     def initialize(options={})
       @ldap = Net::LDAP.new :host => (options[:host] || "nads2"),
