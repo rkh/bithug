@@ -1,0 +1,18 @@
+We use modules to stash away functionality
+
+Some "interfaces"
+- User
+  * name, following, followers, keys, repositories
+  + authenticate(username, password, options = {})
+- Repository
+  * vcs, name, owner, readers, writers, origin
+  + create_repository(name, vcs)
+  + remove_repository(name)
+  + import(remote, type)
+  + pull
+  + log
+- Key
+  * key, name
+  + add(user)
+  + remove
+
