@@ -32,9 +32,8 @@
       %br
 .following
   %h3= "Rad Guys and Gals you follow 'til whatever"
-  - user.following.each do |f|
     - unless f == current_user
-      %a{:href => "/#{f}"}= f
+      %a{:href => "/#{f.name}"}= f.name
     %br
 .followers
   %h3= "Rad Guys and Gals that follow you 'til whatever"

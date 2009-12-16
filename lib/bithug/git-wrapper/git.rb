@@ -20,7 +20,6 @@ class Git
 
   def clone
     init
-    exec("remote", "add origin #{@remote}")
     pull
   end
 
