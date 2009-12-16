@@ -5,4 +5,5 @@ require "big_band"
 
 class Bithug < BigBand
   extend Monkey::Autoloader
+  class ConfigurationError < RuntimeError; end
 end
