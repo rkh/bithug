@@ -16,9 +16,4 @@ class Bithug::User < Ohm::Model
     result = super(hash).first || self.create(hash) 
     [result]
   end
-
-  def ==(something)
-    return if something.respond_to? :name
-    false
-  end
 end
