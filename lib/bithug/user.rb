@@ -17,7 +17,7 @@ class Bithug::User < Ohm::Model
   class << self
     # The method at the end of the authentication chain
     def authenticate(username, password, options = {})
-      raise ConfigurationError, "No authentication method matched!"
+      false
     end
 
     # The method to be called if an authentication succeeded
