@@ -6,7 +6,7 @@ module Bithug::Authentication
       begin
         Krb5Auth::Krb5.new.get_init_creds_password(username, password)
       rescue Krb5Auth::Krb5::Exception
-        false
+        super
       end
     end
   end

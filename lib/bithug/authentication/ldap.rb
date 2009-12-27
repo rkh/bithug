@@ -10,7 +10,7 @@ module Bithug::Authentication
 
     def authenticate(username, password)
       @ldap.auth username, password
-      @ldap.bind
+      @ldap.bind || super
     end
   end
 end

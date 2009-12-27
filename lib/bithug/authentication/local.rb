@@ -58,7 +58,7 @@ module Bithug::Authentication
     def authenticate(username, password)
       reload if outdated?
       hashed = users[username]
-      hashed && BCrypt::Password.new(hashed) == password
+      hashed && BCrypt::Password.new(hashed) == password || super
     end
 
     def register(username, password)
