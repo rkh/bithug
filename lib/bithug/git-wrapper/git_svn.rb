@@ -7,16 +7,19 @@ require 'git'
 # TODO: Conflict handling with git-svn
 # is a little difficult: Try to work 
 # around that
-class GitSvn < Git
+class Bithug::GitSvn < Git
   def initialize(user,remote)
     @user = user
     @remote = remote
-    user &&= "--user #{user}"
-    exec("svn", "clone", user, remote)
+  end
+
+  def init
+    user_switch = @user
+    user_switch &&= "--user #{user}"
+    exec("svn", "clone", user_switch, remote)
   end
 
   def clone
-    pull
   end
 
   def pull
