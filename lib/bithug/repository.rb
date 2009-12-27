@@ -17,6 +17,14 @@ class Bithug::Repository < Ohm::Model
     assert_present :name
     assert_present :vcs
   end
+  
+  def create_repository
+    raise ConfigurationError, "#{vcs} is an unhandled VCS"
+  end
+
+  def remove_repository
+    raise ConfigurationError, "#{vcs} is an unhandled VCS"
+  end
 
   # This is used by the shell
   def check_access_rights(user, writeaccess=false)
