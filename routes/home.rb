@@ -3,7 +3,7 @@ module Bithug
   
     helpers do
       def user
-        User.find(:name => params[:username]).first
+        User.find(:name => (params[:username] || current_user)).first
       end
     end
 
