@@ -12,13 +12,13 @@ module Bithug::Serve
     @@write_command = /^git[ |-]receive-pack/
 
     def initialize(username) 
-      @user = User.find(:name, username).first
+      @user = User.find(:name => username).first
       if ENV["SSH_ORIGINAL_COMMAND"] =~ /(#{@@read_command}|#{@@write_command}) (.*)/
         @command, @repository = $1, $2
         @repository.gsub!("'", "") # Git quotes the path, so unquote that
         @writeaccess = (@command =~ @@write_command)
       else
-        raise "this should not happen, ever: #{ENV["SSH_ORIGINAL_COMMAND"].inspect}"
+        raise "What do you think I am? A shell? I can only be used through git!"
       end
     end
 
