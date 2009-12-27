@@ -2,7 +2,7 @@ module Bithug
   class Routes < Sinatra::Base
   
     helpers do
-      def current_user
+      def user
         User.find(:name => params[:username]).first
       end
     end
@@ -12,28 +12,28 @@ module Bithug
     end
 
     get '/:username/?' do
-      user = current_user
+      uzer = user
       haml :home, {}, 
-          :user => user,
-          :repositories => user.repositories,
-          :writeable_repositories => Repository.writeable_repos(user),
-          :readable_repositories => Repository.readable_repos(user),
-          :following => current_user.following.include?(user)
+          :user => uzer,
+          :repositories => uzer.repositories,
+          :writeable_repositories => Repository.writeable_repos(uzer),
+          :readable_repositories => Repository.readable_repos(uzer),
+          :following => this_user.following.include?(uzer)
     end
 
     post "/:username/?" do
       if params["post"]["key"]
-        Key.add(:user => current_user, 
+        Key.add(:user => user, 
                 :name => params["post"]["name"],
                 :value => params["post"]["key"])
       elsif params["post"]["follow"]
-        user = current_user
-        user.following << params[:username]
-        user.save
+        uzer = user
+        uzer.following << params[:username]
+        uzer.save
 	  elsif params["post"]["unfollow"]
-	    user = current_user
-        user.following.delete(params[:username])
-        user.save
+	    uzer = user
+        uzer.following.delete(params[:username])
+        uzer.save
       end
       redirect request.path_info
     end
