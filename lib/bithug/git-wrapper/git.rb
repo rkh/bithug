@@ -2,7 +2,7 @@ require 'fileutils'
 
 # The Git class wraps the most common
 # git commands  
-class Git
+class Bithug::Git
   def initialize(path,remote=nil)
     @path = path
     @remote = remote
@@ -23,10 +23,14 @@ class Git
     pull
   end
 
+  def remove
+    FileUtils.rm_rf(@path)
+  end
+
   private
   def chdir
-    FileUtils.mkdir_p(path)
-    Dir.chdir(path)
+    FileUtils.mkdir_p(@path)
+    Dir.chdir(@path)
   end
 
   def exec(command, args)
