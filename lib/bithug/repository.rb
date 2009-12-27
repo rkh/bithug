@@ -18,16 +18,6 @@ class Bithug::Repository < Ohm::Model
     assert_present :vcs
   end
 
-  # Catch missing create implementors
-  def create_repository
-    raise ConfigurationError, "No vcs set or no matching strategy configured"
-  end
-
-  # Catch missing remove implementors
-  def remove_repository
-    raise ConfigurationError, "No vcs set or no matching strategy configured"
-  end
-
   # This is used by the shell
   def check_access_rights(user, writeaccess=false)
     user_name = username(user)
@@ -62,9 +52,9 @@ class Bithug::Repository < Ohm::Model
     # This is overwritten to immediately create the underlying repo using the 
     # configured method, and also modify the name for uniqueness in the system 
     def create(*args)
-      hash = args.first
-      repo = super(hash.merge(:name => "#{hash[:owner].name}/#{hash[:name]}"))
-      repo.create_repository(hash[:vcs])
+      hash = args.first.merge(:name => "#{hash[:owner].name}/#{hash[:name]}")
+      repo = super(hash)
+      repo.create_repository
       repo.save
       repo
     end
