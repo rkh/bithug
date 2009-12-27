@@ -3,46 +3,43 @@ module Bithug
 
     helpers do
       def owner?
-        current_user == params[:username]
+        current_user.name == params[:username]
       end
 
       def deny!
         redirect request.path_info.split("/")[0..-2].join("/")
       end
 
-      def manager
-        AccessManager.new(current_user)
-      end
-
-      def path(name=nil)
-	current_user + "/" + (name || params[:name]).to_s
+      def path_to(name=nil)
+        current_user + "/" + (name || params[:name]).to_s
       end
 
       def repository(name=nil)
-	name ||= path
-	repo = Repository.find(:name, path).first
-	unless repo
-	  redirect "/error/404"
-	else
-	  repo
-	end
+        name ||= path
+        repo = Repository.find(:name => path).first
+        unless repo 
+          redirect "/error/404"
+        else
+          repo
+        end
       end
 
       def hostname
-	(ENV["HOSTNAME"] || %x["hostname"]).strip
+        (ENV["HOSTNAME"] || %x["hostname"]).strip
       end
 
       def writers
-	repository.writeaccess.all << current_user
+        repository.writers.all << current_user
       end
 
       def readers
-	repository.readaccess.all - writers
+        repository.readers.all - writers
       end
     end
 
     get "/repositories/?" do
-      "list of repositories you have access to"
+      # Show the user's repositories
+      user.repositories
     end
 
     get "/repositories/new/?" do
@@ -51,35 +48,33 @@ module Bithug
 
     post "/repositories/new/?" do
       reponame = params["post"]["name"]
-      manager.add_repository(reponame)
-      redirect "/repositories/#{path(reponame)}"
+      vcs = params["post"]["vcs"] || "git"
+      Repository.create(:name => reponame, 
+                        :owner => current_user,
+                        :vcs => vcs)
+      redirect "/repositories/#{path_to(reponame)}"
     end
 
     get "/repositories/:username/:name/?" do
-      haml :"repositories/view", {}, :path => "#{params[:username]}/#{params[:name]}"
+      haml :"repositories/view", {}, 
+          :path => "#{params[:username]}/#{params[:name]}"
     end 
 
     post "/repositories/:username/:name/?" do
+      readers = params["post"]["readers"].delete(" ").split(",")
+      writers = (params["post"]["readers"].delete(" ").split(",") + readers).uniq
+      repository.readers.replace(readers)
+      repository.writers.replace(writers)
 
-      repository.readaccess.clear
-      repository.writeaccess.clear
-      params["post"]["readers"].delete(" ").split(",").each do |reader|
-	 repository.grant_readaccess(reader)
-      end
-
-      params["post"]["writers"].delete(" ").split(",").each do |writer|
-	 repository.grant_writeaccess(writer)
-      end
       redirect request.path_info
-    end 
+    end
 
     put "/repositories/:username/:name/edit/?" do
       "modify a repo"
     end
 
-    delete "/repositories/:username/:name/delete/?" do
+    delete "/repositories/:username/:name/?" do
       "remove a repo"
     end
-
   end
 end
