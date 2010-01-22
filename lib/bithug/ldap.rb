@@ -1,4 +1,5 @@
 require 'net/ldap'
+require 'bithug'
 
 module Bithug::Ldap
 
