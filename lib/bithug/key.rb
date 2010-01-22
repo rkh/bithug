@@ -1,5 +1,4 @@
-require 'ohm'
-require 'ohm_ext'
+require 'bithug'
 require 'fileutils'
 
 class Bithug::Key < Ohm::Model

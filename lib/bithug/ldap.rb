@@ -21,4 +21,5 @@ module Bithug::Ldap
       end
     end
   end
+
 end
