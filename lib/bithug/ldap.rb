@@ -2,14 +2,12 @@ require 'net/ldap'
 
 module Bithug::Ldap
 
-  class << self
-    def connection
-      @connection || setup
-    end
+  def self.connection
+    @connection || setup
+  end
 
-    def setup(options = {})
-      @connection = Net::LDAP.new :host => (options[:host] || "nads2"), :port => (options[:port] || 389)
-    end
+  def self.setup(options = {})
+    @connection = Net::LDAP.new :host => (options[:host] || "nads2"), :port => (options[:port] || 389)
   end
 
   module User
