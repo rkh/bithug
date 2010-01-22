@@ -1,6 +1,0 @@
----
-authentication:
-  type: local
-  file: config/user.yml
-frontend:
-  title: Bithug

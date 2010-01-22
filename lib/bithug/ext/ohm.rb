@@ -1,5 +1,4 @@
 require 'bithug'
-require 'ohm'
 
 module Bithug::Ext
   module Ohm
