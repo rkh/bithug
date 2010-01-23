@@ -31,3 +31,6 @@
 [submodule "vendor/gitauth"]
 	path = vendor/gitauth
 	url = git://github.com/brownbeagle/gitauth.git
+[submodule "depgen"]
+	path = depgen
+	url = git://github.com/rkh/depgen.git
