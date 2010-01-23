@@ -1,6 +1,4 @@
 require "spec/rake/spectask"
-require "rake/clean"
-
-Spec::Rake::SpecTask.new('spec') do |t|
+Spec::Rake::SpecTask.new('default') do |t|
   t.spec_files = Dir.glob 'spec/**/*_spec.rb'
 end
