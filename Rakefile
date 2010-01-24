@@ -5,12 +5,24 @@ begin
 rescue LoadError
 end
 
-load "depgen/depgen.task"
+begin
+  load "depgen/depgen.task"
+rescue LoadError
+  sh "git submodule init"
+  sh "git submodule update"
+  retry
+end
 
-if ENV['RUN_CODE_RUN']
-  Rake::Task["dependencies:vendor:all"].invoke
+task :setup => "dependencies:vendor:all" do
   load "vendor/big_band/dependencies.rb"
   Rake::Task["dependencies:vendor:all"].invoke
+end
+
+if ENV['RUN_CODE_RUN']
+  Rake::Task["setup"].invoke
+  task :default => :spec
+else
+  task :default => [:setup, :doc]
 end
 
 begin
@@ -39,5 +51,4 @@ begin
 rescue LoadError
   $stderr.puts "please install big_band and yard"
 end
-  
-task :default => :spec
+
