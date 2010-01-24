@@ -3,25 +3,26 @@
 # in-between (if I understand the semantics correctly)
 # thus, Ohm::Model methods will be available on inclusion 
 # and this repo type can add an attribute to the model
-module Bithug::Repositories
-  module Svn
+module Bithug::Svn
+  module Repository
+    include ServiceHelper
+
     attribute :remote
 
     def create_repository
-      super if vcs != "svn"
+      super if vcs.to_s != "svn"
       svn = Bithug::GitSvn.new(absolute_path, remote)
       svn.init
     end
 
     def remove_repository
-      super if vcs != "svn"
+      super if vcs.to_s != "svn"
       svn = Bithug::GitSvn.new(absolute_path, remote)
       svn.remove
     end
 
-    private
-      def absolute_path
-        "#{Pathname.expand_path("~")}/#{name}"
-      end
+    def absolute_path
+      "#{Pathname.expand_path("~")}/#{name}"
+    end
   end
 end
