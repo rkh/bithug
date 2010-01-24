@@ -1,0 +1,4 @@
+Run @rake@ to set things up. Also, you'll need redis.
+
+More docs to come.
+Also, code is probably broken atm.
