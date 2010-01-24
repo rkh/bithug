@@ -14,11 +14,12 @@ module Bithug
     
     helpers do
       def current_user
-        Bithug::User.find(:name => session["user"]).first
+        Bithug::User.find(:name => request.env['REMOTE_USER']).first
       end
 
-      def current_user=(username)
-	session[:user] = username
+      def current_user=(user)
+	user = user.name unless user.respond_to? :to_str
+	session[:user] = user
       end
     end
     
