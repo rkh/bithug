@@ -1,5 +1,7 @@
 # fix this as soon as monkey-lib has backend detection
 require "monkey"
+Monkey.backend = :active_support
+
 require "ohm"
 require "bithug/ext/ohm"
 

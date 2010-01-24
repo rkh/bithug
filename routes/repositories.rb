@@ -1,3 +1,5 @@
+warn "#{__FILE__} is currently undergoing a merger into lib/"
+
 module Bithug
   class Routes < Sinatra::Base
 

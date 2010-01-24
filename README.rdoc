@@ -1,4 +1,14 @@
+= Bithug
+More docs to come.
+Also, code is probably broken and in some flux atm.
+Come back after 2010/01/31 (that's our deadline).
+
+== How do I install Bithug?
+You don't.
+
+Having said that:
 Run @rake@ to set things up. Also, you'll need redis.
 
-More docs to come.
-Also, code is probably broken atm.
+== TODO / Known Bugs
+* Merge routes/ stuff into lib/, refactor refactor!
+* Webinterface.
