@@ -36,7 +36,7 @@ module Bithug::ServiceHelper
   def self.included(klass)
     super
     klass.extend Bithug::ServiceHelper::ClassMethods
-    klass.postpone :attribute, :set, :index
+    klass.postpone :has, :belongs_to, :property
   end
   
 end
