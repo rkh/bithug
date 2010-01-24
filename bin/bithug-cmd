@@ -2,8 +2,9 @@
 # FIXME: No executables in lib!
 
 require 'pathname'
-$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..", "lib", "bithug").expand_path.to_s)
-require 'serve'
+$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..").expand_path.to_s)
+require 'init'
+require 'bithug'
 require 'optparse'
 
 options = {}
@@ -24,13 +25,19 @@ OptionParser.new do |opts|
 end.parse!
 
 exit if options[:username].nil?
-mgr = AccessManager.new(options[:username])
+user = User.find(:name => options[:username]) 
+if user.empty? 
+   puts "User #{options[:username]} not found, creating..."
+   user = User.new(:name => options[:username])
+else
+   user = user.first
+end
 if options[:key] 
-  mgr.add_key(options[:key])
-  puts "Added key"
+  Key.add(:user => user, :value => options[:key])
+  puts "Added key #{options[:key]} to user #{user.name}."
 end
 if options[:repo] 
-  mgr.add_repository(options[:repo])
-  puts "Created repo"
+  repo = Repository.create(:owner => user, :name => options[:repo])
+  puts "Created repo #{repo.name} for user #{repo.owner.name}"
 end
 
