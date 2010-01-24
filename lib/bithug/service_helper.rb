@@ -27,7 +27,7 @@ module Bithug::ServiceHelper
     end
     
     def class_methods(&block)
-      klass.const_set(:ClassMethods, Module.new) unless klass.const_defined? :ClassMethods
+      const_set(:ClassMethods, Module.new) unless const_defined? :ClassMethods
       ClassMethods.class_eval(&block) if block
     end
     
