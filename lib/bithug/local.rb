@@ -74,6 +74,4 @@ module Bithug::Local
   end
 
 end
-
-end
  
