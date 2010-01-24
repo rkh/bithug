@@ -21,6 +21,7 @@ module Bithug
     def validate
       assert_present :name
     end
+
     # The method at the end of the authentication chain
     def self.authenticate(username, password, options = {})
       false
