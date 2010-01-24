@@ -28,16 +28,13 @@ class Bithug::Key < Ohm::Model
     # authorized_keys file
     def add(params)
       user = params.delete(:user)
-
-      key = Key.create(params)
-      key.value = key
+      key = create(params)
       key.save
-
       user.keys << key
       user.save
 
       File.open(KEYS_FILE, 'a+') do |f|
-        f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", @user.name) << key << "\n"
+        f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"
       end
     end
   end
