@@ -1,19 +1,14 @@
 module Bithug
-  class AbstractRepository < Ohm::Model
-    attribute :name
-    attribute :public
-    attribute :vcs
-    set :owner, Bithug::User
-    set :readers, Bithug::User
-    set :writers, Bithug::User
+  class AbstractRepository
+    include DataMapper::Resource
 
-    index :name
-    index :owner
-
-    def validate
-      assert_present :name
-      assert_present :vcs
-    end
+    property    :id,      Serial
+    property    :name,    String, :required => true, :key => true
+    property    :vcs,     String, :required => true
+    property    :public,  Boolean, :default => false
+    belongs_to  :owner,   'Bithug::User'
+    has n,      :readers, 'Bithug::User'
+    has n,      :writers, 'Bithug::User'
     
     def create_repository
       raise ConfigurationError, "#{vcs} is an unhandled VCS"
@@ -66,17 +61,6 @@ module Bithug
         owner.repositories << repo
         owner.save
         repo
-      end
-
-      # Ohm only provides class matching for sets. Owner should be 
-      # only one, anyhow, so provide accessors...  
-      def owner=(user)
-        owner.clear
-        owner << user
-      end
-
-      def owner
-        owner.first
       end
 
       # This is overwritten to actually remove the repository from storage or 

@@ -8,8 +8,8 @@ module Bithug::Hpi
 
   module User
     include ServiceHelper
-    attribute :real_name
-    attribute :email
+    property  :real_name, String
+    property  :email,     String
     stack Kerberos::User, Ldap::User, Local::User
     Ldap.setup
     Local.setup

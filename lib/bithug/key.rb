@@ -1,12 +1,15 @@
 require 'bithug'
 require 'fileutils'
 
-class Bithug::Key < Ohm::Model
+class Bithug::Key 
+  include DataMapper::Resource
+
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
   AUTHORIZED_KEYS_OPTIONS = 'command="bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '
 
-  attribute :name
-  attribute :value
+  property :id,     Serial
+  property :name,   String
+  property :value,  String
 
   def remove(user)
     # BUG: SANITIZE USERNAME FOR REGEX!

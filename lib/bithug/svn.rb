@@ -7,7 +7,7 @@ module Bithug::Svn
   module Repository
     include ServiceHelper
 
-    attribute :remote
+    property :remote, String
 
     def create_repository
       super if vcs.to_s != "svn"
