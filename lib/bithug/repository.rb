@@ -60,6 +60,8 @@ class Bithug::Repository < Ohm::Model
       repo = super(hash)
       repo.create_repository
       repo.save
+      hash[:owner].repositories << repo
+      hash[:owner].save
       repo
     end
 
