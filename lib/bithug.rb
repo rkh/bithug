@@ -14,6 +14,7 @@ module Bithug
   end
 
   def self.use(service, options = {})
+    service = const_get(service) unless service.is_a? Module
     options[:only]   ||= [:User, :Repository] 
     options[:except] ||= []
     (options[:only] - options[:except]).each do |class_name|
