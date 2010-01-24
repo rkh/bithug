@@ -1,7 +1,3 @@
-require 'fileutils'
-require 'ohm'
-require 'ohm_ext'
-
 class Bithug::Repository < Ohm::Model
   attribute :name
   attribute :public
