@@ -5,14 +5,14 @@ module Bithug
   class Webserver < Sinatra::BigBand
 
     use Rack::Auth::Basic do |username, password|
-      if User.authenticate(username, password)
-        session["user"] = User.login(username).name
+      if Bithug::User.authenticate(username, password)
+        session["user"] = Bithug::User.login(username).name
       end
     end
     
     helpers do
       def current_user
-        User.find(:name => session["user"]).first
+        Bithug::User.find(:name => session["user"]).first
       end
     end
     
