@@ -5,7 +5,7 @@ require 'yaml'
 module Bithug::Local
 
   def self.setup(options = {})
-    @local_auth_file = File.expand_path(options["file"] || "config/user.yml")
+    @local_auth_file = File.expand_path(options["file"] || "users.yaml")
     File.open(@local_auth_file, "w") { |f| f.write({}.to_yaml) } unless File.exist? @local_auth_file
   end
 
