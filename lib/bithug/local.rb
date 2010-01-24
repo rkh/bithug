@@ -61,7 +61,7 @@ module Bithug::Local
       def authenticate(username, password)
         Bithug::Local.reload_local_users if Bithug::Local.local_users_outdated?
         hashed = Bithug::Local.local_users[username]
-        hashed && BCrypt::Password.new(hashed) == password || super
+        (hashed && BCrypt::Password.new(hashed) == password) || super
       end
       
       def register(username, password)
