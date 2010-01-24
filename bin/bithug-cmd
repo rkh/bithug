@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# FIXME: No executabels in lib!
+# FIXME: No executables in lib!
 
 require 'pathname'
 $LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..", "lib", "bithug").expand_path.to_s)
