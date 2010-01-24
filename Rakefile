@@ -1,6 +1,17 @@
 $LOAD_PATH.unshift("lib", *Dir.glob("vendor/*/lib"))
 
+begin
+  require "vendor/big_band/dependencies.rb"
+rescue LoadError
+end
+
 load "depgen/depgen.task"
+
+if ENV['RUN_CODE_RUN']
+  Rake::Task["dependencies:vendor:all"].invoke
+  load "vendor/big_band/dependencies.rb"
+  Rake::Task["dependencies:vendor:all"].invoke
+end
 
 begin
   require "spec/rake/spectask"
