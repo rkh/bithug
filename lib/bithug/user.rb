@@ -24,7 +24,7 @@ module Bithug
 
     # The method to be called if an authentication succeeded
     def self.login(username)
-      Bithug::User.find(:name => username).first || Bithug::User.create(:name => username)
+      Bithug::User.get(username) || Bithug::User.create(:name => username)
     end
   end
 
