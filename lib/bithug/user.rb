@@ -1,15 +1,14 @@
 require "bithug"
 
 module Bithug
-  
-  class AbstractUser < Ohm::Model
-  end
-  
-  class User < AbstractUser
+
+  class User < Ohm::Model
   end
 
   # A user of Bithug - nice and pretty
-  class AbstractUser < Ohm::Model
+  module AbstractUser
+    include ServiceHelper
+    
     attribute :name
     set :following, Bithug::User
     set :followers, Bithug::User
@@ -22,15 +21,22 @@ module Bithug
       assert_present :name
     end
 
-    # The method at the end of the authentication chain
-    def self.authenticate(username, password, options = {})
-      false
+    class_methods do
+      # The method at the end of the authentication chain
+      def authenticate(username, password, options = {})
+      	puts "Fallback..."
+        false
+      end
+  
+      # The method to be called if an authentication succeeded
+      def login(username)
+        Bithug::User.find(:name => username).first || Bithug::User.create(:name => username)
+      end
     end
-
-    # The method to be called if an authentication succeeded
-    def self.login(username)
-      Bithug::User.find(:name => username).first || Bithug::User.create(:name => username)
-    end
+  end
+  
+  class User < Ohm::Model
+    include AbstractUser unless ancestors.include? AbstractUser
   end
 
 end

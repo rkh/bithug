@@ -1,5 +1,7 @@
 module Bithug
-  class AbstractRepository < Ohm::Model
+  module AbstractRepository
+  	include ServiceHelper
+  
     attribute :name
     attribute :public
     attribute :vcs
@@ -39,7 +41,7 @@ module Bithug
       end
     end
 
-    class << self
+    class_methods do
       # Return all repositories that are writeable by the given user
       def writeable_repos(user)
         all.select do |repo|
@@ -88,7 +90,8 @@ module Bithug
     end
   end
 
-  class Repository < AbstractRepository
+  class Repository < Ohm::Model
+  	include AbstractRepository unless ancestors.include? AbstractRepository
   end
 
 end
