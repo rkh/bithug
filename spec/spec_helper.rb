@@ -2,6 +2,8 @@ ENV['RACK_ENV'] = 'test'
 
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))
 $LOAD_PATH.unshift Bithug::Routes.root_path("spec")
+ENV["HOME"] = File.expand_path(File.join(File.dirname(__FILE__), "tmp"))
+File.mkdir_p(ENV["HOME"])
 
 require "spec"
 require "webrat"
