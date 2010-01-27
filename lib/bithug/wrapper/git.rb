@@ -32,7 +32,7 @@ module Bithug::Wrapper
 
     def exec(command, *args)
       working_directory = chdir(@path)
-      system("git #{command} #{args.join(" ")}")
+      system("git #{command} #{args.join(" ")} >> #{File.join(ENV["HOME"], "system.log")} 2>&1")
       chdir(working_directory)
     end
 
