@@ -1,27 +1,21 @@
 require 'fileutils'
+require 'bithug'
 
 # The Git class wraps the most common
 # git commands  
 module Bithug::Wrapper
   class Git
     def initialize(path,remote=nil)
-      @path = path
-      @remote = remote
+      @path = File.expand_path(File.join(ENV["HOME"], path))
+      @remote = expand_remote(remote)
     end
 
     def init
-      exec("init", "--bare")
-    end
-
-    ["push", "pull"].each do |cmd|
-      define_method(cmd) do |args|
-        exec(cmd, args.to_s)
+      unless @remote
+        exec("init", "--bare")
+      else
+        exec("clone", @remote, @path)
       end
-    end
-
-    def clone
-      init
-      pull
     end
 
     def remove
@@ -29,14 +23,24 @@ module Bithug::Wrapper
     end
 
     private
-    def chdir
-      FileUtils.mkdir_p(@path)
-      Dir.chdir(@path)
+    def chdir(path)
+      wd = Dir.pwd
+      FileUtils.mkdir_p(path)
+      Dir.chdir(path)
+      wd
     end
 
-    def exec(command, args)
-      chdir(@path)
-      system("git #{command} #{args}")
+    def exec(command, *args)
+      working_directory = chdir(@path)
+      system("git #{command} #{args.join(" ")}")
+      chdir(working_directory)
+    end
+
+    def expand_remote(remote)
+      return remote unless remote
+      return remote if remote =~ /^[a-z]{3,4}:\/\//
+      return remote if remote =~ /^[a-z]+@/
+      File.expand_path(File.join(ENV["HOME"], remote))
     end
   end
 end

@@ -1,9 +1,11 @@
+require 'fileutils'
 ENV['RACK_ENV'] = 'test'
 
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))
-$LOAD_PATH.unshift Bithug::Routes.root_path("spec")
 ENV["HOME"] = File.expand_path(File.join(File.dirname(__FILE__), "tmp"))
-File.mkdir_p(ENV["HOME"])
+FileUtils.rm_r(ENV["HOME"])
+FileUtils.mkdir_p(ENV["HOME"])
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))
 
 require "spec"
 require "webrat"
@@ -15,7 +17,7 @@ module Bithug
   module TestMethods
 
     def app
-      Bithug::Routes
+      # Bithug::Routes
     end
 
     def logged_in
@@ -25,7 +27,8 @@ module Bithug
     end
 
     %w[root_path root_glob route_files].each do |m|
-      define_method(m) { |*a| Bithug::Routes.send(m, *a) }
+      define_method(m) { |*a| # Bithug::Routes.send(m, *a) 
+      }
     end
 
   end

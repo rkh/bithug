@@ -7,20 +7,12 @@ describe Bithug::Wrapper::Git do
   end
 
   it "should initialize git repos" do
-    File.directory?("testrepo").should be_true
+    File.directory?(File.join(ENV["HOME"], "testrepo")).should be_true
   end
 
-  it "should pull from the testrepo" do
+  it "should clone the testrepo" do
     repo = Bithug::Wrapper::Git.new("pullrepo", "testrepo")
     repo.init
-    File.directory?("pullrepo").should be_true
-    repo.pull
-  end
-
-  it "should push to the testrepo" do
-    repo = Bithug::Wrapper::Git.new("pushrepo", "testrepo")
-    repo.init
-    File.directory?("pushrepo").should be_true
-    repo.push
+    File.directory?(File.join(ENV["HOME"], "pullrepo")).should be_true
   end
 end
