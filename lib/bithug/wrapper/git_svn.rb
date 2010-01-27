@@ -19,7 +19,7 @@ module Bithug::Wrapper
     def init
       user_switch = @user
       user_switch &&= "--user #{user}"
-      exec("svn", "clone", user_switch, remote, path)
+      exec("svn", "clone", user_switch, @remote, @path)
     end
 
     def pull
