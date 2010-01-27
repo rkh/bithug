@@ -24,7 +24,6 @@ module Bithug
     class_methods do
       # The method at the end of the authentication chain
       def authenticate(username, password, options = {})
-      	puts "Fallback..."
         false
       end
   
