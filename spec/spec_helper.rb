@@ -1,12 +1,18 @@
 require 'fileutils'
+include FileUtils::Verbose
+
+ROOT_DIR = File.expand_path "../..", __FILE__
+TEMP_DIR = File.expand_path "../tmp", __FILE__
+
 ENV['RACK_ENV'] = 'test'
+ENV['HOME']     = TEMP_DIR 
 
-ENV["HOME"] = File.expand_path(File.join(File.dirname(__FILE__), "tmp"))
-FileUtils.rm_rf(ENV["HOME"])
-FileUtils.mkdir_p(ENV["HOME"])
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))
-$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))
+rm_rf TEMP_DIR
+mkdir_p TEMP_DIR
 
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+
+require "bithug"
 require "spec"
 require "webrat"
 require "rack/test"
@@ -14,24 +20,19 @@ require "rack/test"
 Webrat.configure { |config| config.mode = :rack }
 
 module Bithug
+  
+  configure do
+    use :Local
+  end
+  
   module TestMethods
-
-    def app
-      # Bithug::Routes
-    end
-
     def logged_in
       user, password = "user", "password"
       app.auth_agent.register user, password
       basic_auth user, password
     end
-
-    %w[root_path root_glob route_files].each do |m|
-      define_method(m) { |*a| # Bithug::Routes.send(m, *a) 
-      }
-    end
-
   end
+  
 end
 
 Spec::Runner.configure do |conf|
