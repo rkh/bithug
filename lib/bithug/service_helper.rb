@@ -21,14 +21,15 @@ module Bithug::ServiceHelper
     
     def included(klass)
       super
-      class_methods # make sure we have ClassMethods
-      klass.extend ClassMethods
+      puts "#{self.inspect} -> #{klass.inspect}"
+      klass.extend class_methods
       postponed.each { |m,a,b| klass.send(m, *a, &b) }
     end
     
     def class_methods(&block)
       const_set(:ClassMethods, Module.new) unless const_defined? :ClassMethods
-      ClassMethods.class_eval(&block) if block
+      @class_methods ||= const_get(:ClassMethods)
+      block ? @class_methods.class_eval(&block) : @class_methods
     end
     
   end

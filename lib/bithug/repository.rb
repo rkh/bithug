@@ -58,16 +58,16 @@ module Bithug
 
       # This is overwritten to immediately create the underlying repo using the 
       # configured method, and also modify the name for uniqueness in the system 
-      def create(*args)
-        creation_hash = args.first.merge(:name => "#{args.first[:owner].name}/#{args.first[:name]}")
-        owner = creation_hash.delete(:owner)
-        repo = super(creation_hash)
-        repo.create_repository
-        repo.owner = owner
-        repo.save
-        owner.repositories << repo
-        owner.save
-        repo
+      def create(options = {})
+        owner = options.delete :owner
+        options[:name] = owner.name / options[:name]
+        super.tap do |repo|
+          repo.create_repository
+          repo.owner = owner
+          repo.save
+          owner.repositories << repo
+          owner.save
+        end
       end
 
       # Ohm only provides class matching for sets. Owner should be 
