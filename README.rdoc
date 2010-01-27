@@ -7,7 +7,7 @@ Come back after 2010/01/31 (that's our deadline).
 You don't.
 
 Having said that:
-Run @rake@ to set things up. Also, you'll need redis.
+Run +rake+ to set things up. Also, you'll need redis.
 
 == TODO / Known Bugs
 * Merge routes/ stuff into lib/, refactor refactor!
