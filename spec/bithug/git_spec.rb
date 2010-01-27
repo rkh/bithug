@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe Bithug::Wrapper::Git do
   before(:each) do
-    repo = Bithug::Wrapper::Git.new("testrepo")
-    repo.init
+    @repo = Bithug::Wrapper::Git.new("testrepo")
   end
 
   it "should initialize git repos" do
+    @repo.init
     File.directory?(File.join(ENV["HOME"], "testrepo")).should be_true
   end
 
