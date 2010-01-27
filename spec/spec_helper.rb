@@ -2,7 +2,7 @@ require 'fileutils'
 ENV['RACK_ENV'] = 'test'
 
 ENV["HOME"] = File.expand_path(File.join(File.dirname(__FILE__), "tmp"))
-FileUtils.rm_r(ENV["HOME"])
+FileUtils.rm_rf(ENV["HOME"])
 FileUtils.mkdir_p(ENV["HOME"])
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "init"))
 $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__))
