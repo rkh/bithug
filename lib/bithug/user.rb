@@ -10,12 +10,12 @@ module Bithug
     include Bithug::ServiceHelper
     
     attribute :name
+    index :name
+
     set :following, Bithug::User
     set :followers, Bithug::User
     set :ssh_keys, Bithug::Key
     set :repositories, Bithug::Repository
-
-    index :name
 
     def validate
       assert_present :name

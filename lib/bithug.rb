@@ -1,6 +1,7 @@
 require "ohm"
 require "monkey"
 require "bithug/service_helper"
+require 'bithug/proxy'
 
 module Bithug
   extend Monkey::Autoloader

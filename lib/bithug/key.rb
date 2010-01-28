@@ -1,6 +1,5 @@
 require 'bithug'
 require 'fileutils'
-require 'net/ssh'
 
 class Bithug::Key < Ohm::Model
   KEYS_FILE = File.expand_path ".ssh/authorized_keys", ENV["HOME"]
@@ -13,6 +12,7 @@ class Bithug::Key < Ohm::Model
 
   attribute :name
   attribute :value
+  index :value
 
   def remove(user)
     user.ssh_keys.delete(key)
@@ -39,7 +39,9 @@ class Bithug::Key < Ohm::Model
       key = create(params)
       key.validate
       key.save
+      pp user.ssh_keys
       user.ssh_keys << key
+      pp user.ssh_keys
       user.save
       File.open(KEYS_FILE, 'a+') do |f|
         f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"
