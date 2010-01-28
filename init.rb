@@ -2,11 +2,6 @@
 ROOT_DIR = File.expand_path File.dirname(__FILE__)
 $LOAD_PATH.unshift("lib", *Dir.glob(File.expand_path("vendor/*/lib", ROOT_DIR)))
 
-begin
-  require "rubygems"
-rescue LoadError
-end
-
 require "bithug/webserver"
 require "config" unless ENV['RACK_ENV'] == 'test'
 
