@@ -1,5 +1,8 @@
 require "ohm"
 require "monkey"
+require "backports"
+
+Monkey.backend = :backports
 
 module Bithug
   extend Monkey::Autoloader

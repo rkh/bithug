@@ -22,3 +22,6 @@
 [submodule "vendor/compass"]
 	path = vendor/compass
 	url = git://github.com/chriseppstein/compass.git
+[submodule "vendor/backports"]
+	path = vendor/backports
+	url = git://github.com/marcandre/backports.git
