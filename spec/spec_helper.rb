@@ -14,10 +14,20 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 require "bithug"
 require "spec"
-require "webrat"
-require "rack/test"
 
-Webrat.configure { |config| config.mode = :rack }
+Ohm.connect
+#require "webrat"
+#require "rack/test"
+
+#Webrat.configure { |config| config.mode = :rack }
+
+begin
+  require "ruby-debug"
+rescue LoadError
+  def debugger
+    $stderr.puts "could not load ruby-debug"
+  end
+end
 
 module Bithug
   
@@ -36,7 +46,7 @@ module Bithug
 end
 
 Spec::Runner.configure do |conf|
-  conf.include Webrat::Methods
-  conf.include Rack::Test::Methods
+  #conf.include Webrat::Methods
+  #conf.include Rack::Test::Methods
   conf.include Bithug::TestMethods
 end
