@@ -7,9 +7,6 @@
 [submodule "vendor/monkey-lib"]
 	path = vendor/monkey-lib
 	url = git://github.com/rkh/monkey-lib.git
-[submodule "vendor/net-ldap"]
-	path = vendor/net-ldap
-	url = git://github.com/innovationfactory/ruby-net-ldap.git
 [submodule "vendor/krb5-auth"]
 	path = vendor/krb5-auth
 	url = git://github.com/timfel/krb5-auth.git
