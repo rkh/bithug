@@ -5,7 +5,7 @@
 # and this repo type can add an attribute to the model
 module Bithug::Svn
   module Repository
-    include ServiceHelper
+    include Bithug::ServiceHelper
 
     attribute :remote
 

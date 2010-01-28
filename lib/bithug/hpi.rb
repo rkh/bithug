@@ -2,12 +2,12 @@ require "bithug"
 
 module Bithug::Hpi
   module Repository
-    include ServiceHelper
+    include Bithug::ServiceHelper
     stack Git::Repository, Svn::Repository
   end
 
   module User
-    include ServiceHelper
+    include Bithug::ServiceHelper
     attribute :real_name
     attribute :email
     

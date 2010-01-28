@@ -1,6 +1,6 @@
 module Bithug::Git
   module Repository
-    include ServiceHelper
+    include Bithug::ServiceHelper
 
     def create_repository
       super if vcs.to_s != "git"
