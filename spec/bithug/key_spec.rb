@@ -12,13 +12,13 @@ describe Bithug::Key do
     @value = File.read File.expand_path("../../testkey.pub", __FILE__)
   end
 
-  before :each do
-    @user = Bithug::User.find(:name => "valid_user").first
+  def load_user
+    Bithug::User.find(:name => "valid_user").first
   end
 
   it "should add a valid key for an existing user" do
-    subject.add :user => @user, :name => 'Test' , :value => @value
-    @user.ssh_keys.should include(key)
+    key = subject.add :user => load_user, :name => 'Test' , :value => @value
+    load_user.ssh_keys.should include(key)
   end
 
   it "shouldn't accept an invalid key" do
@@ -26,10 +26,10 @@ describe Bithug::Key do
   end
 
   it "should delete a present key from a user" do
-    subject.add :user => @user, :name => 'Test' , :value => @value
-    key = @user.ssh_keys.first
-    key.remove(@user)
-    @user.ssh_keys.should_not include(key)
+    subject.add :user => load_user, :name => 'Test' , :value => @value
+    key = load_user.ssh_keys.first
+    key.remove(load_user)
+    load_user.ssh_keys.should_not include(key)
   end
 
 end

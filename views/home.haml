@@ -1,9 +1,9 @@
 %h1= user.name
 .keys
-  - if user.name == current_user
+  - if user.name == current_user.name
     %h3= "Your keys and repositories" 
     %form{:method => "post"}
-      - user.keys.all.compact.each do |key|
+      - user.ssh_keys.all.compact.each do |key|
         %input{:type=>"textarea", :readonly=>"true", :value=>"#{key.value}"}
         %input{:type=>"textarea", :readonly=>"true", :value=>"#{key.name}"} 
     %form{:method => "post"}
@@ -19,22 +19,14 @@
         %input{:type => "submit", :value => "Unfollow", :name => "post[unfollow]"}
 .repositories
   .owned_repositories
-    - repositories.each do |r|
+    - user.repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
-      %br
   .writeable_repositories
-    - writeable_repositories.each do |r|
+    - user.writeable_repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
-      %br
   .readable_repositories
-    - readable_repositories.each do |r|
+    - user.readable_repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
-      %br
-.following
-  %h3= "Rad Guys and Gals you follow 'til whatever"
-    - unless f == current_user
-      %a{:href => "/#{f.name}"}= f.name
-    %br
 .followers
   %h3= "Rad Guys and Gals that follow you 'til whatever"
   - user.followers.each do |f|

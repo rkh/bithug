@@ -36,15 +36,14 @@ class Bithug::Key < Ohm::Model
     def add(params)
       user = params.delete(:user)
       key = create(params)
-      Net::SSH::Buffer
       key.validate
       key.save
       user.ssh_keys << key
       user.save
-
       File.open(KEYS_FILE, 'a+') do |f|
         f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"
       end
+      key
     end
     
     def validate

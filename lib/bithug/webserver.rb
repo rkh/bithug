@@ -16,9 +16,7 @@ module Bithug
       end
     end
 
-    get "/" do
-      "Hello #{current_user.name}"
-    end
+    get("/") { haml :home, {}, :user => current_user }
 
   end
 end

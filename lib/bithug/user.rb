@@ -20,6 +20,14 @@ module Bithug
     def validate
       assert_present :name
     end
+    
+    def writeable_repositories
+      []
+    end
+    
+    def readable_repositories
+      []
+    end
 
     class_methods do
       # The method at the end of the authentication chain
