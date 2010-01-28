@@ -7,19 +7,12 @@ module Bithug
     enable :sessions
 
     use Rack::Auth::Basic do |username, password|
-      if Bithug::User.authenticate(username, password)
-        current_user = Bithug::User.login(username).name
-      end
+      Bithug::User.login(username) if Bithug::User.authenticate(username, password)
     end
 
     helpers do
       def current_user
         Bithug::User.find(:name => request.env['REMOTE_USER']).first
-      end
-
-      def current_user=(user)
-        user = user.name unless user.respond_to? :to_str
-        session[:user] = user
       end
     end
 
