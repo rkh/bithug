@@ -10,3 +10,15 @@
 [submodule "vendor/net-ldap"]
 	path = vendor/net-ldap
 	url = git://github.com/innovationfactory/ruby-net-ldap.git
+[submodule "vendor/krb5-auth"]
+	path = vendor/krb5-auth
+	url = git://github.com/timfel/krb5-auth.git
+[submodule "vendor/haml"]
+	path = vendor/haml
+	url = git://github.com/nex3/haml.git
+[submodule "vendor/sinatra"]
+	path = vendor/sinatra
+	url = git://github.com/sinatra/sinatra.git
+[submodule "vendor/compass"]
+	path = vendor/compass
+	url = git://github.com/chriseppstein/compass.git
