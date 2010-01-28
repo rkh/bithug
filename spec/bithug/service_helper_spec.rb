@@ -35,5 +35,13 @@ describe Bithug::ServiceHelper do
     end
     klass.something.should == [:foo, :bar, :blah]
   end
+  
+  it 'should be able to postpone methods' do
+    klass = Class.new
+    klass.should_receive(:whatever).once.with 42
+    some_service = service { postpone :whatever }
+    some_service.whatever 42
+    klass.send :include, some_service
+  end
 
 end

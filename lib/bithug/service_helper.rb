@@ -4,15 +4,11 @@ module Bithug::ServiceHelper
   module ClassMethods
     
     def postpone(*names)
-      names.each { |name| eval "alias #{name} postponed" }
+      names.each { |name| eval "def #{name}(*a,&b); postponed << [__method__, a, b]; end" }
     end
     
-    def postponed(*args, &block)
-      if __method__.to_s == "postponed"
-        @postponed ||= []
-      else
-        postponed << [__method__, args, block]
-      end
+    def postponed
+      @postponed ||= []
     end
     
     def stack(*modules)
