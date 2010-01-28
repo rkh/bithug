@@ -1,3 +1,4 @@
+ENV['RACK_ENV'] = 'test'
 require File.expand_path("../../init.rb", __FILE__)
 
 require 'fileutils'
@@ -13,7 +14,6 @@ end
 
 ROOT_DIR = File.expand_path "../..", __FILE__
 TEMP_DIR = File.expand_path "../tmp", __FILE__
-ENV['RACK_ENV'] = 'test'
 ENV['HOME']     = TEMP_DIR 
 rm_rf TEMP_DIR
 mkdir_p TEMP_DIR

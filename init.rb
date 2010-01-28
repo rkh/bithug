@@ -3,7 +3,7 @@ ROOT_DIR = File.expand_path File.dirname(__FILE__)
 $LOAD_PATH.unshift("lib", *Dir.glob(File.expand_path("vendor/*/lib", ROOT_DIR)))
 
 require "bithug/webserver"
-require "config"
+require "config" unless ENV['RACK_ENV'] == 'test'
 
 Bithug::Webserver.configure do |app|
   app.app_file = __FILE__
