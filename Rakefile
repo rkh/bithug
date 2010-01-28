@@ -1,5 +1,9 @@
 $LOAD_PATH.unshift("lib", *Dir.glob("vendor/*/lib"))
 
+require "rake/clean"
+CLEAN.include "**/*.rbc"
+CLOBBER.include "*.gem"
+
 task :default do
   sh "git submodule init -q && git submodule update"
   Rake::Task["spec"].invoke

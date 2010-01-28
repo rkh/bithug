@@ -2,7 +2,7 @@ require 'krb5_auth'
 
 module Bithug::Kerberos
   module User
-    include ServiceHelper
+    include Bithug::ServiceHelper
 
     class_methods do
       def authenticate(username, password)

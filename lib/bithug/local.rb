@@ -53,7 +53,7 @@ module Bithug::Local
   end
 
   module User
-    include ServiceHelper    
+    include Bithug::ServiceHelper    
     # This agent authenticates against the 
     # local database
     

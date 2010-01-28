@@ -1,3 +1,3 @@
 require "init"
-Bithug.set :environment, :production
-run Bithug
+Bithug::Webserver.set :environment, :production
+run Bithug::Webserver
