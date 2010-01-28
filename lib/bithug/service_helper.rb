@@ -21,7 +21,6 @@ module Bithug::ServiceHelper
     
     def included(klass)
       super
-      puts "#{self.inspect} -> #{klass.inspect}"
       klass.extend class_methods
       postponed.each { |m,a,b| klass.send(m, *a, &b) }
     end
