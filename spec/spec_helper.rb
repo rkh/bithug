@@ -14,7 +14,7 @@ end
 
 ROOT_DIR = File.expand_path "../..", __FILE__
 TEMP_DIR = File.expand_path "../tmp", __FILE__
-ENV['HOME']     = TEMP_DIR 
+ENV['HOME'] = TEMP_DIR 
 rm_rf TEMP_DIR
 mkdir_p TEMP_DIR
 
@@ -22,6 +22,7 @@ module Bithug
   
   configure do
     Ohm.connect
+    use :Hpi, :except => [:User]
     use :Local
   end
   
