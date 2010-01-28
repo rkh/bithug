@@ -1,8 +1,12 @@
 ENV['RACK_ENV'] = 'test'
+ENV['HOME']     = TEMP_DIR = File.expand_path("../tmp", __FILE__)
 require File.expand_path("../../init.rb", __FILE__)
+
 
 require 'fileutils'
 include FileUtils::Verbose
+rm_rf TEMP_DIR
+mkdir_p TEMP_DIR
 
 begin
   require "ruby-debug"
@@ -11,12 +15,6 @@ rescue LoadError
     warn "could not load ruby-debug"
   end
 end
-
-ROOT_DIR = File.expand_path "../..", __FILE__
-TEMP_DIR = File.expand_path "../tmp", __FILE__
-ENV['HOME']     = TEMP_DIR 
-rm_rf TEMP_DIR
-mkdir_p TEMP_DIR
 
 module Bithug
   
