@@ -43,7 +43,7 @@ module Bithug
   end
   
   class User < Ohm::Model
-    include AbstractUser unless ancestors.include? AbstractUser
+    include Bithug::AbstractUser unless ancestors.include? Bithug::AbstractUser
   end
 
 end
