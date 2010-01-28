@@ -43,5 +43,17 @@ describe Bithug::ServiceHelper do
     some_service.whatever 42
     klass.send :include, some_service
   end
+  
+  it 'should stack in correct order' do
+    mods = []
+    mods << service_class_method(:foo) { |a| a == 42 ? 42 : super + 1 }
+    mods << service_class_method(:foo) { |a| a == 23 ? 23 : super + 1 }
+    mods << service_class_method(:foo) { |a| 0 }
+    klass = Class.new
+    klass.send(:include, service { stack(*mods) })
+    klass.foo(42).should == 42
+    klass.foo(23).should == 24
+    klass.foo(17).should == 2
+  end
 
 end
