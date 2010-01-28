@@ -12,7 +12,7 @@ describe Bithug::Key do
   end
 
   it "should add a valid key for an existing user" do
-  	key = File.read("testkey.pub")
+  	key = File.read File.expand_path("../../testkey.pub", __FILE__)
     subject.add :user => :valid_user, :name => 'Test' , :key => key
     User.find(:name => "valid_user").keys.should include(key)
   end
