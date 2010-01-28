@@ -16,7 +16,7 @@ begin
     t.spec_opts = %w[-c -f progress --loadby mtime --reverse -b]
   end
 rescue LoadError
-  $stderr.puts "please install rspec"
+  $stderr.puts $!
 end
 
 begin
@@ -24,7 +24,7 @@ begin
   include BigBand::Integration::Rake
   RoutesTask.new { |t| t.source = "lib/**/*.rb" }
 rescue LoadError
-  $stderr.puts "please install big_band"
+  $stderr.puts $!
 end
 
 begin
@@ -34,6 +34,6 @@ begin
     t.options = %w[--main README.rdoc --backtrace]
   end
 rescue LoadError
-  $stderr.puts "please install big_band and yard"
+  $stderr.puts $!
 end
 

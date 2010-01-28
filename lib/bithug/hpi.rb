@@ -3,7 +3,7 @@ require "bithug"
 module Bithug::Hpi
   module Repository
     include Bithug::ServiceHelper
-    stack Git::Repository, Svn::Repository
+    stack Bithug::Git::Repository, Bithug::Svn::Repository
   end
 
   module User
@@ -11,10 +11,10 @@ module Bithug::Hpi
     attribute :real_name
     attribute :email
     
-    stack Kerberos::User, Local::User
+    stack Bithug::Kerberos::User, Bithug::Local::User
     
     def self.setup(*options)
-      Local.setup(*options)
+      Bithug::Local.setup(*options)
     end
 
   end

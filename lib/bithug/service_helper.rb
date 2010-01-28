@@ -11,7 +11,7 @@ module Bithug
       end
 
       def stack(*modules)
-        modules.reverse_each { |m| include m }
+        modules.reverse_each { |m| postponed << [:include, [m], nil] }
       end
 
       def included(klass)
