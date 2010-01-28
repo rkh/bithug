@@ -18,11 +18,11 @@ module Bithug
     end
     
     def create_repository
-      raise ConfigurationError, "#{vcs} is an unhandled VCS"
+      raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
     end
 
     def remove_repository
-      raise ConfigurationError, "#{vcs} is an unhandled VCS"
+      raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
     end
 
     # This is used by the shell
@@ -59,7 +59,8 @@ module Bithug
       # This is overwritten to immediately create the underlying repo using the 
       # configured method, and also modify the name for uniqueness in the system 
       def create(options = {})
-        owner = options.delete :owner
+        owner = options.delete(:owner)
+        raise(RuntimeError, "There can be no repository without an owner") if owner.nil?
         options[:name] = owner.name / options[:name]
         super.tap do |repo|
           repo.create_repository
