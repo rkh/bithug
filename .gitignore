@@ -7,3 +7,4 @@ spec/user.yml
 webrat.log
 .yardoc
 vendor
+*.rbc

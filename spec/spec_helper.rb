@@ -22,8 +22,9 @@ module Bithug
   
   configure do
     Ohm.connect
-    use :Hpi, :except => [:User]
+    #use :Hpi, :except => [:User]
     use :Local
+    use :Git
   end
   
   module TestMethods
