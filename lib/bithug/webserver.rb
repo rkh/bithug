@@ -23,7 +23,7 @@ module Bithug
       user = Bithug::User.find(:name => params[:username]).first
       if params["post"]["key"]
         if user == current_user
-          Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
+          Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
         else
           "cannot push key to another user"
         end
