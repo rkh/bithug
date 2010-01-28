@@ -73,8 +73,7 @@ module Bithug
       # Ohm only provides class matching for sets. Owner should be 
       # only one, anyhow, so provide accessors...  
       def owner=(user)
-        owner.clear
-        owner << user
+        owner.clear << user
       end
 
       def owner
