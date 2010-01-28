@@ -13,9 +13,10 @@ describe Bithug::Repository do
     Bithug::Local.setup(:file => user_file)
   end
 
-  it "should not be saveable without name or vcs type set" do
+  it "should not be creatable without name or vcs type set" do
     user = Bithug::User.find(:name => USER_NAME).first
-    subject.create(:owner => user).save.should raise_error(ConfigurationError)
+    puts subject.ancestors
+    lambda { subject.create(:owner => user) }.should raise_error(Bithug::ConfigurationError)
   end
 
   it "be creatable, change it's name properly and add itself to the owner's list" do
