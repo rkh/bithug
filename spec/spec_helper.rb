@@ -1,7 +1,5 @@
-$LOAD_PATH.unshift *Dir.glob(File.expand_path("../../vendor/*/lib", __FILE__))
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require File.expand_path("../../init.rb", __FILE__)
 
-require 'bithug'
 require 'fileutils'
 include FileUtils::Verbose
 
@@ -9,7 +7,7 @@ begin
   require "ruby-debug"
 rescue LoadError
   def debugger
-    $stderr.puts "could not load ruby-debug"
+    warn "could not load ruby-debug"
   end
 end
 
