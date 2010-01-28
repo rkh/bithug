@@ -1,11 +1,11 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe Bithug::ServiceHelper do
-  
+
   def service(&block)
     Module.new { include Bithug::ServiceHelper }.tap { |m| m.class_eval(&block) if block }
   end
-  
+
   def service_method(name, &block)
     service { define_method(name, &block) }
   end
@@ -13,7 +13,7 @@ describe Bithug::ServiceHelper do
   def service_class_method(name, &block)
     service { class_methods { define_method(name, &block) } }
   end
-  
+
   it 'should dispatch instance methods in correct order' do
     first_service  = service_method(:something) { [:foo] + super }
     second_service = service_method(:something) { [:bar] + super }
@@ -24,7 +24,7 @@ describe Bithug::ServiceHelper do
     end
     klass.new.something.should == [:foo, :bar, :blah]
   end
-  
+
   it 'should dispatch class methods in correct order' do
     first_service  = service_class_method(:something) { [:foo] + super }
     second_service = service_class_method(:something) { [:bar] + super }
@@ -35,5 +35,5 @@ describe Bithug::ServiceHelper do
     end
     klass.something.should == [:foo, :bar, :blah]
   end
-  
+
 end
