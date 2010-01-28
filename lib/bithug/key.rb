@@ -3,9 +3,7 @@ require 'fileutils'
 require 'net/ssh'
 
 class Bithug::Key < Ohm::Model
-  KEYS_FILE = File.join(ENV["HOME"],".ssh","authorized_keys")
-  FileUtils.mkdir_p(File.join(ENV["HOME"],".ssh")) unless File.exist? File.join(ENV["HOME"],".ssh")
-  File.open(KEYS_FILE, "w") { |f| f.write("") } unless File.exist? KEYS_FILE
+  KEYS_FILE = File.expand_path ".ssh/authorized_keys", ENV["HOME"]
   AUTHORIZED_KEYS_OPTIONS = 'command="bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '
   
   unless KEYS_FILE.file_exists?
