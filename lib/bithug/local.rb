@@ -5,8 +5,13 @@ require 'yaml'
 module Bithug::Local
 
   def self.setup(options = {})
-    @local_auth_file = File.expand_path(options[:file] || "users.yaml")
-    File.open(@local_auth_file, "w") { |f| f.write({}.to_yaml) } unless File.exist? @local_auth_file
+    @auth_file = options[:file]
+  end
+  
+  def self.auth_file
+    @auth_file ||= File.expand_path "users.yaml"
+    File.open(@auth_file, "w") { |f| f.write({}.to_yaml) } unless File.exist? @auth_file
+    @auth_file
   end
 
   def self.execute_with_lock(exclusive = false, thread_safe = true, &block)
@@ -20,7 +25,7 @@ module Bithug::Local
       end
     else
       mode = exclusive ? "w" : "r"
-      File.open(@local_auth_file, mode) do |f|
+      File.open(auth_file, mode) do |f|
         f.flock(exclusive ? File::LOCK_EX : File::LOCK_SH)
         result = yield f
         f.flock File::LOCK_UN
@@ -35,7 +40,7 @@ module Bithug::Local
   end
 
   def self.local_users_outdated?
-    @file_mtime.nil? or File.mtime(@local_auth_file) > @file_mtime
+    @file_mtime.nil? or File.mtime(auth_file) > @file_mtime
   end
 
   def self.reload_local_users

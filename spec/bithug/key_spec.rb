@@ -3,7 +3,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe Bithug::Key do
   subject { Bithug::Key }
 
-  before(:all) do
+  before :all do
     user_file = File.join(ENV["HOME"], "users.yaml")
     File.open(user_file, 'w') do |f| 
       f.write({"valid_user" => BCrypt::Password.create("valid_user").to_s}.to_yaml)
@@ -11,7 +11,7 @@ describe Bithug::Key do
     Bithug::Local.setup(:file => user_file)
     @value = File.read File.expand_path("../../testkey.pub", __FILE__)
   end
-  
+
   before :each do
     @user = Bithug::User.find(:name => "valid_user").first
   end
@@ -22,7 +22,7 @@ describe Bithug::Key do
   end
 
   it "shouldn't accept an invalid key" do
-  	subject.new(:name => 'Bogus', :value => '123').valid?.should be_false
+    subject.new(:name => 'Bogus', :value => '123').valid?.should be_false
   end
 
   it "should delete a present key from a user" do
@@ -31,5 +31,5 @@ describe Bithug::Key do
     key.remove(@user)
     @user.ssh_keys.should_not include(key)
   end
+
 end
- 
