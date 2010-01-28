@@ -9,8 +9,7 @@ describe Bithug::Key do
       f.write({"valid_user" => BCrypt::Password.create("valid_user").to_s}.to_yaml)
     end
     Bithug::Local.setup(:file => user_file)
-    Bithug::User.delete_all
-    Bithug::Key.delete_all
+    Ohm.flush
     @user = Bithug::User.login("valid_user")
     @value = File.read File.expand_path("../../testkey.pub", __FILE__)
   end

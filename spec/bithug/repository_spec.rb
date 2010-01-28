@@ -11,8 +11,7 @@ describe Bithug::Repository do
       f.write({USER_NAME => BCrypt::Password.create(USER_NAME).to_s}.to_yaml)
     end
     Bithug::Local.setup(:file => user_file)
-    Bithug::User.delete_all
-    Bithug::Repository.delete_all
+    Ohm.flush
     @user = Bithug::User.login(USER_NAME)
   end
 

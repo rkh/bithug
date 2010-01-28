@@ -9,7 +9,7 @@ describe Bithug::User do
       f.write({"valid_user" => BCrypt::Password.create("valid_user").to_s}.to_yaml)
     end
     Bithug::Local.setup(:file => user_file)
-    subject.delete_all
+    Ohm.flush
   end
 
   it "should not be saveable without a name" do
