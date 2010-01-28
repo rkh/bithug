@@ -1,25 +1,9 @@
-require 'fileutils'
-include FileUtils::Verbose
-
-ROOT_DIR = File.expand_path "../..", __FILE__
-TEMP_DIR = File.expand_path "../tmp", __FILE__
-
-ENV['RACK_ENV'] = 'test'
-ENV['HOME']     = TEMP_DIR 
-
-rm_rf TEMP_DIR
-mkdir_p TEMP_DIR
-
+$LOAD_PATH.unshift *Dir.glob(File.expand_path("../../vendor/*/lib", __FILE__))
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
-require "bithug"
-require "spec"
-
-Ohm.connect
-#require "webrat"
-#require "rack/test"
-
-#Webrat.configure { |config| config.mode = :rack }
+require 'bithug'
+require 'fileutils'
+include FileUtils::Verbose
 
 begin
   require "ruby-debug"
@@ -29,9 +13,17 @@ rescue LoadError
   end
 end
 
+ROOT_DIR = File.expand_path "../..", __FILE__
+TEMP_DIR = File.expand_path "../tmp", __FILE__
+ENV['RACK_ENV'] = 'test'
+ENV['HOME']     = TEMP_DIR 
+rm_rf TEMP_DIR
+mkdir_p TEMP_DIR
+
 module Bithug
   
   configure do
+    Ohm.connect
     use :Local
   end
   
@@ -46,7 +38,5 @@ module Bithug
 end
 
 Spec::Runner.configure do |conf|
-  #conf.include Webrat::Methods
-  #conf.include Rack::Test::Methods
   conf.include Bithug::TestMethods
 end
