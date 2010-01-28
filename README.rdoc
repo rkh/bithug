@@ -9,6 +9,16 @@ You don't.
 Having said that:
 Run +rake+ to set things up. Also, you'll need redis.
 
+== Starting the server
+
+Try something along the lines of
+
+  ruby init.rb
+
+or
+
+  thin start -D -R config.ru
+
 == TODO / Known Bugs
 * Merge routes/ stuff into lib/, refactor refactor!
 * Webinterface.
