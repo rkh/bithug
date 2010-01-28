@@ -22,7 +22,7 @@ describe Bithug::Key do
   end
 
   it "should delete a present key from a user" do
-  	user = User.find(:name => "valid_user")
+  	user = Bithug::User.find(:name => "valid_user")
     key = user.keys.first
     key.remove(user)
     user.keys.should_not include(key)
