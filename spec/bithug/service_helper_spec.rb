@@ -11,7 +11,7 @@ describe Bithug::ServiceHelper do
   end
 
   def service_class_method(name, &block)
-    service { class_methods { define_singleton_method(name, &block) } }
+    service { class_methods { define_method(name, &block) } }
   end
   
   it 'should dispatch instance methods in correct order' do
@@ -26,8 +26,8 @@ describe Bithug::ServiceHelper do
   end
   
   it 'should dispatch class methods in correct order' do
-    first_service  = service_class_method(:something) { [:foo] }
-    second_service = service_class_method(:something) { [:bar] }
+    first_service  = service_class_method(:something) { [:foo] + super }
+    second_service = service_class_method(:something) { [:bar] + super }
     bottom_service = service_class_method(:something) { [:blah] }
     klass = Class.new
     [first_service, second_service, bottom_service].reverse_each do |service|
