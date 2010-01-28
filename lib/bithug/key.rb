@@ -11,7 +11,7 @@ class Bithug::Key < Ohm::Model
 
   def remove(user)
     # BUG: SANITIZE USERNAME FOR REGEX!
-    user.keys.remove(key)
+    user.ssh_keys.remove(key)
     File.open(KEYS_FILE+Time.now.to_i.to_s, 'w') do |out|
       File.open(KEYS_FILE, 'r+') do |infile|
         line = infile.readline
@@ -33,7 +33,7 @@ class Bithug::Key < Ohm::Model
       Net::SSH::Buffer
       key.validate
       key.save
-      user.keys << key
+      user.ssh_keys << key
       user.save
 
       File.open(KEYS_FILE, 'a+') do |f|
