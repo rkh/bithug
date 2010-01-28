@@ -7,7 +7,7 @@ module Bithug
 
   # A user of Bithug - nice and pretty
   module AbstractUser
-    include ServiceHelper
+    include Bithug::ServiceHelper
     
     attribute :name
     set :following, Bithug::User

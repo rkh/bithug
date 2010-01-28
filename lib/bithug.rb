@@ -1,6 +1,7 @@
 require "ohm"
 require "monkey"
 require "backports"
+require "bithug/service_helper"
 
 Monkey.backend = :backports
 
