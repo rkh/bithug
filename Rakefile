@@ -1,5 +1,10 @@
 $LOAD_PATH.unshift("lib", *Dir.glob("vendor/*/lib"))
 
+task :default do
+  sh "git submodule init -q && git submodule update"
+  Rake::Task["spec"].invoke
+end
+
 begin
   require "spec/rake/spectask"
   Spec::Rake::SpecTask.new('spec') do |t|
