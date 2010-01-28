@@ -11,13 +11,13 @@ class Bithug::Key < Ohm::Model
     File.open(KEYS_FILE, 'w') { }
   end
 
-
   attribute :name
   attribute :value
 
   def remove(user)
+    user.ssh_keys.delete(key)
+    user.save
     # BUG: SANITIZE USERNAME FOR REGEX!
-    user.ssh_keys.remove(key)
     File.open(KEYS_FILE+Time.now.to_i.to_s, 'w') do |out|
       File.open(KEYS_FILE, 'r+') do |infile|
         line = infile.readline
@@ -33,7 +33,7 @@ class Bithug::Key < Ohm::Model
   class << self
     # This will create a new key object and write to the 
     # authorized_keys file
-    def add(params)
+    def add(params = {})
       user = params.delete(:user)
       key = create(params)
       key.validate
@@ -50,8 +50,7 @@ class Bithug::Key < Ohm::Model
       raise Net::SSH::Exception, "public key at #{filename} is not valid" unless valid?
     end
     
-    
-  	def valid?
+    def valid?
       data = value
   	  type, blob = data.split(/ /)
   	  return false if blob.nil?
