@@ -11,13 +11,13 @@ module Bithug::Svn
 
     def create_repository
       super if vcs.to_s != "svn"
-      svn = Bithug::GitSvn.new(absolute_path, remote)
+      svn = Bithug::Wrapper::GitSvn.new(absolute_path, remote)
       svn.init
     end
 
     def remove_repository
       super if vcs.to_s != "svn"
-      svn = Bithug::GitSvn.new(absolute_path, remote)
+      svn = Bithug::Wrapper::GitSvn.new(absolute_path, remote)
       svn.remove
     end
 
