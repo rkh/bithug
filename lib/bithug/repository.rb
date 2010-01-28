@@ -11,6 +11,14 @@ module Bithug
 
     index :name
     index :owner
+    
+    def owner=(user)
+      owner.clear << user
+    end
+    
+    def owner
+      owner.first
+    end
 
     def validate
       assert_present :name
@@ -40,8 +48,12 @@ module Bithug
         end
       end
     end
+    
+    # Ohm only provides class matching for sets. Owner should be 
+    # only one, anyhow, so provide accessors...  
 
     class_methods do
+            
       # Return all repositories that are writeable by the given user
       def writeable_repos(user)
         all.select do |repo|
@@ -69,16 +81,6 @@ module Bithug
           owner.repositories << repo
           owner.save
         end
-      end
-
-      # Ohm only provides class matching for sets. Owner should be 
-      # only one, anyhow, so provide accessors...  
-      def owner=(user)
-        owner.clear << user
-      end
-
-      def owner
-        owner.first
       end
 
       # This is overwritten to actually remove the repository from storage or 

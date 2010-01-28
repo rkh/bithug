@@ -33,6 +33,8 @@ class Bithug::Key < Ohm::Model
   class << self
     # This will create a new key object and write to the 
     # authorized_keys file
+    
+
     def add(params)
       user = params.delete(:user)
       key = create(params)
