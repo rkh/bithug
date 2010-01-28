@@ -5,6 +5,11 @@ require 'net/ssh'
 class Bithug::Key < Ohm::Model
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
   AUTHORIZED_KEYS_OPTIONS = 'command="bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '
+  
+  unless KEYS_FILE.file_exists?
+    FileUtils::Verbose.mkdir_p(KEYS_FILE.dirname) unless KEYS_FILE.dirname.file_exists?
+    File.open(KEYS_FILE, 'w') { }
+  end
 
   attribute :name
   attribute :value
