@@ -1,33 +1,40 @@
 @import base.sass
+@import blueprint/modules/fancy_type.sass
 
-+blueprint-typography("body.blueprint")
-
-body.blueprint
+body
+  +fancy-type
+  +blueprint-typography
   +fancy-paragraphs
-  :background-color = !light
-  #container
-    +container
-    :background-color #fff
-    :border solid 3px
-      :color = !grey
-      :top none
-      :bottom none
-    header
-      +column(!blueprint_grid_columns)
-      :font-size 200%
-      nav
-        :float right
-        :font-size 70%
-        :background-color = !grey
-        :padding-left 15px
-        a
-          :text-decoration none
-          :color = !font_color
-          :margin 0px 15px
-          &:hover
-            :text-decoration underline
-    footer
-      +alt
+  padding: 0px 50px
+  font:
+    family: Helvetica, Verdana
 
-body.warning
-  :background-color #fe0
+header
+  +border-radius(0px, 0px, 20px, 20px)
+  display: block
+  padding:
+    top: 3px
+    left: 20px
+    bottom: 0px
+  background:
+    color: rgba(0, 0, 0, 0.5)
+    image: url(/__big_band__/overlay-button.png)
+    repeat: repeat-x
+  nav a, nav a:visited
+    padding-left: 5px
+    text-decoration: none
+    color: #000
+    &:hover
+      text-decoration: underline
+  h1
+    display: inline-block
+    font:
+      size: 100%
+      weight: bold
+    padding-right: 5px
+    border-right: 3px solid #333
+  border: 1px #555 solid
+    top: none
+
+footer
+  +alt

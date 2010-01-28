@@ -16,7 +16,26 @@ module Bithug
       end
     end
 
-    get("/") { haml :home, {}, :user => current_user }
+    get("/") { redirect "/#{current_user.name}" }
+    get("/:username/?") { haml :home, {}, :user => Bithug::User.find(:name => params[:username]).first }
+
+    post "/:username/?" do
+      user = Bithug::User.find(:name => params[:username]).first
+      if params["post"]["key"]
+        if user == current_user
+          Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
+        else
+          "cannot push key to another user"
+        end
+      elsif params["post"]["follow"]
+        current_user.following << params[:username]
+        current_user.save
+	    elsif params["post"]["unfollow"]
+        current_user.following.delete params[:username]
+        current_user.save
+      end
+      redirect request.path_info
+    end
 
   end
 end
