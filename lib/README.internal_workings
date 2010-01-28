@@ -3,7 +3,7 @@ We use modules to stash away functionality
 Some "interfaces"
 - User
   * name, following, followers, keys, repositories
-  +class authenticate(username, password, options = {})
+  + class authenticate(username, password, options = {})
 - Repository
   * vcs, name, owner, readers, writers, origin
   + create_repository(vcs)
