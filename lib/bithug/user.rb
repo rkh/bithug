@@ -12,7 +12,7 @@ module Bithug
     attribute :name
     set :following, Bithug::User
     set :followers, Bithug::User
-    set :keys, Bithug::Key
+    set :ssh_keys, Bithug::Key
     set :repositories, Bithug::Repository
 
     index :name
