@@ -5,19 +5,19 @@ module Bithug
     attribute :name
     attribute :public
     attribute :vcs
-    set :owner, Bithug::User
+    set :owners, Bithug::User
     set :readers, Bithug::User
     set :writers, Bithug::User
 
     index :name
-    index :owner
+    index :owners
     
     def owner=(user)
-      owner.clear << user
+      owners.clear << user
     end
     
     def owner
-      owner.first
+      owners.first
     end
 
     def validate
