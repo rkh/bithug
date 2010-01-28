@@ -25,6 +25,7 @@ module Bithug
     #use :Hpi, :except => [:User]
     use :Local
     use :Git
+    use :Svn
   end
   
   module TestMethods

@@ -22,7 +22,7 @@ module Bithug::Svn
     end
 
     def absolute_path
-      "#{Pathname.expand_path("~")}/#{name}"
+      "#{File.expand_path("~")}/#{name}"
     end
   end
 end
