@@ -24,8 +24,11 @@ describe Bithug::User do
   end
 
   it "should create a User on login" do
+    subject.find(:name => "valid_user").each do |item|
+      item.delete
+    end
     subject.find(:name => "valid_user").should be_empty
-    subject.login("valid_user").should_not be_empty
+    subject.login("valid_user").should_not be_nil
     subject.find(:name => "valid_user").should_not be_empty
   end 
 end
