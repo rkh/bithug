@@ -10,8 +10,12 @@ module Bithug::Hpi
     include ServiceHelper
     attribute :real_name
     attribute :email
-    stack Kerberos::User, Ldap::User, Local::User
-    Ldap.setup
-    Local.setup
+    
+    stack Kerberos::User, Local::User
+    
+    def self.setup(*options)
+      Local.setup(*options)
+    end
+
   end
 end
