@@ -13,7 +13,8 @@ module Bithug
     index :owners
     
     def owner=(user)
-      owners.clear << user
+      owners.clear
+      owners.add(user)
     end
     
     def owner
@@ -78,7 +79,7 @@ module Bithug
           repo.create_repository
           repo.owner = owner
           repo.save
-          owner.repositories << repo
+          owner.repositories.add(repo)
           owner.save
         end
       end

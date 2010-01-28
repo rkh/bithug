@@ -15,6 +15,7 @@ class Bithug::Key < Ohm::Model
   attribute :value
 
   def remove(user)
+    self.delete
     user.ssh_keys.delete(key)
     user.save
     # BUG: SANITIZE USERNAME FOR REGEX!
@@ -39,7 +40,7 @@ class Bithug::Key < Ohm::Model
       key = create(params)
       key.validate
       key.save
-      user.ssh_keys << key
+      user.ssh_keys.add(key)
       user.save
       File.open(KEYS_FILE, 'a+') do |f|
         f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"

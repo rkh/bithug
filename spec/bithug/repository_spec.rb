@@ -25,6 +25,6 @@ describe Bithug::Repository do
     repo.should_not be_nil
     repo.name.should == File.join(USER_NAME, repo_name)
     repo.owner.should == @user
-    user.repositories.should include repo
+    @user.repositories.all.should include repo
   end
 end
