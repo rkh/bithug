@@ -26,8 +26,8 @@ describe Bithug::ServiceHelper do
   end
   
   it 'should dispatch class methods in correct order' do
-    first_service  = service_class_method(:something) { [:foo] + super }
-    second_service = service_class_method(:something) { [:bar] + super }
+    first_service  = service_class_method(:something) { [:foo] }
+    second_service = service_class_method(:something) { [:bar] }
     bottom_service = service_class_method(:something) { [:blah] }
     klass = Class.new
     [first_service, second_service, bottom_service].reverse_each do |service|
