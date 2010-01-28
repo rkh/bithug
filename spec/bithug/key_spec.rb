@@ -15,10 +15,15 @@ describe Bithug::Key do
   end
 
   it "should add a valid key for an existing user" do
+    Bithug::Key.all.size.should == 0
     key = subject.add(:user => @user, :name => 'Test' , :value => @value)
     key.should_not be_nil
+    key.value.should == @value
+    key.name.should == "Test"
     Bithug::Key.all.size.should == 1
-    @user.ssh_keys.should include(key)
+    key.save.should be_true
+    key.should be_valid
+    @user.ssh_keys.first.should == key
   end
 
   it "shouldn't accept an invalid key" do
@@ -28,9 +33,9 @@ describe Bithug::Key do
 
   it "should delete a present key from a user" do
     key = subject.add(:user => @user, :name => 'Test' , :value => @value)
-    @user.ssh_keys.should include(key)
+    @user.ssh_keys.all.should include(key)
     key.remove(@user)
-    @user.ssh_keys.should_not include(key)
+    @user.ssh_keys.all.should_not include(key)
   end
 
 end
