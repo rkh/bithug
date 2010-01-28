@@ -1,5 +1,6 @@
 require 'bithug'
 require 'fileutils'
+require 'net/ssh'
 
 class Bithug::Key < Ohm::Model
   KEYS_FILE = "#{ENV["HOME"]}/.ssh/authorized_keys"
@@ -22,13 +23,15 @@ class Bithug::Key < Ohm::Model
     # OF THE OLD FILE CHANGED
     FileUtils.mv(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
   end
-
+  
   class << self
     # This will create a new key object and write to the 
     # authorized_keys file
     def add(params)
       user = params.delete(:user)
       key = create(params)
+      Net::SSH::Buffer
+      key.validate
       key.save
       user.keys << key
       user.save
@@ -37,5 +40,21 @@ class Bithug::Key < Ohm::Model
         f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"
       end
     end
+    
+    def validate
+      raise Net::SSH::Exception, "public key at #{filename} is not valid" unless valid?
+    end
+    
+    
+  	def valid?
+      data = value
+  	  type, blob = data.split(/ /)
+  	  return false if blob.nil?
+  	  blob = blob.unpack("m*").first
+  	  reader = Net::SSH::Buffer.new(blob)
+  	  reader.read_key
+  	  true
+  	end
+  	
   end
 end
