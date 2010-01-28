@@ -11,21 +11,21 @@ describe Bithug::Repository do
       f.write({USER_NAME => BCrypt::Password.create(USER_NAME).to_s}.to_yaml)
     end
     Bithug::Local.setup(:file => user_file)
+    Bithug::User.delete_all
+    Bithug::Repository.delete_all
+    @user = Bithug::User.login(USER_NAME)
   end
 
   it "should not be creatable without name or vcs type set" do
-    user = Bithug::User.find(:name => USER_NAME).first
-    puts subject.ancestors
-    lambda { subject.create(:owner => user) }.should raise_error(Bithug::ConfigurationError)
+    lambda { subject.create(:owner => @user) }.should raise_error(Bithug::ConfigurationError)
   end
 
   it "be creatable, change it's name properly and add itself to the owner's list" do
     repo_name = "test_repository"
-    user = Bithug::User.find(:name => USER_NAME).first
-    repo = subject.create(:name => repo_name, :owner => user, :vcs => :git)
+    repo = subject.create(:name => repo_name, :owner => @user, :vcs => :git)
     repo.should_not be_nil
     repo.name.should == File.join(USER_NAME, repo_name)
-    repo.owner.should == user
+    repo.owner.should == @user
     user.repositories.should include repo
   end
 end
