@@ -11,29 +11,42 @@ module Bithug
     end
 
     helpers do
-      def current_user
-        Bithug::User.find(:name => request.env['REMOTE_USER']).first
+      
+      def user_named(name)
+        Bithug::User.find(:name => name).first
       end
+      
+      def user
+        user_named(params[:username]) || current_user
+      end
+      
+      def current_user
+        user_named request.env['REMOTE_USER']
+      end
+      
+      def current_user?
+        user == current_user
+      end
+      
     end
 
     get("/") { redirect "/#{current_user.name}" }
-    get("/:username/?") { haml :home, {}, :user => Bithug::User.find(:name => params[:username]).first }
+    get("/:username/?") { haml :home }
+    
+    get("/:username/follow") do
+      current_user.following << user
+      current_user.save
+      redirect "/#{params[:username]}"
+    end
+
+    get("/:username/unfollow") do
+      current_user.following.delete user
+      current_user.save
+      redirect "/#{params[:username]}"
+    end
 
     post "/:username/?" do
-      user = Bithug::User.find(:name => params[:username]).first
-      if params["post"]["key"]
-        if user == current_user
-          Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
-        else
-          "cannot push key to another user"
-        end
-      elsif params["post"]["follow"]
-        current_user.following << params[:username]
-        current_user.save
-	    elsif params["post"]["unfollow"]
-        current_user.following.delete params[:username]
-        current_user.save
-      end
+      Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"] if current_user?
       redirect request.path_info
     end
 

@@ -1,4 +1,5 @@
 %h1= user.name
+
 .keys
   - if user.name == current_user.name
     %h3= "Your keys and repositories" 
@@ -17,13 +18,17 @@
         %input{:type => "submit", :value => "Follow", :name => "post[follow]"}
       - else
         %input{:type => "submit", :value => "Unfollow", :name => "post[unfollow]"}
-.repositories
-  .owned_repositories
+
+#repositories
+
+  #owned_repositories
     - user.repositories.each do |r|
-      %a{:href => "/repositories/#{r.name}"}= r.name
-  .writeable_repositories
+      %a{:href => "/#{user.name}/#{r.name}"}= r.name
+
+  #writeable_repositories
     - user.writeable_repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
-  .readable_repositories
+
+  #readable_repositories
     - user.readable_repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
