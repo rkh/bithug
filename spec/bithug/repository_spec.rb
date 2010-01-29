@@ -6,8 +6,8 @@ describe Bithug::Repository do
   USER_NAME = "valid_user"
   USER_NAME2 = "fork_user"
 
-  def create_and_commit_to_repo(name)
-    repo = subject.create(:name => name, :owner => @user, :vcs => :git)
+  def create_and_commit_to_repo(name, user)
+    repo = subject.create(:name => name, :owner => user, :vcs => :git)
     repo.commits.size.should == 0
     
     git = Bithug::Wrapper::Git.new("local_commit_#{name}", repo.name)
@@ -22,14 +22,8 @@ describe Bithug::Repository do
   end
 	
   def create_and_login_user(username)
-    user_file = File.join(ENV["HOME"], "users.yaml")
-    File.open(user_file, 'w') do |f| 
-      f.write({username => BCrypt::Password.create(username).to_s}.to_yaml)
-    end
-    Bithug::Local.setup(:file => user_file)
     Ohm.flush
-    user = Bithug::User.login(username)
-    user
+    Bithug::User.login(username)
   end	
 	
   before(:all) do
@@ -50,18 +44,28 @@ describe Bithug::Repository do
     @user.repositories.all.should include repo
   end
 
-  it "should be able to log activity" do
-    repo = create_and_commit_to_repo("logrepo")
+  it "should be able to log commits" do
+    repo = create_and_commit_to_repo("logrepo", @user)
     repo.commits.size.should == 0
     repo.log_recent_activity
     repo.commits.size.should == 1
     repo.commits.first.message.should == "test commit"
+    repo.commits.first.repository.should == repo
   end
   
-  it "should be able to fork an existin repo" do
-    @user2 = create_and_login_user(USER_NAME2)
-    repo = create_and_commit_to_repo("repo_to_be_forked")
-    repo2 = repo.fork(@user2)
-    @user2.repositories.all.should include repo2
+  it "should be able to fork an existin repo and log that" do
+    user2 = create_and_login_user(USER_NAME2)
+    repo = create_and_commit_to_repo("repo_to_be_forked", @user)
+    user2.forks.size.should == 0
+
+    repo2 = repo.fork(user2)
+
+    repo2.name.should == user2.name/"repo_to_be_forked"
+    user2.repositories.all.should include repo2
+    repo2.forks.size.should == 1
+    user2.forks.size.should == 1
+    user2.forks.first.original.should == repo
+    user2.forks.first.fork.should == repo2
+    user2.forks.first.user.should == user2
   end
 end
