@@ -1,7 +1,9 @@
 .infoBox
   %img{:src => gravatar(user.email, 80), :alt => user.real_name }
   %h1= user.name
-  - unless current_user?
+  - if current_user?
+    %a.button{:href => "/#{user.name}/settings"} Settings
+  - else
     %a.button{:href => "/#{user.name}/#{toggle_follow}"}= toggle_follow
 
 .keys

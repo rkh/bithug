@@ -1,0 +1,7 @@
+%h6= "git clone git@'hostname':'path'"
+- unless repo.owner == current_user
+  #foreign_repo
+  %h1= "Owner: #{repo.owner}"
+- else
+  #own_repo
+  %h1= "Welcome back to your very own Repository"
