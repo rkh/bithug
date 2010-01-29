@@ -38,13 +38,13 @@ module Bithug
     get("/:username/?") { haml :home }
     
     get("/:username/follow") do
-      current_user.following << user
+      current_user.following.add(user)
       current_user.save
       redirect "/#{params[:username]}"
     end
 
     get("/:username/unfollow") do
-      current_user.following.delete user
+      current_user.following.delete(user)
       current_user.save
       redirect "/#{params[:username]}"
     end
