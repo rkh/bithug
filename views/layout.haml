@@ -13,13 +13,14 @@
           onmissing: function() { window.location = "http://www.google.com/chromeframe/eula.html" }
         });
   %body.bithug
-    %header
-      %h1 Bithug
-      %nav
-        %a{:href => "/"} Home
-        %a{:href => "/repositories/new"} Create Repository
     #body
-      != yield
-    %footer
-      Powered by <a href="http://github.com/rkh/bithug">Bithug</a>,
-      <a href="http://www.sinatrarb.com">Sinatra</a> and <a href="http://code.google.com/p/redis/">Redis</a>.
+      %header
+        %h1 Bithug
+        %nav
+          %a{:href => "/"} Home
+          %a{:href => "/repositories/new"} Create Repository
+      #content
+        != yield
+      %footer
+        Powered by <a href="http://github.com/rkh/bithug">Bithug</a>,
+        <a href="http://www.sinatrarb.com">Sinatra</a> and <a href="http://code.google.com/p/redis/">Redis</a>.
