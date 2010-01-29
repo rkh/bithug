@@ -86,7 +86,10 @@ module Bithug
 
     post "/:username/new" do
       pass unless current_user?
-      "repo not created, sorry pal"
+      reponame = params["repo_name"]
+      vcs = params["vcs"] || "git"
+      Repository.create(:name => reponame, :owner => user, :vcs => vcs)
+      redirect "/#{user.name}/#{reponame}"
     end
 
     get "/:username/settings" do
