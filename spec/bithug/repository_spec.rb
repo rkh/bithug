@@ -23,8 +23,29 @@ describe Bithug::Repository do
     repo_name = "test_repository"
     repo = subject.create(:name => repo_name, :owner => @user, :vcs => :git)
     repo.should_not be_nil
-    repo.name.should == File.join(USER_NAME, repo_name)
+    repo.name.should == USER_NAME/repo_name
+    File.exists?(repo.absolute_path).should be_true
     repo.owner.should == @user
     @user.repositories.all.should include repo
+  end
+
+  it "should be able to log activity" do
+    repo_name = "commit_repository"
+    repo = subject.create(:name => repo_name, :owner => @user, :vcs => :git)
+    repo.commits.size.should == 0
+    
+    git = Bithug::Wrapper::Git.new("local_commit_repository", repo.name)
+    git.exec("clone", git.remote, git.path)
+    File.open(git.path/"test.txt", 'w') do |f|
+      f.write("Some testfile")
+    end
+    git.exec("add", "test.txt")
+    git.exec("commit", "-m", '"test commit"')
+    git.exec("push", "origin", "master")
+
+    repo.commits.size.should == 0
+    repo.log_recent_activity
+    repo.commits.size.should == 1
+    repo.commits.first.message.should == "test commit"
   end
 end
