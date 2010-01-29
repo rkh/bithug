@@ -1,8 +1,9 @@
 %h3= path
+- repo = params["get"]["repository"]
 %h6= "git clone git@#{hostname}:#{path}"
-- unless params["get"]["repository"].owner == current_user?
+- unless repo.owner == current_user?
     #foreign_repo
-   	%h1= "Owner: #{owner}"
+   	%h1= "Owner: #{repo.owner}"
 - else
     #own_repo
       %h1= "Welcome back to your very own Repository"
