@@ -70,9 +70,14 @@ module Bithug
       follow_unfollow { current_user.unfollow(user) }
     end
 
-    get("/:username/new") do
+    get "/:username/new" do
       pass unless current_user?
       haml :new_repository
+    end
+
+    get "/:username/settings" do
+      pass unless current_user?
+      haml :settings
     end
 
     post "/:username/?" do
