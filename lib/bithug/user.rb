@@ -46,8 +46,6 @@ module Bithug
       log_following(user, :false)
       following.delete(user)
       user.followers.delete(self)
-      save
-      user.save
     end
 
     def validate
