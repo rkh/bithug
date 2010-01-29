@@ -1,5 +1,6 @@
 require "bithug"
 require "sinatra/big_band"
+require "md5"
 
 module Bithug
   class Webserver < Sinatra::BigBand
@@ -30,6 +31,10 @@ module Bithug
       
       def toggle_follow
         "#{"un" if current_user.following? user}follow"
+      end
+      
+      def gravatar(mail, size = 80, default = "monsterid")
+        "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}?d=#{default}"
       end
       
     end
