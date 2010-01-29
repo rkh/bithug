@@ -12,6 +12,11 @@ module Bithug
   def self.configure(&block)
     instance_yield block
   end
+  
+  def self.title(new_title = nil)
+    @title = new_title if new_title
+    @title ||= name
+  end
 
   def self.use(service, options = {})
     service = const_get(service) unless service.is_a? Module

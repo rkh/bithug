@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Bithug
+    %title= title
     %meta{:charset => "utf-8"}/
     %meta{:"http-equiv" => "X-UA-Compatible", :content => "chrome=1"}/
     %link{:href =>"/stylesheets/screen.css", :media =>"screen", :rel => "stylesheet", :type => "text/css"}/
@@ -15,12 +15,15 @@
   %body.bithug
     #body
       %header
-        %h1 Bithug
+        %h1= title
         %nav
           %a{:href => "/"} Home
           %a{:href => "/#{current_user.name}/new"} Create Repository
+        .welcome
+          Welcome <a href="/#{current_user.name}">#{current_user.real_name || current_user.real_name}</a>, let's code!
       #content
         != yield
       %footer
         Powered by <a href="http://github.com/rkh/bithug">Bithug</a>,
-        <a href="http://www.sinatrarb.com">Sinatra</a> and <a href="http://code.google.com/p/redis/">Redis</a>.
+        <a href="http://www.sinatrarb.com">Sinatra</a>, <a href="http://code.google.com/p/redis/">Redis</a>
+        and <a href="http://www.google.com/search?q=#{Monkey::Engine.ruby_engine}">#{Monkey::Engine.ruby_engine}</a>.

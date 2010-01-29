@@ -33,8 +33,12 @@ module Bithug
         "#{"un" if current_user.following? user}follow"
       end
 
-      def gravatar(mail, size = 80, default = "monsterid")
+      def gravatar_url(mail, size = 80, default = "monsterid")
         "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}?d=#{default}"
+      end
+      
+      def gravatar(mail, size = 80, default = "monsterid")
+        "<img src='#{gravatar_url(mail, size, default)}' alt='' width='#{size}' height='#{size}'>"
       end
 
       def repo_named(name)
@@ -52,6 +56,14 @@ module Bithug
         end
         repo
       end
+      
+      def owned?
+        repo.owner == current_user
+      end
+      
+      def title
+        Bithug.title
+      end
 
     end
 
@@ -62,7 +74,7 @@ module Bithug
       redirect "/#{params[:username]}"
     end
 
-    get("/") { redirect "/#{current_user.name}" }
+    get("/") { haml :dashboard }
 
     get "/:username/?" do
       # user.commits.recent(20)
@@ -71,7 +83,7 @@ module Bithug
       # user.rights.recent
 
       pass unless user
-      haml :home
+      haml :user
     end
 
     get("/:username/follow") do
@@ -87,15 +99,23 @@ module Bithug
       haml :new_repository
     end
 
+    post "/:username/new" do
+      pass unless current_user?
+      reponame = params["repo_name"]
+      vcs = params["vcs"] || "git"
+      Repository.create(:name => reponame, :owner => user, :vcs => vcs)
+      redirect "/#{user.name}/#{reponame}"
+    end
+
     get "/:username/settings" do
       pass unless current_user?
       haml :settings
     end
 
-    post "/:username/?" do
-      pass unless user
-      Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"] if current_user?
-      redirect request.path_info
+    post "/:username/add_key" do
+      pass unless current_user?
+      Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
+      redirect "/#{user.name}/settings"
     end
 
     get "/:username/:repository/?" do
