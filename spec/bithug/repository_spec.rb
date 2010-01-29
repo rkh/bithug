@@ -111,4 +111,11 @@ describe Bithug::Repository do
     repo.readers.all.should_not include user2
     repo.writers.all.should_not include user2
   end
+
+  it "should list repository trees" do
+    repo = create_and_commit_to_repo("tree_repo", @user)
+    repo.tree["test.txt"].should_not be_nil
+    repo.tree["test.txt"][:size].should_not be_nil
+    repo.tree["test.txt"][:revision].should_not be_nil
+  end
 end
