@@ -46,13 +46,13 @@ describe Bithug::User do
     user2 = create_and_login_user(USERNAME2)
     ###
     user.network.size.should == 0
-    user.followers.all.size.should == 0
+    user.followers.size.should == 0
     user2.network.size.should == 0
-    user2.following.all.size.should == 0
+    user2.following.size.should == 0
     ###
     user2.follow(user)
-    user.followers.all.size.should == 1
-    user2.following.all.size.should == 1
+    user.followers.size.should == 1
+    user2.following.size.should == 1
     user.network.size.should == 1
     pp user.network.first
     user.network.first.following?.should be_true
@@ -63,8 +63,9 @@ describe Bithug::User do
     ###
     user2.unfollow(user)
     user2.network.size.should == 2
-    user2.following.all.size.should == 0
+    user2.network.first.following?.should be_true
+    user2.following.size.should == 0
     user.network.size.should == 2
-    user.followers.all.size.should == 0
+    user.followers.size.should == 0
   end
 end
