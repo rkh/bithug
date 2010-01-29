@@ -24,6 +24,10 @@ module Bithug
       owners.first
     end
 
+    def fork(new_owner)
+      self.class.create(:vcs => vcs, :name => name, :owner => new_owner)
+    end
+
     def validate
       assert_present :name
       assert_present :vcs
@@ -39,15 +43,14 @@ module Bithug
 
     # This is used by the shell
     def check_access_rights(user, writeaccess=false)
-      user_name = username(user)
-      unless self.owner == user_name
-        unless self.readaccess.include?(user_name) || (self.public == true)
+      unless self.owner == user.name
+        unless self.readaccess.include?(user.name) || (self.public == true)
           raise ReadAccessDeniedError, 
-              "#{self.owner} User #{user_name} does not have read-access"
+              "#{self.owner} User #{user.name} does not have read-access"
         else
-          unless (self.writeaccess.include?(user_name) || !writeaccess)
+          unless (self.writeaccess.include?(user.name) || !writeaccess)
             raise WriteAccessDeniedError, 
-                "User #{user_name} does not have write-access"
+                "User #{user.name} does not have write-access"
           end
         end
       end
@@ -59,21 +62,6 @@ module Bithug
     end
 
     class_methods do
-            
-      # Return all repositories that are writeable by the given user
-      def writeable_repos(user)
-        all.select do |repo|
-          repo.writeaccess.include?(user)
-        end
-      end
-
-      # Return all repositories that are readeable by the given user
-      def readable_repos(user)
-        all.select do |repo|
-          repo.readaccess.include?(user)
-        end
-      end
-
       # This is overwritten to immediately create the underlying repo using the 
       # configured method, and also modify the name for uniqueness in the system 
       def create(options = {})
