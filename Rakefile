@@ -9,6 +9,11 @@ task :default do
   Rake::Task["spec"].invoke
 end
 
+desc "run sloccount"
+task :sloccount do
+  sh "sloccount lib bin spec views vendor/big_band/ vendor/monkey-lib/"
+end
+
 begin
   require "spec/rake/spectask"
   task :spec => %w[spec:bithug spec:big_band spec:monkey-lib]
