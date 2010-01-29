@@ -1,0 +1,1 @@
+../vendor/big_band/lib/yard-sinatra.rb
