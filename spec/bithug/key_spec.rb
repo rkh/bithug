@@ -28,7 +28,7 @@ describe Bithug::Key do
 
   it "shouldn't accept an invalid key" do
     pending
-    subject.add(:user => @user, :name => 'Bogus', :value => '123').valid?.should be_false
+    subject.create(:name => 'Bogus', :value => '123 wee').should_not be_valid
   end
 
   it "should delete a present key from a user" do
