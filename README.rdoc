@@ -21,7 +21,15 @@ or
 
 == TODO / Known Bugs
 * Webinterface for creating repos / forking repos / viewing repos
+<<<<<<< HEAD
 * Log/Stream generating/output
+=======
+* Log/Stream generationg/output
+	- Commits
+	- Forking
+	- (Un-)Following
+	- Rights-changes
+>>>>>>> 81c3c4231ffd0cb9d5d5ba608ee0d79da346e866
 * Paper
 * SVN import from HPI
 

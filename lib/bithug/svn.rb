@@ -28,6 +28,7 @@ module Bithug::Svn
     end
 
     def wrapper
+      return super if vcs.to_s != "svn"
       Bithug::Wrapper::GitSvn.new(absolute_path, remote)
     end
   end
