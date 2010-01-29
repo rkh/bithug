@@ -84,15 +84,20 @@ module Bithug
       haml :new_repository
     end
 
+    post "/:username/new" do
+      pass unless current_user?
+      "repo not created, sorry pal"
+    end
+
     get "/:username/settings" do
       pass unless current_user?
       haml :settings
     end
 
-    post "/:username/?" do
-      pass unless user
-      Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"] if current_user?
-      redirect request.path_info
+    post "/:username/add_key" do
+      pass unless current_user?
+      Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
+      redirect "/#{user.name}/settings"
     end
 
     get "/:username/:repository" do
