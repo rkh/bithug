@@ -49,6 +49,10 @@ module Bithug
         return unless user
         repo_named(user.name / params[:repository])
       end
+      
+      def owned?
+        repo.owner == current_user
+      end
 
     end
 
