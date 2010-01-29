@@ -58,6 +58,11 @@ module Bithug
     get("/") { redirect "/#{current_user.name}" }
 
     get "/:username/?" do
+      # user.commits.recent(20)
+      # user.network.recent
+      # user.forks.recent(5)
+      # user.rights.recent
+
       pass unless user
       haml :home
     end
