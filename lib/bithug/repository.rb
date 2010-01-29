@@ -62,7 +62,13 @@ module Bithug
       end.save
       new_repo
     end
-    
+
+    def tree(path_options={})
+      # Empty per default. Takes a hash for max 
+      # flexibility in underlying wrappers
+      {} 
+    end
+
     def log_access(user)
       Bithug::LogInfo::RightsInfo.create.tap do |f|
         f.changed_user = user
