@@ -48,7 +48,15 @@ module Bithug
     end
 
     def fork(new_owner)
-      self.class.create(:vcs => vcs, :name => name, :owner => new_owner, :remote => absolute_path)
+      name_without_owner = name.gsub(owner.name/"","")
+      new_repo = self.class.create(:vcs => vcs, :name => name_without_owner, 
+                                   :owner => new_owner, :remote => absolute_path)
+      Bithug::LogInfo::ForkInfo.create.tap do |f|
+        f.original = self
+        f.fork = new_repo
+        f.user = new_owner
+      end.save
+      new_repo
     end
 
     # This is used by the shell
