@@ -58,7 +58,45 @@ module Bithug
       end.save
       new_repo
     end
-
+    
+    def log_access(user)
+      Bithug::LogInfo::RightsInfo.create.tap do |f|
+        f.changed_user = user
+        f.admin = owner
+        f.repository = self
+      end.save
+    end    
+    
+    def grant_write_access(user)
+    	grant_read_access(user)
+      unless writers.all.include? user
+        writers.add(user) 
+        log_access(user)
+      end
+    end
+    
+    def grant_read_access(user)
+      unless readers.all.include? user
+        readers.add(user)
+        log_access(user)
+      end
+    end
+    
+    def remove_write_access(user)
+      if writers.all.include? user
+        writers.delete(user)
+        log_access(user)
+      end
+    end
+    
+    def remove_read_access(user)
+      if readers.all.include? user
+        writers.delete(user)
+        readers.delete(user)
+        log_access(user)
+      end
+    end
+    
     # This is used by the shell
     def check_access_rights(user, writeaccess=false)
       unless self.owner == user.name

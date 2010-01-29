@@ -46,6 +46,22 @@ module Bithug
       following.delete(user)
       user.followers.delete(self)
     end
+    
+    def grant_write_access_for(user, repo)
+      repo.grant_write_access(user)
+    end
+    
+    def remove_write_access_for(user, repo)
+      repo.remove_write_access(user)
+    end
+    
+    def grant_read_accesss_for(user, repo)
+      repo.grant_read_access(user)
+    end
+    
+    def remove_read_access_for(user, repo)
+      repo.remove_write_access(user)
+    end
 
     def validate
       assert_present :name
