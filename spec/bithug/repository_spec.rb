@@ -68,4 +68,47 @@ describe Bithug::Repository do
     user2.forks.first.fork.should == repo2
     user2.forks.first.user.should == user2
   end
+  
+  it "should allow a user access rights" do
+    repo_name = "access_repository"
+    repo = subject.create(:name => repo_name, :owner => @user, :vcs => :git)
+    user2 = create_and_login_user(USER_NAME2)
+    repo.readers.should_not include user2
+    repo.writers.should_not include user2
+    repo.rights.size.should == 0
+    @user.rights.size.should == 0
+    user2.rights.size.should == 0
+    ###
+    @user.grant_access(:user => user2, :repo => repo)
+    repo.readers.should include user2
+    repo.writers.should_not include user2
+    ###
+    repo.rights.size.should == 1
+    @user.rights.size.should == 1
+    user2.rights.size.should == 1
+    user2.rights.first.should == @user.rights.first
+    user2.rights.first.should == repo.rights.first
+    right = repo.rights.first
+    right.repository == repo
+    right.admin == @user
+    right.changed_user == user2
+    right.access_granted?.should be_true
+    right.writeaccess_granted?.should be_false
+    ###
+    @user.grant_access(:user => user2, :repo => repo, :access => :w)
+    repo.readers.should include user2
+    repo.writers.should include user2
+    ###
+    @user.revoke_access(:user => user2, :repo => repo)
+    repo.readers.should include user2
+    repo.writers.should_not include user2
+    ###
+    repo.rights.size.should == 3
+    @user.rights.size.should == 3
+    user2.rights.size.should == 3
+    ###
+    @user.revoke_access(:user => user2, :repo => repo, :access => :r)
+    repo.readers.all.should_not include user2
+    repo.writers.all.should_not include user2
+  end
 end

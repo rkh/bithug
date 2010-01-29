@@ -29,6 +29,10 @@ module Bithug
       owners.clear
       owners.add(user)
     end
+
+    def public?
+      self.public == "true"
+    end
     
     def owner
       owners.first
@@ -59,10 +63,34 @@ module Bithug
       new_repo
     end
 
+    def tree(path_options={})
+      # Empty per default. Takes a hash for max 
+      # flexibility in underlying wrappers
+      {} 
+    end
+
+    def log_access(user)
+      Bithug::LogInfo::RightsInfo.create.tap do |f|
+        f.changed_user = user
+        f.admin = owner
+        f.repository = self
+      end.save
+    end    
+    
+    def grant_access(options)
+      readers.add(options[:user])
+      writers.add(options[:user]) if "#{options[:access]}" == 'w'
+    end
+
+    def revoke_access(options)
+      writers.delete(options[:user])
+      readers.delete(options[:user]) if "#{options[:access]}" == 'r'
+    end
+    
     # This is used by the shell
     def check_access_rights(user, writeaccess=false)
       unless self.owner == user.name
-        unless self.readaccess.include?(user.name) || (self.public == true)
+        unless self.readaccess.include?(user.name) || self.public?
           raise ReadAccessDeniedError, 
               "#{self.owner} User #{user.name} does not have read-access"
         else

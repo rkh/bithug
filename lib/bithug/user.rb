@@ -28,23 +28,51 @@ module Bithug
       following.all.include? user
     end
 
-    def log_following(user)
+    def log_following(user, start = :true)
       Bithug::LogInfo::FollowInfo.create.tap do |f|
-        active_user = self
-        passive_user = user
-      end
+        f.active_user = self
+        f.passive_user = user
+	f.started_following = start
+      end.save
     end
 
     def follow(user)
-      log_following(user).start_following
+      log_following(user, :true)
       following.add(user)
       user.followers.add(self)
     end
 
     def unfollow(user)
-      log_following(user).stop_following
+      log_following(user, :false)
       following.delete(user)
       user.followers.delete(self)
+    end
+    
+    def grant_access(options)
+      options[:access] ||= :r
+      options[:repo] ||= options[:repository]
+      options[:repo].grant_access(options)
+      options[:access] = "+#{options[:access]}"
+      log_access_rights(options)
+      save
+    end
+
+    def revoke_access(options)
+      options[:access] ||= :w
+      options[:repo] ||= options[:repository]
+      options[:repo].revoke_access(options)
+      options[:access] = "-#{options[:access]}"
+      log_access_rights(options)
+      save
+    end
+
+    def log_access_rights(options)
+      Bithug::LogInfo::RightsInfo.create.tap do |r|
+        r.admin = self
+        r.changed_user = options[:user]
+        r.repository = options[:repo]
+        r.access_change = options[:access]
+      end.save
     end
 
     def validate
