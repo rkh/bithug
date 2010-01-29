@@ -18,19 +18,23 @@ module Bithug
     index :name
     
     def following?(user)
-      false
+      following.include? user
     end
 
     def validate
       assert_present :name
     end
-    
+
     def writeable_repositories
-      []
+      connected_repositories(:writers)
     end
     
     def readable_repositories
-      []
+      connected_repositories(:readers)
+    end
+
+    def connected_repositories(via)
+      Bithug::Repository.all.select {|r| r.send(via).include? self}
     end
 
     class_methods do
