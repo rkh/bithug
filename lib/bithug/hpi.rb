@@ -15,7 +15,7 @@ module Bithug::Hpi
     
     def login(username)
       super
-      self.real_name = (username.split /./).join " "
+      self.real_name = username.split(".").join " "
     end
 
   end
