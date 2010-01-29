@@ -44,23 +44,28 @@ describe Bithug::User do
   it "should follow a user correctly" do
     user = create_and_login_user(USERNAME)		
     user2 = create_and_login_user(USERNAME2)
+    ###
     user.network.size.should == 0
-    user.followers.all.size.should == 0
+    user.followers.size.should == 0
     user2.network.size.should == 0
-    user2.following.all.size.should == 0
+    user2.following.size.should == 0
+    ###
     user2.follow(user)
+    user.followers.size.should == 1
+    user2.following.size.should == 1
     user.network.size.should == 1
+    pp user.network.first
+    user.network.first.following?.should be_true
     user.network.first.active_user.should == user2
     user.network.first.passive_user.should == user
-    user.network.first.following?.should be_true
-    user2.network.first.should == user.network.first
-    user.followers.all.size.should == 1
     user2.network.size.should == 1
-    user2.following.all.size.should == 1
+    user2.network.first.should == user.network.first
+    ###
     user2.unfollow(user)
-    user.network.size.should == 2
-    user.followers.all.size.should == 0
     user2.network.size.should == 2
-    user2.following.all.size.should == 0
+    user2.network.first.following?.should be_true
+    user2.following.size.should == 0
+    user.network.size.should == 2
+    user.followers.size.should == 0
   end
 end

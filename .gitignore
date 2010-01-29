@@ -10,3 +10,5 @@ vendor
 *.rbc
 config.rb
 *.rdb
+*~
+spec/tmp/
