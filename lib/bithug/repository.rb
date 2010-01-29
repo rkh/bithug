@@ -5,6 +5,7 @@ module Bithug
     attribute :name
     attribute :public
     attribute :vcs
+    attribute :remote
     set :owners, Bithug::User
     set :readers, Bithug::User
     set :writers, Bithug::User
@@ -24,10 +25,6 @@ module Bithug
       owners.first
     end
 
-    def fork(new_owner)
-      self.class.create(:vcs => vcs, :name => name, :owner => new_owner)
-    end
-
     def validate
       assert_present :name
       assert_present :vcs
@@ -39,6 +36,10 @@ module Bithug
 
     def remove_repository
       raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
+    end
+
+    def fork(new_owner)
+      self.class.create(:vcs => vcs, :name => name, :owner => new_owner, :remote => absolute_path)
     end
 
     # This is used by the shell
