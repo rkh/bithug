@@ -33,19 +33,21 @@ module Bithug::Wrapper
     end
 
     def ls(commit_ish = "HEAD")
-      s = exec("ls-tree", "-trl", commit_ish)
-      s.lines.inject({}) do |tree,line|
-        line =~ /[0-9]+ .* ([a-z0-9]+) +(-|[0-9]+)\t(.*)/
-        sha1 = $1
-        size = $2
-        name = $3
+      str = exec("ls-tree", "-tlr", commit_ish)
+      str.lines.inject({}) do |tree,line|
+        line =~ /[0-9]+ (.*) ([a-z0-9]+) +(-|[0-9]+)\t(.*)/
+        type = $1
+        sha1 = $2
+        size = $3
+        name = $4
         file_node = name.split("/").inject(tree) do |memo,item|
-          memo = memo[item] = {}
+          memo[item] ||= {}
         end
-        unless size == "-" then
+        unless type == "tree" then
           file_node[:revision] = sha1
           file_node[:size] = size
         end
+        tree
       end
     end
 
