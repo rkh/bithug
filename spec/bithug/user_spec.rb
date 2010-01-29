@@ -54,7 +54,6 @@ describe Bithug::User do
     user.followers.size.should == 1
     user2.following.size.should == 1
     user.network.size.should == 1
-    pp user.network.first
     user.network.first.following?.should be_true
     user.network.first.active_user.should == user2
     user.network.first.passive_user.should == user
