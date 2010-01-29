@@ -25,8 +25,8 @@ class Bithug::Shell
     unless repo = Repository.find(:name, @repository).first
       raise UnknownRepositoryError, "Could not find a repository named #{@repository}" 
     end
-    repo.check_access_rights(@user, @writeaccess) 
-    exec(@command, File.join(File.expand_path("~"), @repository))
-    repo.log_recent_activity
+    repo.check_access_rights(@user, @writeaccess)
+    exec(@command, File.expand_path("~") / @repository)
+    repo.log_recent_activity(@user)
   end
 end

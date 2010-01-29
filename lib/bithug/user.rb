@@ -2,6 +2,8 @@ require "bithug"
 
 module Bithug
 
+  # We use the User class in the AbstractUser
+  # We need to pre-define it  
   class User < Ohm::Model
   end
 
@@ -14,6 +16,11 @@ module Bithug
     set :followers, Bithug::User
     set :ssh_keys, Bithug::Key
     set :repositories, Bithug::Repository
+
+    set :forks, Bithug::LogInfo::ForkInfo
+    set :rights, Bithug::LogInfo::RightsInfo
+    set :network, Bithug::LogInfo::FollowInfo
+    set :commits, Bithug::LogInfo::CommitInfo
 
     index :name
     
