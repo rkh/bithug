@@ -48,7 +48,7 @@ module Bithug
     end
 
     def fork(new_owner)
-      name_without_owner = name.gsub(owner.name/"","")
+      name_without_owner = name.gsub(owner.name,"").gsub("/","")
       new_repo = self.class.create(:vcs => vcs, :name => name_without_owner, 
                                    :owner => new_owner, :remote => absolute_path)
       Bithug::LogInfo::ForkInfo.create.tap do |f|
