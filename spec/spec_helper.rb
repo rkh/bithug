@@ -19,11 +19,9 @@ rm_rf TEMP_DIR
 mkdir_p TEMP_DIR
 
 module Bithug
-  
   configure do
-    Ohm.connect
+    Ohm.connect(:host => "127.0.0.1", :port => 6380)
     Ohm.flush
-    #use :Hpi, :except => [:User]
     use :Local
     use :Git
   end

@@ -11,7 +11,7 @@ module Bithug::Hpi
     attribute :real_name
     attribute :email
     
-    stack Bithug::Kerberos::User, Bithug::Ldap::User, Bithug::Local::User
+    stack Bithug::Kerberos::User, Bithug::Local::User#, Bithug::Ldap::User
 
   end
 end
