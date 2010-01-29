@@ -1,6 +1,6 @@
 .infoBox
   %img{:src => gravatar(user.email, 80), :alt => user.real_name }
-  %h1= user.name
+  %h1= user.real_name || user.name
   - if current_user?
     %a.button{:href => "/#{user.name}/settings"} Settings
   - else

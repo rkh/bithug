@@ -3,9 +3,9 @@
 %h2 Your Account
 %form{:method => "post", :action => "/#{user.name}/settings"}
   %label{:for => :real_name} Your Name:
-  %input{:type => :text, :name => :real_name, :value => user.real_name}
+  %input{:type => :text, :name => :real_name, :value => "#{user.real_name}"}
   %label{:for => :email} Your E-Mail:
-  %input{:type => :text, :name => :email, :value => user.email}
+  %input{:type => :text, :name => :email, :value => "#{user.email}"}
   %input{:type => :submit, :value => "store"}
 
 %h2 Your public keys
