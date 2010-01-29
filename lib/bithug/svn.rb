@@ -4,7 +4,7 @@
 # thus, Ohm::Model methods will be available on inclusion 
 # and this repo type can add an attribute to the model
 module Bithug::Svn
-  module Repositorym
+  module Repository
     include Bithug::ServiceHelper
     include Bithug::Git
 
@@ -12,6 +12,9 @@ module Bithug::Svn
 
     def create_repository
       return super if vcs.to_s != "svn"
+      unless remote
+        raise RuntimeError, "To mirror a svn repository, I need a remote"
+      end
       wrapper.init
     end
 
