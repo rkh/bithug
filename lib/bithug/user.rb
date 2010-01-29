@@ -2,6 +2,8 @@ require "bithug"
 
 module Bithug
 
+  # We use the User class in the AbstractUser
+  # We need to pre-define it  
   class User < Ohm::Model
   end
 

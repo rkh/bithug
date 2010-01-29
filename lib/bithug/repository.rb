@@ -1,6 +1,12 @@
 module Bithug
+
+  # We use the Repository class in the 
+  # logging infos, so we will need it here 
+  class Repository < Ohm::Model
+  end
+
   module AbstractRepository
-  	include ServiceHelper
+    include ServiceHelper
   
     attribute :name
     attribute :public
