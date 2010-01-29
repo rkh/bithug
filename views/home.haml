@@ -1,8 +1,7 @@
 %h1= user.name
 
 .keys
-  - if user.name == current_user.name
-    %h3= "Your keys and repositories" 
+  - if current_user?
     %form{:method => "post"}
       - user.ssh_keys.all.compact.each do |key|
         %input{:type=>"text", :readonly=>"true", :value=>"#{key.value}"}
@@ -12,12 +11,7 @@
       %textarea{:name=>"post[name]"}
       %input{:type => "submit", :value => "Add Key"}
   - else 
-    %h3= "#{user.name}'s repositories" 
-    %form{:method => "post"}
-      - unless current_user.following? user
-        %input{:type => "submit", :value => "Follow", :name => "post[follow]"}
-      - else
-        %input{:type => "submit", :value => "Unfollow", :name => "post[unfollow]"}
+    %a{:href => "/#{user.name}/#{toggle_follow}"}= toggle_follow
 
 #repositories
 

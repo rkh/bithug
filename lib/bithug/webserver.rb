@@ -28,6 +28,10 @@ module Bithug
         user == current_user
       end
       
+      def toggle_follow
+        "#{"un" if current_user.following? user}follow"
+      end
+      
     end
 
     get("/") { redirect "/#{current_user.name}" }
