@@ -25,6 +25,7 @@ module Bithug
     Ohm.flush
     use :Local
     use :Git
+    use :Svn
   end
   
   module TestMethods
