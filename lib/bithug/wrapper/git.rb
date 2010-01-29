@@ -40,6 +40,8 @@ module Bithug::Wrapper
         sha1 = $2
         size = $3
         name = $4
+	tree
+	break unless type && sha1 && size && name # Not a valid tree
         file_node = name.split("/").inject(tree) do |memo,item|
           memo[item] ||= {}
         end
