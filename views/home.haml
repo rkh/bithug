@@ -11,7 +11,7 @@
       %textarea{:name=>"post[name]"}
       %input{:type => "submit", :value => "Add Key"}
   - else 
-    %a{:href => "/#{user.name}/#{toggle_follow}"}= toggle_follow
+    %a.button{:href => "/#{user.name}/#{toggle_follow}"}= toggle_follow
 
 #repositories
 
