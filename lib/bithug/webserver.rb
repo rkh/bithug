@@ -59,7 +59,7 @@ module Bithug
       redirect "/#{params[:username]}"
     end
 
-    get("/") { redirect "/#{current_user.name}" }
+    get("/") { haml :dashboard }
 
     get "/:username/?" do
       # user.commits.recent(20)
@@ -68,7 +68,7 @@ module Bithug
       # user.rights.recent
 
       pass unless user
-      haml :home
+      haml :user
     end
 
     get("/:username/follow") do
