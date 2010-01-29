@@ -63,11 +63,11 @@ module Bithug
     end
 
     get("/:username/follow") do
-      follow_unfollow { current_user.following.add(user) }
+      follow_unfollow { current_user.follow(user) }
     end
 
     get("/:username/unfollow") do
-      follow_unfollow { current_user.following.delete(user) }
+      follow_unfollow { current_user.unfollow(user) }
     end
 
     get("/:username/new") do
