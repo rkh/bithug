@@ -37,6 +37,7 @@ class Bithug::Key < Ohm::Model
 
     def add(params = {})
       user = params.delete(:user)
+      params[:value].gsub /\n|\r/, ""
       key = create(params)
       key.validate
       key.save
@@ -53,12 +54,17 @@ class Bithug::Key < Ohm::Model
     end
     
     def valid?
-      data = value
+     data = value
   	  type, blob = data.split(/ /)
-  	  return false if blob.nil?
+  	  return false if blob.nil? || type.nil?
   	  blob = blob.unpack("m*").first
   	  reader = Net::SSH::Buffer.new(blob)
-  	  reader.read_key
+  	  puts blob
+  	  begin
+  	    reader.read_key
+  	  rescue NotImplementedError
+  	    false
+  	  end
   	  true
   	end
   	
