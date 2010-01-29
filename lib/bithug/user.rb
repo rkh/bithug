@@ -16,6 +16,10 @@ module Bithug
     set :repositories, Bithug::Repository
 
     index :name
+    
+    def following?(user)
+      false
+    end
 
     def validate
       assert_present :name

@@ -13,7 +13,7 @@
   - else 
     %h3= "#{user.name}'s repositories" 
     %form{:method => "post"}
-      - unless following
+      - unless current_user.following? user
         %input{:type => "submit", :value => "Follow", :name => "post[follow]"}
       - else
         %input{:type => "submit", :value => "Unfollow", :name => "post[unfollow]"}
@@ -27,7 +27,3 @@
   .readable_repositories
     - user.readable_repositories.each do |r|
       %a{:href => "/repositories/#{r.name}"}= r.name
-.followers
-  %h3= "Rad Guys and Gals that follow you 'til whatever"
-  - user.followers.each do |f|
-    %a{:href => "/#{f}"}= f 
