@@ -27,5 +27,6 @@ class Bithug::Shell
     end
     repo.check_access_rights(@user, @writeaccess) 
     exec(@command, File.join(File.expand_path("~"), @repository))
+    repo.log_recent_activity
   end
 end
