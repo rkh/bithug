@@ -30,7 +30,7 @@ module Bithug::Git
 
     def tree(path_options={})
       commit_ishs = [:revision, :sha1, :branch, :tag, :commit]
-      wrapper.ls(commit_ishs.detect {|i| path[item]}.to_s || "HEAD")
+      wrapper.ls(commit_ishs.detect {|i| path_options[i]}.to_s || "HEAD")
     end
 
     def wrapper
