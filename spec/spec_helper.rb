@@ -2,6 +2,7 @@ ENV['RACK_ENV'] = 'test'
 require File.expand_path("../../init.rb", __FILE__)
 
 require 'fileutils'
+require 'pp'
 include FileUtils::Verbose
 
 begin

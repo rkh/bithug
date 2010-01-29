@@ -11,14 +11,33 @@ module Bithug::Svn
 
     def create_repository
       super if vcs.to_s != "svn"
-      svn = Bithug::Wrapper::GitSvn.new(absolute_path, remote)
-      svn.init
+      wrapper.init
     end
 
     def remove_repository
       super if vcs.to_s != "svn"
-      svn = Bithug::Wrapper::GitSvn.new(absolute_path, remote)
-      svn.remove
+      wrapper.remove
+    end
+
+    def update_repository
+      return if vcs.to_s != "svn"
+      wrapper.pull
+      log_recent_activity
+    end
+
+    def log_recent_activity
+      log = wrapper.log.collect do |item|
+        CommitInfo.new.tap do
+          wrapper.log.each_pair do |k, v|
+            c.send("#{k}=".to_sym, v)
+          end
+        end
+      end
+      commits.replace((log + commits.all).uniq)
+    end
+
+    def wrapper
+      Bithug::Wrapper::GitSvn.new(absolute_path, remote)
     end
 
     def absolute_path

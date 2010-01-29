@@ -10,8 +10,7 @@ require 'uri'
 module Bithug::Wrapper
   class GitSvn < Git
     def initialize(path, remote, user=nil)
-      @path = File.expand_path(File.join(ENV["HOME"], path))
-      @remote = remote 
+      super(path, remote)
       @user = user
       validate
     end

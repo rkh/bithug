@@ -5,8 +5,10 @@ require 'bithug'
 # git commands  
 module Bithug::Wrapper
   class Git
+    attr_reader :path, :remote
+
     def initialize(path,remote=nil)
-      @path = File.expand_path(File.join(ENV["HOME"], path))
+      @path = File.expand_path(ENV["HOME"] / path)
       @remote = expand_remote(remote)
     end
 
@@ -14,7 +16,7 @@ module Bithug::Wrapper
       unless @remote
         exec("init", "--bare")
       else
-        exec("clone", @remote, @path)
+        exec("clone", "--bare", @remote, @path)
       end
     end
 
@@ -22,7 +24,10 @@ module Bithug::Wrapper
       FileUtils.rm_rf(@path)
     end
 
-    private
+    def log
+      YAML.load("---\n#{exec("log", "--pretty=format:'- :author: %aN\n  :email: %ae\n  :revision: %H\n  :date_time: %aD\n  :message: %s\n'")}") || []
+    end
+
     def chdir(path)
       wd = Dir.pwd
       FileUtils.mkdir_p(path)
@@ -32,8 +37,9 @@ module Bithug::Wrapper
 
     def exec(command, *args)
       working_directory = chdir(@path)
-      system("git #{command} #{args.join(" ")} >> #{File.join(ENV["HOME"], "system.log")} 2>&1")
+      output = %x[git #{command} #{args.join(" ")} 2>&1]
       chdir(working_directory)
+      output
     end
 
     def expand_remote(remote)
