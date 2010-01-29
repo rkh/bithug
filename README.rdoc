@@ -22,14 +22,15 @@ or
 === TODO / Known Bugs
 * Webinterface for creating repos / forking repos / viewing repos
 * Log/Stream generating/output
-	- Commits
-	- Forking
-	- (Un-)Following
-	- Rights-changes
+	- Commits (./)
+	- Forking (./)
+	- (Un-)Following (./)
+	- Rights-changes (./)
 * Paper
 * SVN import from HPI
 
 === Nice to have
-* Directory listing
+* Directory listing (./)
 * Twitter
+* RSS
 
