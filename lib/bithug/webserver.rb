@@ -62,15 +62,15 @@ module Bithug
       haml :home
     end
 
-    get("/:username/follow") do
+    get "/:username/follow" do
       follow_unfollow { current_user.following.add(user) }
     end
 
-    get("/:username/unfollow") do
+    get "/:username/unfollow" do
       follow_unfollow { current_user.following.delete(user) }
     end
 
-    get("/:username/new") do
+    get "/:username/new" do
       pass unless current_user?
       haml :new_repository
     end
