@@ -20,5 +20,12 @@ or
   thin start -D -R config.ru
 
 == TODO / Known Bugs
-* Merge routes/ stuff into lib/, refactor refactor!
-* Webinterface.
+* Webinterface for creating repos / forking repos / viewing repos
+* Log/Stream generationg/output
+* Paper
+* SVN import from HPI
+
+=== Nice to have
+* Directory listing
+* Twitter
+
