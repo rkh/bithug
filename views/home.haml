@@ -1,4 +1,6 @@
 %h1= user.name
+- unless current_user?
+  %a.button{:href => "/#{user.name}/#{toggle_follow}"}= toggle_follow
 
 .keys
   - if current_user?
@@ -10,8 +12,7 @@
       %input{:type=>"text", :name=>"post[key]"}
       %textarea{:name=>"post[name]"}
       %input{:type => "submit", :value => "Add Key"}
-  - else 
-    %a.button{:href => "/#{user.name}/#{toggle_follow}"}= toggle_follow
+    
 
 #repositories
 
