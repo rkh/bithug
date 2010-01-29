@@ -25,3 +25,12 @@
 [submodule "vendor/yard"]
 	path = vendor/yard
 	url = git://github.com/lsegal/yard.git
+[submodule "vendor/rack"]
+	path = vendor/rack
+	url = http://github.com/rack/rack.git
+[submodule "vendor/rack-contrib"]
+	path = vendor/rack-contrib
+	url = http://github.com/rack/rack-contrib.git
+[submodule "vendor/extlib"]
+	path = vendor/extlib
+	url = http://github.com/datamapper/extlib.git

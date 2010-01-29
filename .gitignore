@@ -8,3 +8,4 @@ webrat.log
 .yardoc
 vendor
 *.rbc
+config.rb
