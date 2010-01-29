@@ -28,23 +28,26 @@ module Bithug
       following.all.include? user
     end
 
-    def log_following(user)
+    def log_following(user, start = :true)
       Bithug::LogInfo::FollowInfo.create.tap do |f|
-        active_user = self
-        passive_user = user
-      end
+        f.active_user = self
+        f.passive_user = user
+	f.started_following = start
+      end.save
     end
 
     def follow(user)
-      log_following(user).start_following
+      log_following(user, :true)
       following.add(user)
       user.followers.add(self)
     end
 
     def unfollow(user)
-      log_following(user).stop_following
+      log_following(user, :false)
       following.delete(user)
       user.followers.delete(self)
+      save
+      user.save
     end
 
     def validate
