@@ -4,14 +4,27 @@ module Bithug::Git
 
     def create_repository
       super if vcs.to_s != "git"
-      git = Bithug::Wrapper::Git.new(absolute_path)
-      git.init
+      wrapper.init
     end
 
     def remove_repository
       super if vcs.to_s != "git"
-      git = Bithug::Wrapper::Git.new(absolute_path)
-      git.remove
+      wrapper.remove
+    end
+
+    def log_recent_activity
+      log = wrapper.log.collect do |item|
+        CommitInfo.new.tap do
+          wrapper.log.each_pair do |k, v|
+            c.send("#{k}=".to_sym, v)
+          end
+        end
+      end
+      commits.replace((log + commits.all).uniq)
+    end
+
+    def wrapper
+      Bithug::Wrapper::Git.new(absolute_path)
     end
 
     def absolute_path

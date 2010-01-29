@@ -8,10 +8,13 @@ module Bithug
     set :owners, Bithug::User
     set :readers, Bithug::User
     set :writers, Bithug::User
+    set :commits, Bithug::CommitInfo
 
     index :name
     index :owners
     
+    # Ohm only provides class matching for sets. Owner should be 
+    # only one, anyhow, so provide accessors...  
     def owner=(user)
       owners.clear
       owners.add(user)
@@ -50,8 +53,10 @@ module Bithug
       end
     end
     
-    # Ohm only provides class matching for sets. Owner should be 
-    # only one, anyhow, so provide accessors...  
+    def log_recent_activity
+      # Do nothing here, logging actions must be done 
+      # by the wrappers
+    end
 
     class_methods do
             
@@ -94,7 +99,7 @@ module Bithug
   end
 
   class Repository < Ohm::Model
-  	include AbstractRepository unless ancestors.include? AbstractRepository
+    include AbstractRepository unless ancestors.include? AbstractRepository
   end
 
 end
