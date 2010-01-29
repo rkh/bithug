@@ -22,6 +22,10 @@ module Bithug::Wrapper
       FileUtils.rm_rf(@path)
     end
 
+    def log
+      YAML.parse("---\n#{exec("log", "--pretty=format:'- :author: %aN\n  :email: %ae\n  :revision: %H\n  :date_time: %aD\n  :message: %s\n'")}")
+    end
+
     private
     def chdir(path)
       wd = Dir.pwd
@@ -32,7 +36,7 @@ module Bithug::Wrapper
 
     def exec(command, *args)
       working_directory = chdir(@path)
-      system("git #{command} #{args.join(" ")} >> #{File.join(ENV["HOME"], "system.log")} 2>&1")
+      %x["git #{command} #{args.join(" ")} >> #{File.join(ENV["HOME"], "system.log")} 2>&1"]
       chdir(working_directory)
     end
 
