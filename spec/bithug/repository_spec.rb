@@ -68,4 +68,25 @@ describe Bithug::Repository do
     user2.forks.first.fork.should == repo2
     user2.forks.first.user.should == user2
   end
+  
+  it "should allow a user access rights" do
+    repo_name = "access_repository"
+    repo = subject.create(:name => repo_name, :owner => @user, :vcs => :git)
+    user2 = create_and_login_user(USER_NAME2)
+    repo.readers.all.should_not include user2
+    repo.writers.all.should_not include user2
+    @user.grant_read_access_for(user2, repo)
+    repo.readers.all.should include user2
+    repo.writers.all.should_not include user2
+    @user.grant_write_access_for(user2, repo)
+    repo.readers.all.should include user2
+    repo.writers.all.should include user2
+    @user.remove_write_access_for(user2, repo)
+    repo.readers.all.should include user2
+    repo.writers.all.should_not include user2
+    @user.remove_read_access_for(user2, repo)
+    repo.readers.all.should_not include user2
+    repo.writers.all.should_not include user2
+
+  end
 end

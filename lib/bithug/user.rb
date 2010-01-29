@@ -55,12 +55,12 @@ module Bithug
       repo.remove_write_access(user)
     end
     
-    def grant_read_accesss_for(user, repo)
+    def grant_read_access_for(user, repo)
       repo.grant_read_access(user)
     end
     
     def remove_read_access_for(user, repo)
-      repo.remove_write_access(user)
+      repo.remove_read_access(user)
     end
 
     def validate

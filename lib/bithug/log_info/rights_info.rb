@@ -11,8 +11,9 @@ module Bithug::LogInfo
       define_method(m) { send("__#{m}__").first }
       define_method(:"#{m}=") do |model|
         prevent_change(:"__#{m}__")
-        send("__#{m}__").add(model) 
-        model.rights.add(self.save)
+        send("__#{m}__").add(model)
+        pp model
+        model.rights.add(self)
       end
     end
 
