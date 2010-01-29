@@ -1,14 +1,24 @@
 != haml :user_info, :layout => false
 
+%h2 Your Account
+%form{:method => "post", :action => "/#{user.name}/settings"}
+  %label{:for => :real_name} Your Name:
+  %input{:type => :text, :name => :real_name, :value => user.real_name}
+  %label{:for => :email} Your E-Mail:
+  %input{:type => :text, :name => :email, :value => user.email}
+  %input{:type => :submit, :value => "store"}
+
 %h2 Your public keys
 - user.ssh_keys.all.each do |key|
   %p
     %h4= key.name
     %pre= key.value
+
 %h3 Add a key
-%form{:method => "post", :action => user.name / "add_key"}
+%form{:method => "post", :action => "/#{user.name}/add_key"}
   %label{:for => :name} Description:
-  %input{:name => :name}
+  %input{:type => :text, :name => :name}
   %label{:for => :value} Content:
-  %input{:name => :value}
+  %input{:type => :text, :name => :value}
+  %input{:type => :submit, :value => "store"}
   
