@@ -15,6 +15,11 @@ module Bithug
     set :ssh_keys, Bithug::Key
     set :repositories, Bithug::Repository
 
+    set :forks, Bithug::LogInfo::ForkInfo
+    set :rights, Bithug::LogInfo::RightsInfo
+    set :network, Bithug::LogInfo::FollowInfo
+    set :commits, Bithug::LogInfo::CommitInfo
+
     index :name
     
     def following?(user)
