@@ -33,7 +33,7 @@ body
         color: rgba(0, 0, 0, 0.7)
         image: url(/__big_band__/overlay-button.png)
         repeat: repeat-x
-      a  
+      a
         font-size: 80%
         padding-left: 5px
 
@@ -41,6 +41,9 @@ body
     header, footer
       color: #bbb
       a, a:visited
+        font:
+          variant: small-caps
+          weight: bold
         text-decoration: none
         color: #ddd
         &:hover
@@ -65,9 +68,25 @@ body
       
     #content
       padding: 20px
+      min-height: 300px
       
-      h1
-        display: inline-block
-      
-      a.button
-        +fancy-button-link
+      .infoBox
+        +border-radius(20px)
+        padding: 20px
+        background:
+          image: url(/__big_band__/overlay-button.png)
+          color: #888
+          repeat: repeat-x
+        min-width: 400px
+        float: right
+        img
+          margin: 0px
+            left: 5px
+          border: solid 2px #333
+          float: right
+        h1
+          margin: 0
+            bottom: 10px
+          font-size: 35px
+        a
+          +fancy-button-link(#061, 25px)
