@@ -47,7 +47,7 @@ module Bithug
         # maybe you should check access here ...
         begin
           repo.check_access_rights(current_user)
-        rescue ReadAccessDeniedError => e
+        rescue Bithug::ReadAccessDeniedError
           return
         end
         repo
@@ -109,7 +109,7 @@ module Bithug
       # this will grant the other user read/write access according to the url spec
       pass unless %w(w r).include? params[:read_or_write]
       user.grant_access(:user => params[:other_username], :repo => repo, 
-                        :access => params[:read_or_write]
+                        :access => params[:read_or_write])
     end
 
     post "/:username/:repository/revoke/:read_or_write/:other_username" do
@@ -118,7 +118,7 @@ module Bithug
       # (fails silently if the other user wasn't allowed in the first place)
       pass unless %w(w r).include? params[:read_or_write]
       user.revoke_access(:user => params[:other_username], :repo => repo, 
-                         :access => params[:read_or_write]
+                         :access => params[:read_or_write])
     end
 
     post "/:username/:repository/create" do
