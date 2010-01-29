@@ -33,8 +33,12 @@ module Bithug
         "#{"un" if current_user.following? user}follow"
       end
 
-      def gravatar(mail, size = 80, default = "monsterid")
+      def gravatar_url(mail, size = 80, default = "monsterid")
         "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}?d=#{default}"
+      end
+      
+      def gravatar(mail, size = 80, default = "monsterid")
+        "<img src='#{gravatar_url(mail, size, default)}' alt='' width='#{size}' height='#{size}'>"
       end
 
       def repo_named(name)
