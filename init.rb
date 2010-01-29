@@ -7,6 +7,6 @@ require "config" unless ENV['RACK_ENV'] == 'test'
 
 Bithug::Webserver.configure do |app|
   app.app_file = __FILE__
-  Ohm.connect
+  #Ohm.connect
   app.run! if $0 == __FILE__
 end

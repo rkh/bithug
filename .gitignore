@@ -9,3 +9,4 @@ webrat.log
 vendor
 *.rbc
 config.rb
+*.rdb
