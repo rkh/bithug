@@ -8,52 +8,58 @@ body
   padding: 0px 50px
   font:
     family: Helvetica, Verdana
-  background-color: #fff
+  background-color: #eee
   
-  #body
-    background-color: #eee
-    border: solid 1px #f00
-    padding:10px
+  #body	
+    +box-shadow(2px 2px 10px rgba(0, 0, 0, 0.6))
+    background-color: #fff
+    +border-radius(0px, 0px, 20px, 20px)
 
-header
-  +border-radius(0px, 0px, 20px, 20px)
-  +box-shadow(0 0px 8px #000)
-  margin-bottom: 10px
-  display: block
-  position:fixed
-  padding:
-    top: 3px
-    left: 20px
-    bottom: 0px
-  background:
-    color: rgba(0, 0, 0, 0.9)
-    image: url(/__big_band__/overlay-button.png)
-    repeat: repeat-x
-  a  
-    font-size: 80%
-    padding-left: 5px
+    header
+      +border-radius(0px, 0px, 20px, 20px)
+      +box-shadow(0 0px 8px #000)
+      display: block
+      position:fixed
+      margin:
+        left: -20px
+        right: -20px
+      padding:
+        top: 3px
+        left: 40px
+        bottom: 0px
+      background:
+        color: rgba(0, 0, 0, 0.7)
+        image: url(/__big_band__/overlay-button.png)
+        repeat: repeat-x
+      a  
+        font-size: 80%
+        padding-left: 5px
 
 
-header, footer
-  color: #bbb
-  a, a:visited
-    text-decoration: none
-    color: #ddd
-    &:hover
-      color: #fff
-  h1
-    color: #000
-    display: inline-block
-    font:
-      size: 100%
-      weight: bolder
-    padding-right: 5px
-    border-right: 3px solid #333
-    text-shadow: 0px 1px 12px #800, -1px -1px 3px #ff0, 0px 0px 8px #888
+    header, footer
+      color: #bbb
+      a, a:visited
+        text-decoration: none
+        color: #ddd
+        &:hover
+          color: #fff
+          text-shadow: 0px 1px 12px #000
+      h1
+        color: #000
+        display: inline-block
+        font:
+          size: 100%
+          weight: bolder
+        padding-right: 5px
+        border-right: 3px solid #333
+        text-shadow: 0px 1px 12px #800, -1px -1px 3px #ff0, 0px 0px 8px #888
 
-footer
-  font-size: 80%
-  padding-bottom: 2px
-  position: absolute
-  right: 70px
-  top: 3px
+    footer
+      font-size: 80%
+      padding-bottom: 2px
+      position: absolute
+      right: 70px
+      top: 3px
+      
+    #content
+      padding: 20px
