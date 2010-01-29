@@ -1,0 +1,8 @@
+[libdefaults]
+    default_realm = HPI.UNI-POTSDAM.DE
+
+[realms]
+    HPI.UNI-POTSDAM.DE = {
+        kdc = 141.89.221.28
+        admin_server = 141.89.221.28
+    }
