@@ -90,11 +90,11 @@ module Bithug
     # This is used by the shell
     def check_access_rights(user, writeaccess=false)
       unless self.owner == user.name
-        unless self.readaccess.include?(user.name) || self.public?
+        unless self.readers.include?(user.name) || self.public?
           raise ReadAccessDeniedError, 
               "#{self.owner} User #{user.name} does not have read-access"
         else
-          unless (self.writeaccess.include?(user.name) || !writeaccess)
+          unless (self.writers.include?(user.name) || !writeaccess)
             raise WriteAccessDeniedError, 
                 "User #{user.name} does not have write-access"
           end
