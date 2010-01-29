@@ -56,10 +56,9 @@ class Bithug::Key < Ohm::Model
     def valid?
      data = value
   	  type, blob = data.split(/ /)
-  	  return false if blob.nil? || type.nil?
+  	  false if blob.nil? || type.nil?
   	  blob = blob.unpack("m*").first
   	  reader = Net::SSH::Buffer.new(blob)
-  	  puts blob
   	  begin
   	    reader.read_key
   	  rescue NotImplementedError
