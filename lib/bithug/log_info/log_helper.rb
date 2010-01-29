@@ -1,6 +1,6 @@
 module Bithug::LogInfo
   module LogHelper
-    include ServiceHelper
+    include Bithug::ServiceHelper
 
     attribute :date_time
 
