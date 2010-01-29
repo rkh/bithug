@@ -3,24 +3,27 @@ module Bithug::Git
     include Bithug::ServiceHelper
 
     def create_repository
-      super if vcs.to_s != "git"
+      return super if vcs.to_s != "git"
       wrapper.init
     end
 
     def remove_repository
-      super if vcs.to_s != "git"
+      return super if vcs.to_s != "git"
       wrapper.remove
     end
 
     def log_recent_activity
       log = wrapper.log.collect do |item|
-        CommitInfo.new.tap do
-          wrapper.log.each_pair do |k, v|
-            c.send("#{k}=".to_sym, v)
+        CommitInfo.new.tap do |c|
+          item.each_pair do |k, v|            
+            c.send("#{k}=", v)
           end
         end
       end
-      commits.replace((log + commits.all).uniq)
+      (log - commits.all).each do |item|
+        item.save
+        commits.add(item)
+      end
     end
 
     def wrapper

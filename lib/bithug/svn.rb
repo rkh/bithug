@@ -4,18 +4,19 @@
 # thus, Ohm::Model methods will be available on inclusion 
 # and this repo type can add an attribute to the model
 module Bithug::Svn
-  module Repository
+  module Repositorym
     include Bithug::ServiceHelper
+    include Bithug::Git
 
     attribute :remote
 
     def create_repository
-      super if vcs.to_s != "svn"
+      return super if vcs.to_s != "svn"
       wrapper.init
     end
 
     def remove_repository
-      super if vcs.to_s != "svn"
+      return super if vcs.to_s != "svn"
       wrapper.remove
     end
 
@@ -25,23 +26,8 @@ module Bithug::Svn
       log_recent_activity
     end
 
-    def log_recent_activity
-      log = wrapper.log.collect do |item|
-        CommitInfo.new.tap do
-          wrapper.log.each_pair do |k, v|
-            c.send("#{k}=".to_sym, v)
-          end
-        end
-      end
-      commits.replace((log + commits.all).uniq)
-    end
-
     def wrapper
       Bithug::Wrapper::GitSvn.new(absolute_path, remote)
-    end
-
-    def absolute_path
-      "#{File.expand_path("~")}/#{name}"
     end
   end
 end

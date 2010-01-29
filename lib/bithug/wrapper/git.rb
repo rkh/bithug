@@ -8,7 +8,11 @@ module Bithug::Wrapper
     attr_reader :path, :remote
 
     def initialize(path,remote=nil)
-      @path = File.expand_path(ENV["HOME"] / path)
+      if path.start_with? "/"
+        @path = path
+      else
+        @path = File.expand_path(ENV["HOME"] / path)
+      end
       @remote = expand_remote(remote)
     end
 
