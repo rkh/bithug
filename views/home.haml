@@ -21,8 +21,8 @@
 
   #writeable_repositories
     - user.writeable_repositories.each do |r|
-      %a{:href => "/repositories/#{r.name}"}= r.name
+      %a{:href => "/#{r.owner}/#{r.name}"}= r.name
 
   #readable_repositories
     - user.readable_repositories.each do |r|
-      %a{:href => "/repositories/#{r.name}"}= r.name
+      %a{:href => "/#{r.owner}/#{r.name}"}= r.name

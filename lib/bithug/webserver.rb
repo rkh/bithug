@@ -48,7 +48,9 @@ module Bithug
       current_user.save
       redirect "/#{params[:username]}"
     end
-
+    
+    get ("/:username/:repository") { haml :"repositories/view" }
+ 
     post "/:username/?" do
       Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"] if current_user?
       redirect request.path_info
