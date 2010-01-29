@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Bithug
+    %title= title
     %meta{:charset => "utf-8"}/
     %meta{:"http-equiv" => "X-UA-Compatible", :content => "chrome=1"}/
     %link{:href =>"/stylesheets/screen.css", :media =>"screen", :rel => "stylesheet", :type => "text/css"}/
@@ -15,7 +15,7 @@
   %body.bithug
     #body
       %header
-        %h1 Bithug
+        %h1= title
         %nav
           %a{:href => "/"} Home
           %a{:href => "/#{current_user.name}/new"} Create Repository

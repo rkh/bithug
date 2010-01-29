@@ -53,6 +53,10 @@ module Bithug
       def owned?
         repo.owner == current_user
       end
+      
+      def title
+        Bithug.title
+      end
 
     end
 
