@@ -1,1 +1,14 @@
 != haml :user_info, :layout => false
+
+%h2 Your public keys
+- user.ssh_keys.all.each do |key|
+  %p
+    %h4= key.name
+    %pre= key.value
+%h3 Add a key
+%form{:method => "post", :action => user.name / "add_key"}
+  %label{:for => :name} Description:
+  %input{:name => :name}
+  %label{:for => :value} Content:
+  %input{:name => :value}
+  
