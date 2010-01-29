@@ -29,6 +29,10 @@ module Bithug
       owners.clear
       owners.add(user)
     end
+
+    def public?
+      self.public == "true"
+    end
     
     def owner
       owners.first
@@ -67,40 +71,20 @@ module Bithug
       end.save
     end    
     
-    def grant_write_access(user)
-    	grant_read_access(user)
-      unless writers.all.include? user
-        writers.add(user) 
-        log_access(user)
-      end
+    def grant_access(options)
+      readers.add(options[:user])
+      writers.add(options[:user]) if "#{options[:access]}" == 'w'
     end
-    
-    def grant_read_access(user)
-      unless readers.all.include? user
-        readers.add(user)
-        log_access(user)
-      end
-    end
-    
-    def remove_write_access(user)
-      if writers.all.include? user
-        writers.delete(user)
-        log_access(user)
-      end
-    end
-    
-    def remove_read_access(user)
-      if readers.all.include? user
-        writers.delete(user)
-        readers.delete(user)
-        log_access(user)
-      end
+
+    def revoke_access(options)
+      writers.delete(options[:user])
+      readers.delete(options[:user]) if "#{options[:access]}" == 'r'
     end
     
     # This is used by the shell
     def check_access_rights(user, writeaccess=false)
       unless self.owner == user.name
-        unless self.readaccess.include?(user.name) || (self.public == true)
+        unless self.readaccess.include?(user.name) || self.public?
           raise ReadAccessDeniedError, 
               "#{self.owner} User #{user.name} does not have read-access"
         else

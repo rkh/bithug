@@ -48,20 +48,31 @@ module Bithug
       user.followers.delete(self)
     end
     
-    def grant_write_access_for(user, repo)
-      repo.grant_write_access(user)
+    def grant_access(options)
+      options[:access] ||= :r
+      options[:repo] ||= options[:repository]
+      options[:repo].grant_access(options)
+      options[:access] = "+#{options[:access]}"
+      log_access_rights(options)
+      save
     end
-    
-    def remove_write_access_for(user, repo)
-      repo.remove_write_access(user)
+
+    def revoke_access(options)
+      options[:access] ||= :w
+      options[:repo] ||= options[:repository]
+      options[:repo].revoke_access(options)
+      options[:access] = "-#{options[:access]}"
+      log_access_rights(options)
+      save
     end
-    
-    def grant_read_access_for(user, repo)
-      repo.grant_read_access(user)
-    end
-    
-    def remove_read_access_for(user, repo)
-      repo.remove_read_access(user)
+
+    def log_access_rights(options)
+      Bithug::LogInfo::RightsInfo.create.tap do |r|
+        r.admin = self
+        r.changed_user = options[:user]
+        r.repository = options[:repo]
+        r.access_change = options[:access]
+      end.save
     end
 
     def validate
