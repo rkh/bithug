@@ -28,7 +28,7 @@ module Bithug::Git
 
     def wrapper
       return super if vcs.to_s != "git"
-      Bithug::Wrapper::Git.new(absolute_path)
+      Bithug::Wrapper::Git.new(absolute_path, remote)
     end
 
     def absolute_path
