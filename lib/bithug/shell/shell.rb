@@ -1,3 +1,4 @@
+require 'bithug'
 require 'exceptions'
 require 'fileutils'
 
@@ -23,7 +24,7 @@ class Bithug::Shell
 
   def run
     unless repo = Repository.find(:name, @repository).first
-      raise UnknownRepositoryError, "Could not find a repository named #{@repository}" 
+      raise Bithug::UnknownRepositoryError, "Could not find a repository named #{@repository}" 
     end
     repo.check_access_rights(@user, @writeaccess)
     exec(@command, File.expand_path("~") / @repository)
