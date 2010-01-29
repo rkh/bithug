@@ -3,7 +3,6 @@ module Bithug::LogInfo
     include LogHelper
 
     attribute :started_following
-    attribute :date_time
     set :__passive_user__, Bithug::User
     set :__active_user__, Bithug::User
 

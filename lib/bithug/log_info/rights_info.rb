@@ -3,7 +3,6 @@ module Bithug::LogInfo
     include LogHelper
 
     attribute :access_change
-    attribute :date_time
     set :__changed_user__, Bithug::User
     set :__admin__, Bithug::User
     set :__repository__, Bithug::Repository

@@ -2,6 +2,8 @@ module Bithug::LogInfo
   module LogHelper
     include ServiceHelper
 
+    attribute :date_time
+
     def prevent_change(on)
       return if new?
       # If we haven't been commited to storage, we can still change
@@ -10,6 +12,10 @@ module Bithug::LogInfo
       else
         raise RuntimeError, "Must not change logs!" unless send(on).first.nil?
       end
+    end
+
+    def timestamp
+      Time.at(date_time.to_i)
     end
 
     def recent(num = 10)
