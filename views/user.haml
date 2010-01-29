@@ -3,12 +3,12 @@
 
   #owned_repositories
     - user.repositories.each do |r|
-      %a{:href => "/#{user.name}/#{r.name}"}= r.name
+      %a{:href => "/#{r.name}"}= r.name
 
   #writeable_repositories
     - user.writeable_repositories.each do |r|
-      %a{:href => "/#{r.owner}/#{r.name}"}= r.name
+      %a{:href => "/#{r.name}"}= r.name
 
   #readable_repositories
     - user.readable_repositories.each do |r|
-      %a{:href => "/#{r.owner}/#{r.name}"}= r.name
+      %a{:href => "/#{r.name}"}= r.name
