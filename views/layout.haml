@@ -19,6 +19,8 @@
         %nav
           %a{:href => "/"} Home
           %a{:href => "/#{current_user.name}/new"} Create Repository
+        .welcome
+          Welcome <a href="/">#{current_user.real_name || current_user.real_name}</a>, lets code!
       #content
         != yield
       %footer
