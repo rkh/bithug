@@ -1,5 +1,7 @@
 module Bithug::LogInfo
   class FollowInfo < Ohm::Model
+    include LogHelper
+
     set :__passive_user__, Bithug::User
     set :__active_user__, Bithug::User
     attribute :__started_following__
@@ -11,14 +13,6 @@ module Bithug::LogInfo
         prevent_change("__#{m}__")
         send("__#{m}__").add(user)
         user.network.add(self.save)
-      end
-    end
-
-    def prevent_change(on)
-      if attributes.include? on
-        raise RuntimeError, "Must not change logs!" unless send(on).nil?
-      else
-        raise RuntimeError, "Must not change logs!" unless send(on).first.nil?
       end
     end
 

@@ -1,5 +1,6 @@
 module Bithug::LogInfo
   class CommitInfo < Ohm::Model
+    include LogHelper
     attribute :message
     attribute :date_time
     attribute :revision # SHA1 Sum, Revision, whatever
@@ -17,8 +18,8 @@ module Bithug::LogInfo
     end
 
     def repository=(repo)
-      raise RuntimeError, "Must not change logs!" unless __repository__.first.nil?
-      __repository__.add(model)
+      prevent_change(:__repository__)
+      __repository__.add(repo)
     end
 
     def author_model
