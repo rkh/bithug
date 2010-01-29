@@ -8,8 +8,6 @@ module Bithug::Svn
     include Bithug::ServiceHelper
     include Bithug::Git
 
-    attribute :remote
-
     def create_repository
       return super if vcs.to_s != "svn"
       unless remote
