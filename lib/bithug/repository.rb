@@ -9,7 +9,10 @@ module Bithug
     set :owners, Bithug::User
     set :readers, Bithug::User
     set :writers, Bithug::User
-    set :commits, Bithug::CommitInfo
+
+    set :commits, Bithug::LogInfo::CommitInfo
+    set :forks, Bithug::LogInfo::ForkInfo
+    set :rights, Bithug::LogInfo::RightsInfo
 
     index :name
     index :owners
@@ -57,8 +60,8 @@ module Bithug
       end
     end
     
-    def log_recent_activity
-      # Do nothing here, logging actions must be done 
+    def log_recent_activity(user=nil)
+      # Do nothing here, logging actions must be done
       # by the wrappers
     end
 
