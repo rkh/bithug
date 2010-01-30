@@ -132,24 +132,21 @@ module Bithug
     get "/:username/:repository/?" do
       pass unless repo
       # repo.tree <- returns a nested hash of the (w)hole repository tree
-      haml :repository
+      haml :repository_tree, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
     end
 
-    post "/:username/:repository/grant/:read_or_write/:other_username" do
-      pass unless repo
-      # this will grant the other user read/write access according to the url spec
-      pass unless %w(w r).include? params[:read_or_write]
-      user.grant_access(:user => params[:other_username], :repo => repo, 
-      :access => params[:read_or_write])
+    post "/:username/:repository/grant" do
+      # epxects :read_or_write and :other_username
+      pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
+      user.grant_access :user => params[:other_username], :repo => repo, :access => params[:read_or_write]
+      redirect "/#{repo.name}/admin"
     end
 
-    post "/:username/:repository/revoke/:read_or_write/:other_username" do
-      pass unless repo
-      # this will revoke the other users read/write access according to the url spec 
-      # (fails silently if the other user wasn't allowed in the first place)
-      pass unless %w(w r).include? params[:read_or_write]
-      user.revoke_access(:user => params[:other_username], :repo => repo, 
-      :access => params[:read_or_write])
+    post "/:username/:repository/revoke" do
+      # epxects :read_or_write and :other_username
+      pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
+      user.revoke_access :user => params[:other_username], :repo => repo, :access => params[:read_or_write]
+      redirect "/#{repo.name}/admin"
     end
 
     get "/:username/:repository/fork" do
@@ -158,9 +155,13 @@ module Bithug
       redirect "/#{current_user.name}/#{params[:repository]}"
     end
 
-    get "/:username/:repository/:commit_spec" do
+    get "/:username/:repository/:commit_spec/?*" do
       pass unless repo
-      repo.tree(params[:commit_spec]) # <- if this isn't a tag, branch, commit (...) then the hash will simply be empty
+      tree = params["splat"].first.split("/").inject repo.tree(params[:commit_spec]) do |subtree, subpath|
+        pass unless subpath.include? subpath
+        subpath[subtree]
+      end
+      haml :repository, {}, :tree => tree, :is_subtree => params["splat"].empty?, :commit_spec => params[:commit_spec]
     end
 
   end
