@@ -6,4 +6,8 @@ module Bithug::LogInfo
   autoload :ForkInfo,     'bithug/log_info/fork_info'
   autoload :LogHelper,    'bithug/log_info/log_helper'
   autoload :RightsInfo,   'bithug/log_info/rights_info'
+
+  def self.recent(from_set, num = 10)
+    from_set.sort_by(:date_time, :order => "ASC")[0..num]
+  end
 end
