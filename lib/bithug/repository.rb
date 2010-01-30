@@ -7,7 +7,7 @@ module Bithug
 
   module AbstractRepository
     include ServiceHelper
-  
+
     attribute :name
     attribute :public
     attribute :vcs
@@ -22,7 +22,7 @@ module Bithug
 
     index :name
     index :owners
-    
+
     def recent_activity(num=10)
       ([commits.recent(num), forks.recent(num), rights.recent(num)].sort_by do |i|
         i.date_time
@@ -39,7 +39,7 @@ module Bithug
     def public?
       self.public == "true"
     end
-    
+
     def owner
       owners.first
     end
@@ -48,7 +48,7 @@ module Bithug
       assert_present :name
       assert_present :vcs
     end
-    
+
     def create_repository
       raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
     end
@@ -60,7 +60,7 @@ module Bithug
     def fork(new_owner)
       name_without_owner = name.gsub(owner.name,"").gsub("/","")
       new_repo = self.class.create(:vcs => vcs, :name => name_without_owner, 
-                                   :owner => new_owner, :remote => absolute_path)
+      :owner => new_owner, :remote => absolute_path)
       Bithug::LogInfo::ForkInfo.create.tap do |f|
         f.original = self
         f.fork = new_repo
@@ -81,8 +81,10 @@ module Bithug
         f.admin = owner
         f.repository = self
       end.save
-    end    
-    
+    end 
+
+
+
     def grant_access(options)
       readers.add(options[:user])
       writers.add(options[:user]) if "#{options[:access]}" == 'w'
@@ -92,7 +94,7 @@ module Bithug
       writers.delete(options[:user])
       readers.delete(options[:user]) if "#{options[:access]}" == 'r'
     end
-    
+
     # This is used by the shell
     def check_access_rights(user, writeaccess=false)      
       return true if owner == user
@@ -100,10 +102,14 @@ module Bithug
       raise WriteAccessDeniedError, "#{name}: #{user.name} has no write-access" unless self.writers.include? user or !writeaccess
       true
     end
-    
+
     def log_recent_activity(user=nil)
       # Do nothing here, logging actions must be done
       # by the wrappers
+    end
+
+    def git_url
+      "%s@%s:%s" % [ Bithug.git_user, Bithug.hostname, name ]
     end
 
     def set_public(flag = true)

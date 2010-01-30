@@ -7,8 +7,6 @@ module Bithug::Wrapper
   class Git
     attr_reader :path, :remote
 
-    LOG_FORMAT = {:author => "%aN", :email => "%ae", :revision => "%H", :date_time => "%at", :message => "'%s'"}
-
     def initialize(path,remote=nil)
       @path   = path if path.start_with? "/"
       @path ||= (ENV["HOME"] / path).expand_path
@@ -24,11 +22,16 @@ module Bithug::Wrapper
     end
 
     def log
-      YAML.load(exec("log", "--pretty=format:'#{log_format}'")) or []
-    end
-
-    def log_format
-      [LOG_FORMAT].to_yaml.sub(/^---\s*\n?/, '')
+      splitter = "-"*20 << rand(2**32).to_s << "-"*20 << "\n"
+      entries  = exec("log", "--pretty=format:'#{splitter}%aN\n%ae\n%H\n%at\n%s\n'").split(splitter)
+      puts entries
+      entries.shift
+      entries.map do |raw|
+        data = raw.split("\n", 5)
+        { :author   => data[0], :email => data[1],
+          :revision => data[2], :date_time => data[3],
+          :message  => data[4].strip }
+      end
     end
 
     def ls(commit_ish = "HEAD")

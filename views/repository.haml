@@ -1,6 +1,6 @@
 .infoBox
   %h1= repo.name
-  %pre git clone git@???:#{repo.name}
+  %pre git clone #{repo.git_url}
   - if owned?
     %a{:href => "/#{repo.name}/admin"} admin
   - else

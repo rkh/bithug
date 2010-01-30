@@ -12,10 +12,20 @@ module Bithug
   def self.configure(&block)
     instance_yield block
   end
-  
+
   def self.title(new_title = nil)
     @title = new_title if new_title
     @title ||= name
+  end
+
+  def self.hostname(new_hostname = nil)
+    @hostname = new_hostname if new_hostname
+    @hostname ||= `hostname`.strip
+  end
+
+  def self.git_user(git_user = nil)
+    @git_user = git_user if git_user
+    @git_user ||= ENV["USER"]
   end
 
   def self.use(service, options = {})
