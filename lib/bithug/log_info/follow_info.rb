@@ -2,10 +2,9 @@ module Bithug::LogInfo
   class FollowInfo < Ohm::Model
     include LogHelper
 
+    attribute :started_following
     set :__passive_user__, Bithug::User
     set :__active_user__, Bithug::User
-    attribute :__started_following__
-    attribute :date_time
 
     [:active_user, :passive_user].each do |m|
       define_method(m) { send("__#{m}__").first }
@@ -16,18 +15,8 @@ module Bithug::LogInfo
       end
     end
 
-    def start_following
-      prevent_change(:__started_following__)
-      __started_following__ = true
-    end
-
-    def stop_following
-      prevent_change(:__started_following__)
-      __started_following__ = false
-    end
-
     def following?
-      __started_following__ == "true"
+      started_following == "true"
     end
   end
 end

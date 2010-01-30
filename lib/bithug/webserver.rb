@@ -47,7 +47,14 @@ module Bithug
 
       def repo
         return unless user
-        repo_named(user.name / params[:repository])
+        repo = repo_named(user.name / params[:repository])
+        # maybe you should check access here ...
+        begin
+          repo.check_access_rights(current_user)
+        rescue Bithug::ReadAccessDeniedError
+          return
+        end
+        repo
       end
       
       def owned?
@@ -111,9 +118,51 @@ module Bithug
       redirect "/#{user.name}/settings"
     end
 
-    get "/:username/:repository" do
+    get "/:username/:repository/?" do
       pass unless repo
+      # repo.tree <- returns a nested hash of the (w)hole repository tree
       haml :repository
+    end
+
+    post "/:username/:repository/grant/:read_or_write/:other_username" do
+      pass unless repo
+      # this will grant the other user read/write access according to the url spec
+      pass unless %w(w r).include? params[:read_or_write]
+      user.grant_access(:user => params[:other_username], :repo => repo, 
+                        :access => params[:read_or_write])
+    end
+
+    post "/:username/:repository/revoke/:read_or_write/:other_username" do
+      pass unless repo
+      # this will revoke the other users read/write access according to the url spec 
+      # (fails silently if the other user wasn't allowed in the first place)
+      pass unless %w(w r).include? params[:read_or_write]
+      user.revoke_access(:user => params[:other_username], :repo => repo, 
+                         :access => params[:read_or_write])
+    end
+
+    post "/:username/:repository/create" do
+      # this will create a new repo
+      # The POST should have a VCS parameter.
+      # Optionally it might have a REMOTE parameter, if it does
+      # the underlying repo might try to fetch it.
+      # SVN requires a remote, it'll raise an error otherwise
+      # GIT will try to fork from the remote
+      pass unless user == current_user
+      Repository.create(:owner => user, :name => params[:repository], 
+                        :vcs => params["post"]["vcs"], 
+                        :remote => params["post"]["remote"])
+    end
+
+    post "/:username/:repository/fork" do
+      pass unless repo
+      # This will fork the repo for the current user 
+      repo.fork(current_user)
+    end
+
+    get "/:username/:repository/:commit_spec" do
+      pass unless repo
+      repo.tree(params[:commit_spec]) # <- if this isn't a tag, branch, commit (...) then the hash will simply be empty
     end
 
   end

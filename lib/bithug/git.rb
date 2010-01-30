@@ -22,10 +22,15 @@ module Bithug::Git
       end
       (log - commits.all).each do |item|
         item.save
-	item.repository = self
+        item.repository = self
         commits.add(item)
-	user.commits.add(item) unless user.nil?
+        user.commits.add(item) unless user.nil?
       end
+    end
+
+    def tree(path_options={})
+      commit_ishs = [:revision, :sha1, :branch, :tag, :commit]
+      wrapper.ls(commit_ishs.detect {|i| path_options[i]} || "HEAD")
     end
 
     def wrapper

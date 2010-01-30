@@ -5,6 +5,9 @@ require "bithug/service_helper"
 module Bithug
   extend Monkey::Autoloader
   class ConfigurationError < RuntimeError; end
+  class UnknownRepositoryError < RuntimeError; end
+  class ReadAccessDeniedError < RuntimeError;  end
+  class WriteAccessDeniedError < RuntimeError; end
 
   def self.configure(&block)
     instance_yield block
@@ -28,5 +31,4 @@ module Bithug
       end
     end
   end
-
 end

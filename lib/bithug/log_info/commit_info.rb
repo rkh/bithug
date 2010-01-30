@@ -2,7 +2,6 @@ module Bithug::LogInfo
   class CommitInfo < Ohm::Model
     include LogHelper
     attribute :message
-    attribute :date_time
     attribute :revision # SHA1 Sum, Revision, whatever
     attribute :author
     attribute :email
