@@ -60,6 +60,10 @@ module Bithug
       def title
         Bithug.title
       end
+      
+      def log_entries
+        user.following.all.collect { |u| u.recent_activity }.sort_by { |i| i.date_time }
+      end
 
     end
 
@@ -166,7 +170,7 @@ module Bithug
 
     get "/:username/feed" do
       pass unless current_user?
-      haml :feed, {:layout => false, :format => :xhtml}, :log_entries => user.following.all.collect {|u| u.recent_activity}
+      haml :feed, :layout => false, :format => :xhtml
     end
 
   end
