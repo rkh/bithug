@@ -35,6 +35,11 @@ module Bithug
         "#{"un" if current_user.following? user}follow"
       end
 
+      def toggle_public
+	"Mark private" if repo.public?
+	"Make public" unless repo.public?
+      end
+
       def gravatar_url(mail, size, default)
         "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}&d=#{default}"
       end
@@ -145,17 +150,28 @@ module Bithug
       haml :repository, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
     end
 
-    post "/:username/:repository/grant" do
-      # epxects :read_or_write and :other_username
-      pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
-      user.grant_access :user => params[:other_username], :repo => repo, :access => params[:read_or_write]
+    get "/:username/:repository/admin/?" do
+      pass unless repo and current_user? 
+      # repo.tree <- returns a nested hash of the (w)hole repository tree
+      haml :repository_settings, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
+    end
+
+    get "/:username/:repository/toggle_public?" do
+      pass unless repo and current_user? 
+      repo.set_public(!repo.public?)
       redirect "/#{repo.name}/admin"
     end
 
-    post "/:username/:repository/revoke" do
+    post "/:username/:repository/grant" do
       # epxects :read_or_write and :other_username
       pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
-      user.revoke_access :user => params[:other_username], :repo => repo, :access => params[:read_or_write]
+      user.grant_access :user => user_named(params[:other_username]), :repo => repo, :access => params[:read_or_write]
+      redirect "/#{repo.name}/admin"
+    end
+
+    get "/:username/:repository/revoke/:read_or_write/:other_username" do
+      pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
+      user.revoke_access :user => user_named(params[:other_username]), :repo => repo, :access => params[:read_or_write]
       redirect "/#{repo.name}/admin"
     end
 
