@@ -11,7 +11,7 @@
     To change your avatar, visit <a href="http://en.gravatar.com/">gravatar.com</a>.
 
 %h2 Public keys
-- user.ssh_keys.all.compact.each do |key|
+- user.ssh_keys.each do |key|
   %p
     %h4= key.name
     %pre.key #{key.value[0..20]} ... #{key.value[-30..-1]}
@@ -24,4 +24,4 @@
   %label{:for => :value} Content:
   %input{:type => :text, :name => :value}
   %input{:type => :submit, :value => "store"}
-  
+
