@@ -32,6 +32,7 @@ describe Bithug::Key do
   end
 
   it "should delete a present key from a user" do
+    @user.ssh_keys.clear
     @user.ssh_keys.size.should == 0
     key = subject.add(:user => @user, :name => 'Test' , :value => @value)
     @user.ssh_keys.should include(key)
