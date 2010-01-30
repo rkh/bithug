@@ -52,17 +52,18 @@ class Bithug::Key < Ohm::Model
     end
     
     def valid?
+     return false if value.include? "\n"
      data = value
-  	  type, blob = data.split(/ /)
-  	  false if blob.nil? || type.nil?
-  	  blob = blob.unpack("m*").first
-  	  reader = Net::SSH::Buffer.new(blob)
-  	  begin
-  	    reader.read_key
-  	  rescue NotImplementedError
-  	    false
-  	  end
-  	  true
+     type, blob = data.split(/ /)
+  	 return false if blob.nil? || type.nil?
+  	 blob = blob.unpack("m*").first
+  	 reader = Net::SSH::Buffer.new(blob)
+  	 begin
+  	   reader.read_key
+  	 rescue NotImplementedError
+  	   false
+  	 end
+  	 true
   	end
   	
   end
