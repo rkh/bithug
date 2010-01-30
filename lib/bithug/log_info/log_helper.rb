@@ -18,10 +18,6 @@ module Bithug::LogInfo
       Time.at(date_time.to_i)
     end
 
-    def recent(num = 10)
-      self.class.all.sort_by(:date_time, :order => "ASC")[0..num]
-    end
-
     class_methods do
       def create(*args)
         super.tap do |log|

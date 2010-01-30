@@ -28,8 +28,9 @@ module Bithug
     index :name
     
     def recent_activity(num=10)
-      ([commits.recent(num), forks.recent(num), 
-       rights.recent(num), network.recent(num)].sort_by do |i|
+      ([commits, forks, rights, network].collect do |ary| 
+        Bithug::LogInfo.recent(ary, num)
+      end.flatten.sort_by do |i|
         i.date_time
       end)[0..num]
     end
