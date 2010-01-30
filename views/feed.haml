@@ -1,0 +1,20 @@
+!!! XML
+%rss{ :version => "2.0" }
+  %channel
+    %title Popular Questions on Maskeet
+    %link= url(:recent_questions)
+    %description A list of the most popular questions asked on the askeet site, rated by the community.
+    %language en-us
+    %pubDate= Time.now
+    - for item in @history_items
+      %item
+        /stubbing, i'm going to work on this ASAP
+        %title= item.class.to_s
+        /have to provide a custom *.to_s for the items
+        %description= item.to_s
+        /%link= url(:question, :stripped_title => question.stripped_title)
+        /%guid= question.id
+        /%author= question.user
+        %pubDate= Time.at(item.date_time)
+
+
