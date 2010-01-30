@@ -5,6 +5,8 @@
   %label{:for => :name} Project Name:
   %input{:type => :text, :name => :name, :value => "#{repo.name.gsub(user.name,"").gsub("/","")}"}
   %input{:type => :submit, :value => "Store"}
+%br
+%a.button{:href => "/#{repo.name}/delete"} Delete this repository
 
 %h2 Access Rights
 %a{:href => "/#{repo.name}/toggle_public"}= toggle_public

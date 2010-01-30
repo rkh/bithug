@@ -115,6 +115,14 @@ module Bithug
       self.save
     end
 
+    # This is overwritten to actually remove the repository from storage or 
+    # whatever is configured on delete
+    def remove
+      remove_repository
+      owner.repositories.delete(self)
+      self.delete
+    end
+
     class_methods do
       # This is overwritten to immediately create the underlying repo using the 
       # configured method, and also modify the name for uniqueness in the system 
@@ -131,12 +139,6 @@ module Bithug
         end
       end
 
-      # This is overwritten to actually remove the repository from storage or 
-      # whatever is configured on delete
-      def delete
-        remove_repository
-        super
-      end
     end
   end
 

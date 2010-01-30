@@ -159,6 +159,26 @@ module Bithug
       haml :repository_settings, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
     end
 
+    post "/:username/:repository/admin/?" do
+      pass unless repo and current_user? 
+      # repo.tree <- returns a nested hash of the (w)hole repository tree
+      repo.name = params[:name] 
+      repo.save
+      redirect "/#{repo.name}/admin"
+    end
+
+    get "/:username/:repository/delete/?" do
+      pass unless repo and current_user?
+      haml :confirmation, {}, :return_url => "/#{repo.name}",
+	 :message => "Are you sure you want to delete your repository #{repo.name}? This action cannot be undone!"
+    end
+
+    get "/:username/:repository/delete/confirmed" do
+      pass unless repo and current_user?
+      repo.remove
+      redirect "/#{user.name}"
+    end
+
     get "/:username/:repository/toggle_public?" do
       pass unless repo and current_user? 
       repo.set_public(!repo.public?)
