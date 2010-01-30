@@ -99,7 +99,7 @@ module Bithug
       pass unless current_user?
       reponame = params["repo_name"]
       vcs = params["vcs"] || "git"
-      Repository.create(:name => reponame, :owner => user, :vcs => vcs)
+      Repository.create(:name => reponame, :owner => user, :vcs => vcs, :remote => params["remote"])
       redirect "/#{user.name}/#{reponame}"
     end
 
@@ -152,20 +152,7 @@ module Bithug
       :access => params[:read_or_write])
     end
 
-    post "/:username/:repository/create" do
-      # this will create a new repo
-      # The POST should have a VCS parameter.
-      # Optionally it might have a REMOTE parameter, if it does
-      # the underlying repo might try to fetch it.
-      # SVN requires a remote, it'll raise an error otherwise
-      # GIT will try to fork from the remote
-      pass unless user == current_user
-      Repository.create(:owner => user, :name => params[:repository], 
-      :vcs => params["post"]["vcs"], 
-      :remote => params["post"]["remote"])
-    end
-
-    post "/:username/:repository/fork" do
+    get "/:username/:repository/fork" do
       pass unless repo
       repo.fork current_user
       redirect "/#{current_user.name}/#{params[:repository]}"
