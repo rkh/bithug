@@ -173,6 +173,11 @@ module Bithug
       end
       haml :repository, {}, :tree => tree, :is_subtree => params["splat"].empty?, :commit_spec => params[:commit_spec]
     end
+    
+    get "/:username/:repository/admin" do
+      pass unless repo
+      haml :repository, :admin
+    end
 
     get "/:username/feed" do
       pass unless current_user?
