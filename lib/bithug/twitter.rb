@@ -13,6 +13,7 @@ module Bithug::Twitter
     include Bithug::ServiceHelper
     attribute :twitter_access_token_token
     attribute :twitter_access_token_secret
+    attribute :twitter_user_name
 
     def twitter_authorized?
       # This does no networking, so it's faster than actually 
@@ -40,6 +41,7 @@ module Bithug::Twitter
         :oauth_verifier => pin)
       twitter_access_token_token = access_token.token
       twitter_access_token_secret = access_token.secret
+      twitter_user_name = access_token.params[:screen_name]
       save
     end
 
