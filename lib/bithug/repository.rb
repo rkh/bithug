@@ -83,8 +83,6 @@ module Bithug
       end.save
     end 
 
-
-
     def grant_access(options)
       readers.add(options[:user])
       writers.add(options[:user]) if "#{options[:access]}" == 'w'
@@ -113,7 +111,8 @@ module Bithug
     end
 
     def set_public(flag = true)
-      self.public == flag.to_s
+      self.public = flag.to_s
+      self.save
     end
 
     class_methods do
