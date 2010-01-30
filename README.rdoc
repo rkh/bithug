@@ -51,4 +51,3 @@ Running bithug is then as easy as starting the webserver with
 All users will need to authenticate against their supplied 
 public-keys, the bithug shell invoked by bithug-serve will take 
 care of checking access rights and logging repository activity.
->>>>>>> f530933d663a89368de38aa869a8d58b26d642f6
