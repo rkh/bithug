@@ -33,11 +33,11 @@ module Bithug
         "#{"un" if current_user.following? user}follow"
       end
 
-      def gravatar_url(mail, size = 80, default = "monsterid")
-        "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}?d=#{default}"
+      def gravatar_url(mail, size, default)
+        "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}&d=#{default}"
       end
       
-      def gravatar(mail, size = 80, default = "monsterid")
+      def gravatar(mail, size = 80, default = "wavatar")
         "<img src='#{gravatar_url(mail, size, default)}' alt='' width='#{size}' height='#{size}'>"
       end
 
