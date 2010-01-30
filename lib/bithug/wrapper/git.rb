@@ -32,24 +32,21 @@ module Bithug::Wrapper
       YAML.load("---\n#{exec("log", "--pretty=format:'- :author: %aN\n  :email: %ae\n  :revision: %H\n  :date_time: %at\n  :message: %s\n'")}") || []
     end
 
+    # FIXME FIXME FIXME. SOMEONE PLEASE EXPLAIN THIS METHOD.
     def ls(commit_ish = "HEAD")
+      raise "please have a look at the source, thanks"
       str = exec("ls-tree", "-tlr", commit_ish)
-      str.lines.inject({}) do |tree,line|
-        line =~ /[0-9]+ (.*) ([a-z0-9]+) +(-|[0-9]+)\t(.*)/
-        type = $1
-        sha1 = $2
-        size = $3
-        name = $4
-	tree
-	break unless type && sha1 && size && name # Not a valid tree
-        file_node = name.split("/").inject(tree) do |memo,item|
-          memo[item] ||= {}
+      str.lines.inject({}) do |tree,line| # <------ EMPTY HASH OR NIL!!!
+        break unless line =~ /[0-9]+ (.*) ([a-z0-9]+) +(-|[0-9]+)\t(.*)/ # <---- RETURNS NIL!
+        type, sha1, size, name = $1, $2, $3, $4 # <--- NEVER USED!
+        file_node = name.split("/").inject(tree) do |memo,item| # <--- NEVER USED!
+          memo[item] ||= {} # <--- WHAT?
         end
         unless type == "tree" then
           file_node[:revision] = sha1
           file_node[:size] = size
         end
-        tree
+        tree # <--- EMPTY HASH, SINCE NEVER MODIFIED
       end
     end
 
