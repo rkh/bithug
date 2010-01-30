@@ -99,6 +99,10 @@ module Bithug
       # by the wrappers
     end
 
+    def set_public(flag = true)
+      self.public == flag.to_s
+    end
+
     class_methods do
       # This is overwritten to immediately create the underlying repo using the 
       # configured method, and also modify the name for uniqueness in the system 
