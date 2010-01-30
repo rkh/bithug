@@ -34,6 +34,7 @@ module Bithug::Twitter
 
     def twitter_clear_account
       self.twitter_access_token_token = nil
+      self.twitter_user_name = nil
       self.save
     end
 
