@@ -11,14 +11,18 @@
 - unless repo.public?
   %h3 Users with readaccess to your repository
   - repo.readers.each do |u|
-    %h4= gravatar u.email, 30
-    %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
+    %h4
+      != gravatar u.email, 30
+      = u.name
+      %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
 - else 
   %h3 This repository is public and everybody can read it
 %h3 Users with writeaccess to your repository
 - repo.writers.each do |u|
-  %h4= gravatar u.email, 30
-  %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke write access
+  %h4
+    != gravatar u.email, 30
+    = u.name
+    %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke write access
     
 %form{:method => "post", :action => "/#{repo.name}/grant"}
   %label{:for => :other_username} Grant access to a user:
