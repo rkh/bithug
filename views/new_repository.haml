@@ -1,7 +1,9 @@
 %form{:method => "post"}
   %label{:for => :repo_name} Name for Repository:
   %input#name{:type => :text, :name => :repo_name}
-  %input{:type => :select, :name => :vcs, value => ["git", "svn"]}
+  %select{:name => :vcs}
+    %option{:value => "git"} Git
+    %option{:value => "svn"} GitSvn (importing/tracking only)
   %label{:for => :remote} Remote URL for Repository:
   %input{:type => :text, :name=> :remote}
   %input{:type => :submit, :value => "create"}
