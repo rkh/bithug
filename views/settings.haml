@@ -14,7 +14,7 @@
 - user.ssh_keys.all.each do |key|
   %p
     %h4= key.name
-    %pre= key.value
+    %pre.key= key.value
 
 %h3 Add a key
 %form{:method => "post", :action => "/#{user.name}/add_key"}

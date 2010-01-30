@@ -114,7 +114,7 @@ module Bithug
 
     post "/:username/add_key" do
       pass unless current_user?
-      Bithug::Key.add :user => user, :name => params["post"]["name"], :value => params["post"]["key"]
+      Bithug::Key.add :user => user, :name => params["name"], :value => params["value"]
       redirect "/#{user.name}/settings"
     end
 
