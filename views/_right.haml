@@ -1,0 +1,4 @@
+%form{:method => "post", :action => '/:username/:repository/#{@type}'}
+%input{:type => :text, :name => :other_name, value => "User"}
+%input{:type => select, :name => :read_or_write, :value => [r, w]}
+%input{:type => :submit, :value => "Do it"}
