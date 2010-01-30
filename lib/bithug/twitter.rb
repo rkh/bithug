@@ -2,11 +2,18 @@ require 'bithug'
 require 'twitter_oauth'
 
 module Bithug::Twitter
-  attr_reader :consumer_key, :consumer_secret
 
   def self.setup(options = {})
     @consumer_key = options[:consumer_key]
     @consumer_secret = options[:consumer_secret]
+  end
+
+  def self.consumer_key
+    @consumer_key
+  end
+
+  def self.consumer_secret
+    @consumer_secret
   end
 
   module User
