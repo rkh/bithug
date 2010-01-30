@@ -40,3 +40,6 @@
 [submodule "vendor/mime-types"]
 	path = vendor/mime-types
 	url = git://github.com/halostatue/mime-types.git
+[submodule "vendor/chronic_duration"]
+	path = vendor/chronic_duration
+	url = http://github.com/hpoydar/chronic_duration.git

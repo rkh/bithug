@@ -1,6 +1,8 @@
 require "bithug"
 require "sinatra/big_band"
 require "md5"
+require "chronic_duration"
+
 
 module Bithug
   class Webserver < Sinatra::BigBand
@@ -60,9 +62,13 @@ module Bithug
       def title
         Bithug.title
       end
-      
+
       def log_entries(num = 30)
         current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }[0..num]
+      end
+
+      def time_ago(time)
+        ChronicDuration.output((Time.now - time).to_i) << " ago"
       end
 
     end
@@ -111,7 +117,7 @@ module Bithug
       pass unless current_user?
       haml :settings
     end
-    
+
     post '/:username/settings' do
       pass unless current_user?
       user.real_name = params["real_name"]
@@ -119,7 +125,7 @@ module Bithug
       user.save
       redirect "/#{user.name}/settings"
     end
-    
+
     get "/:username/delete_key/:id" do
       pass unless current_user?
       key = Bithug::Key[params[:id]]

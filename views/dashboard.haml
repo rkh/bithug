@@ -16,5 +16,5 @@
   .item
     != gravatar item.user.email, 40
     .text
-      %h4= Time.at(item.date_time)
+      %h4= time_ago item.date_time
       = item.to_s
