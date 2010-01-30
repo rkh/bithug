@@ -14,5 +14,9 @@ module Bithug::LogInfo
         model.forks.add(self.save)
       end
     end
+
+    def to_s
+      "#{user.name} forked #{original.name}"
+    end
   end
 end

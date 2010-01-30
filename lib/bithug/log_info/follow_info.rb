@@ -18,5 +18,12 @@ module Bithug::LogInfo
     def following?
       started_following == "true"
     end
+
+    # To satisfy the "interface"
+    alias user active_user
+    
+    def to_s
+      "#{user.name} #{following? ? "start" : "stop"}ed following #{passive_user.name}"
+    end
   end
 end

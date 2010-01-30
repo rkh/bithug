@@ -15,6 +15,9 @@ module Bithug::LogInfo
         model.rights.add(self)
       end
     end
+    
+    # To satisfy the "interface"
+    alias user admin
 
     def revoke_access(access_right)
       prevent_change(:access_change)
@@ -42,6 +45,12 @@ module Bithug::LogInfo
 
     def readaccess_revoked?
       access_change.end_with?("r") && access_revoked?
+    end
+
+    def to_s
+      "#{user.name} #{access_granted? ? "granted" : "removed"} " + 
+      "#{access_change.end_with?("r") ? "read" : "write"}access in " +
+      "#{repository.name} for #{changed_user.name}"
     end
   end
 end
