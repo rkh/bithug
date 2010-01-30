@@ -13,6 +13,12 @@ module Bithug::Twitter
     attribute :twitter_access_token_token
     attribute :twitter_access_token_secret
 
+    def twitter_authorized?
+      # This does no networking, so it's faster than actually 
+      # asking Twitter
+      twitter_access_token_token && twitter_access_token_secret
+    end
+
     def twitter_client
       TwitterOAuth::Client.new(
         :consumer_key => Bithug::Twitter.consumer_key,
@@ -37,8 +43,46 @@ module Bithug::Twitter
     end
 
     def twitter_post(text)
-      raise RuntimeError, "Need to authorize first!" unless twitter_client.authorized?
-      twitter_client.update(text[0..139])
+      twitter_client.update(text[0..139]) if twitter_authorized?
+    end
+
+    def follow(user)
+      twitter_client.update("I started following #{user.name} on Bithug")
+      super
+    end
+
+    def unfollow(user)
+      twitter_client.update("I stopped following #{user.name} on Bithug")
+      super
+    end
+
+    def grant_access(options)
+      twitter_client.update("I granted #{options[:user].name} read " +
+                            "#{"and write" if options[:access] == 'w'}access " +
+                            "to my repository #{options[:repo]} on Bithug!")
+    end
+
+    def revoke_access
+      twitter_client.update("I revoked write #{"and read" if options[:access] == 'r'}" +
+                            "access rights for #{options[:user].name} to my repository "+
+                            "#{options[:repo]} on Bithug!")
+    end
+  end
+
+  module Repository
+    include Bithug::ServiceHelper
+
+    def fork(new_owner)
+      new_owner.twitter_client.update("I just forked #{repo.name} on Bithug!")
+      owner.twitter_client.update("My project #{repo.name} on Bithug was just forked by #{new_owner.name}!")
+    end
+
+    class_methods do
+      def create(options = {})
+        super.tap do
+          owner.twitter_client.update("I just created #{repo.name} on Bithug. Check it out!")
+        end
+      end
     end
   end
 end
