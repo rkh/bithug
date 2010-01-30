@@ -115,10 +115,14 @@ module Bithug
 
     post "/:username/new" do
       pass unless current_user?
-      reponame = params["repo_name"]
-      vcs = params["vcs"] || "git"
-      Repository.create(:name => reponame, :owner => user, :vcs => vcs, :remote => params["remote"])
-      redirect "/#{user.name}/#{reponame}"
+      vcs = params[:vcs] || "git"
+      unless vcs == "svn" && !params[:remote]
+        reponame = params[:repo_name]
+        Repository.create(:name => reponame, :owner => user, :vcs => vcs, :remote => params[:remote])
+        redirect "/#{user.name}/#{reponame}"
+      else
+        redirect "/:username/new"
+      end
     end
 
     get "/:username/settings" do
@@ -210,6 +214,11 @@ module Bithug
         subpath[subtree]
       end
       haml :repository, {}, :tree => tree, :is_subtree => params["splat"].empty?, :commit_spec => params[:commit_spec]
+    end
+    
+    get "/:username/:repository/admin" do
+      pass unless repo
+      haml :repository, :admin
     end
 
     get "/:username/feed" do
