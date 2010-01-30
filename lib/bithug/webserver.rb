@@ -164,5 +164,10 @@ module Bithug
       haml :repository, {}, :tree => tree, :is_subtree => params["splat"].empty?, :commit_spec => params[:commit_spec]
     end
 
+    get "/:username/feed" do
+      pass unless current_user?
+      haml :feed, {}, :log_entries => user.following.all.collect {|u| u.recent_activity}
+    end
+
   end
 end

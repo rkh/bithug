@@ -1,20 +1,20 @@
 !!! XML
 %rss{ :version => "2.0" }
   %channel
-    %title Popular Questions on Maskeet
-    %link= url(:recent_questions)
-    %description A list of the most popular questions asked on the askeet site, rated by the community.
+    %title= "Private Bithug Feed for #{user.name}"
+    %link= "/#{user.name}/feed.xml"
+    %description A list of the most recent activities of the people you follow
     %language en-us
     %pubDate= Time.now
-    - for item in @history_items
+    - for item in log_entries
       %item
         /stubbing, i'm going to work on this ASAP
-        %title= item.class.to_s
-        /have to provide a custom *.to_s for the items
+        %title= "#{item.class.to_s} for #{item.user.name}
         %description= item.to_s
         /%link= url(:question, :stripped_title => question.stripped_title)
         /%guid= question.id
         /%author= question.user
+        %author= item.user.name
         %pubDate= Time.at(item.date_time)
 
 
