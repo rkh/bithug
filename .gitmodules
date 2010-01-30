@@ -34,3 +34,6 @@
 [submodule "vendor/extlib"]
 	path = vendor/extlib
 	url = http://github.com/datamapper/extlib.git
+[submodule "vendor/twitter_oauth"]
+	path = vendor/twitter_oauth
+	url = git://github.com/moomerman/twitter_oauth.git
