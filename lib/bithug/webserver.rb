@@ -38,7 +38,7 @@ module Bithug
       end
 
       def gravatar(mail, size = 80, default = "wavatar")
-        "<img src='#{gravatar_url(mail, size, default)}' alt='' width='#{size}' height='#{size}'>"
+        "<img src='#{gravatar_url(mail, size, default)}' alt='' width='#{size}' height='#{size}' class='gravatar'>"
       end
 
       def repo_named(name)
@@ -62,7 +62,7 @@ module Bithug
       end
       
       def log_entries(num = 30)
-        user.following.all.collect { |u| u.recent_activity(num) }.sort_by { |i| i.date_time }[0..num]
+        current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }[0..num]
       end
 
     end

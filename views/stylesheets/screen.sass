@@ -52,11 +52,11 @@ body
         +transition("background", "3s")
         &:hover  
           background-color: rgba(0, 0, 0, 0.4)
-        width: 10%
+        width: 20%
         text-align: center
         position: absolute
         top: 0px
-        left: 45%
+        left: 40%
         font-size: 80%
 
     header, footer
@@ -219,6 +219,27 @@ body
         font-size: 13px
         padding: 3px
         color: #555
+      
+      .item
+        display: table
+        width: 400px
+        font-size: 14px
+        h4
+          margin: 0
+          padding: 0
+        .text
+          display: table-cell
+          vertical-align: top
+          margin: 0
+          padding: 5px 15px
+          width: 355px
+        .gravatar
+          display: table-cell
+          vertical-align: center
+          +box-shadow(1px 1px 6px rgba(0, 0, 0, 0.3))
+          border: solid 1px rgba(0, 0, 0, 0.6)
+          padding: 0
+          margin: 0
       
       .warning
         color: #b00

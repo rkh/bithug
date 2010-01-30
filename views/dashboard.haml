@@ -9,3 +9,11 @@
     %li Set up <a href="/#{current_user.name}/settings">twitter</a>.
 
 %h2 What is going on?
+- if log_entries.empty?
+  Start following to fill your feed.
+- log_entries(30).each do |item|
+  .item
+    != gravatar item.user.email, 40
+    .text
+      %h4= Time.at(item.date_time)
+      = item.to_s
