@@ -11,10 +11,11 @@
     To change your avatar, visit <a href="http://en.gravatar.com/">gravatar.com</a>.
 
 %h2 Public keys
-- user.ssh_keys.all.each do |key|
+- user.ssh_keys.all.compact.each do |key|
   %p
     %h4= key.name
     %pre.key= key.value
+    %a{:href => "/#{user.name}/delete_key/#{key.id}"} delete
 
 %h3 Add a key
 %form{:method => "post", :action => "/#{user.name}/add_key"}

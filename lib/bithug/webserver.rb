@@ -107,6 +107,13 @@ module Bithug
       pass unless current_user?
       haml :settings
     end
+    
+    get "/:username/delete_key/:id" do
+      pass unless current_user?
+      key = Bithug::Key[params[:id]]
+      key.remove(user) if user.ssh_keys.include? key
+      redirect "/#{user.name}/settings"
+    end
 
     post "/:username/add_key" do
       pass unless current_user?
