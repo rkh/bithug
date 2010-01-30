@@ -21,6 +21,14 @@ module Bithug::Svn
       wrapper.remove
     end
 
+    def rename_repository(new_name)
+      return super if vcs.to_s != "svn"
+      wrapper.rename(new_name)
+      self.name = owner.name/new_name
+      self.save
+    end
+
+
     def update_repository
       return if vcs.to_s != "svn"
       wrapper.pull
