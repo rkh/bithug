@@ -46,26 +46,30 @@ module Bithug::Twitter
       twitter_client.update(text[0..139]) if twitter_authorized?
     end
 
+    # Hereafter are the hooks into the existing User and Repository methods
+    # We'd probably want to be able to opt-out all of these
     def follow(user)
-      twitter_client.update("I started following #{user.name} on Bithug")
+      twitter_post("I started following #{user.name} on Bithug")
       super
     end
 
     def unfollow(user)
-      twitter_client.update("I stopped following #{user.name} on Bithug")
+      twitter_post("I stopped following #{user.name} on Bithug")
       super
     end
 
     def grant_access(options)
-      twitter_client.update("I granted #{options[:user].name} read " +
-                            "#{"and write" if options[:access] == 'w'}access " +
-                            "to my repository #{options[:repo]} on Bithug!")
+      twitter_post("I granted #{options[:user].name} read " +
+                   "#{"and write" if options[:access] == 'w'}access " +
+                   "to my repository #{options[:repo]} on Bithug!")
+      super
     end
 
     def revoke_access
-      twitter_client.update("I revoked write #{"and read" if options[:access] == 'r'}" +
-                            "access rights for #{options[:user].name} to my repository "+
-                            "#{options[:repo]} on Bithug!")
+      twitter_post("I revoked write #{"and read" if options[:access] == 'r'}" +
+                   "access rights for #{options[:user].name} to my repository "+
+                   "#{options[:repo]} on Bithug!")
+      super
     end
   end
 
@@ -74,13 +78,14 @@ module Bithug::Twitter
 
     def fork(new_owner)
       new_owner.twitter_client.update("I just forked #{repo.name} on Bithug!")
-      owner.twitter_client.update("My project #{repo.name} on Bithug was just forked by #{new_owner.name}!")
+      owner.twitter_post("My project #{repo.name} on Bithug was just forked by #{new_owner.name}!")
+      super
     end
 
     class_methods do
       def create(options = {})
         super.tap do
-          owner.twitter_client.update("I just created #{repo.name} on Bithug. Check it out!")
+          owner.twitter_post("I just created #{repo.name} on Bithug. Check it out!")
         end
       end
     end
