@@ -27,7 +27,7 @@ module Bithug::Wrapper
         p << new_name
       end)
       File.join(new_path)
-      FileUtils.mv path new_path
+      FileUtils.mv(path, new_path)
       @path = new_path
     end
 

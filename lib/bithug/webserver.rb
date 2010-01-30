@@ -162,9 +162,8 @@ module Bithug
     post "/:username/:repository/admin/?" do
       pass unless repo and current_user? 
       # repo.tree <- returns a nested hash of the (w)hole repository tree
-      repo.name = params[:name] 
-      repo.save
-      redirect "/#{repo.name}/admin"
+      repo.rename_repository(params[:name])
+      redirect "/#{user.name}/#{params[:name]}/admin"
     end
 
     get "/:username/:repository/delete/?" do

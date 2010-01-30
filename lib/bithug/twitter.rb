@@ -105,6 +105,13 @@ module Bithug::Twitter
       super
     end
 
+    def rename_repository(new_name)
+      old_name = name
+      repo = super
+      owner.twitter_post("I changed the name of my project #{old_name} to #{owner.name/new_name}.")
+      repo
+    end
+
     class_methods do
       def create(options = {})
         super.tap do |repo|
