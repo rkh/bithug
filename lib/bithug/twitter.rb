@@ -1,3 +1,4 @@
+require 'bithug'
 require 'twitter_oauth'
 
 module Bithug::Twitter
