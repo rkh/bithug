@@ -25,7 +25,16 @@ module Bithug::Twitter
     def twitter_authorized?
       # This does no networking, so it's faster than actually 
       # asking Twitter
-      twitter_access_token_token && twitter_access_token_secret && twitter_user_name
+      twitter_authorization_requested? && twitter_user_name
+    end
+
+    def twitter_authorization_requested?
+      twitter_access_token_token && twitter_access_token_secret
+    end
+
+    def twitter_clear_account
+      self.twitter_access_token_token = nil
+      self.save
     end
 
     def twitter_client
@@ -38,9 +47,9 @@ module Bithug::Twitter
 
     def twitter_request_authorization
       rt = twitter_client.request_token
-      twitter_access_token_token = rt.token
-      twitter_access_token_secret = rt.secret
-      save
+      self.twitter_access_token_token = rt.token
+      self.twitter_access_token_secret = rt.secret
+      self.save
       rt.authorize_url
     end
 
@@ -49,10 +58,10 @@ module Bithug::Twitter
         twitter_access_token_token,
         twitter_access_token_secret,
         :oauth_verifier => pin)
-      twitter_access_token_token = access_token.token
-      twitter_access_token_secret = access_token.secret
-      twitter_user_name = access_token.params[:screen_name]
-      save
+      self.twitter_access_token_token = access_token.token
+      self.twitter_access_token_secret = access_token.secret
+      self.twitter_user_name = access_token.params[:screen_name]
+      self.save
     end
 
     def twitter_post(text)
