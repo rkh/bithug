@@ -23,6 +23,12 @@ module Bithug
     index :name
     index :owners
     
+    def recent_activity(num=10)
+      ([commits.recent(num), forks.recent(num), rights.recent(num)].sort_by do |i|
+        i.date_time
+      end)[0..num]
+    end
+
     # Ohm only provides class matching for sets. Owner should be 
     # only one, anyhow, so provide accessors...  
     def owner=(user)
