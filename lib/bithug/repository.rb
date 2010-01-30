@@ -57,6 +57,10 @@ module Bithug
       raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
     end
 
+    def rename_repository(new_name)
+      raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
+    end
+
     def fork(new_owner)
       name_without_owner = name.gsub(owner.name,"").gsub("/","")
       new_repo = self.class.create(:vcs => vcs, :name => name_without_owner, 
