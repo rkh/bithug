@@ -166,7 +166,7 @@ module Bithug
 
     get "/:username/feed" do
       pass unless current_user?
-      haml :feed, {}, :log_entries => user.following.all.collect {|u| u.recent_activity}
+      haml :feed, {:layout => false, :format => :xhtml}, :log_entries => user.following.all.collect {|u| u.recent_activity}
     end
 
   end
