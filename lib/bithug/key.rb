@@ -15,8 +15,6 @@ class Bithug::Key < Ohm::Model
   attribute :value
 
   def remove(user)
-    self.delete
-    user.ssh_keys.delete(self)
     # BUG: SANITIZE USERNAME FOR REGEX!
     File.open(KEYS_FILE+Time.now.to_i.to_s, 'w') do |out|
       File.open(KEYS_FILE, 'r+') do |infile|
@@ -28,6 +26,8 @@ class Bithug::Key < Ohm::Model
     # BUG: LOCKING HAS TO BE PLACED HERE, OR CHECK IF THE TSTAMP
     # OF THE OLD FILE CHANGED
     FileUtils.cp(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
+    user.ssh_keys.delete(self)
+    self.delete
   end
 
   def save
