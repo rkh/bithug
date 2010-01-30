@@ -35,7 +35,7 @@ module Bithug
       Bithug::LogInfo::FollowInfo.create.tap do |f|
         f.active_user = self
         f.passive_user = user
-	f.started_following = start
+        f.started_following = start
       end.save
     end
 
