@@ -18,7 +18,7 @@ module Bithug
       end
 
       def user
-        user_named(params[:username])
+        @user ||= user_named(params[:username])
       end
 
       def current_user
@@ -106,6 +106,14 @@ module Bithug
     get "/:username/settings" do
       pass unless current_user?
       haml :settings
+    end
+    
+    post '/:username/settings' do
+      pass unless current_user?
+      user.real_name = params["real_name"]
+      user.email = params["email"]
+      user.save
+      redirect "/#{user.name}/settings"
     end
     
     get "/:username/delete_key/:id" do
