@@ -22,6 +22,8 @@
         .welcome
           Welcome <a href="/#{current_user.name}">#{current_user.real_name || current_user.real_name}</a>, let's code!
       #content
+        - if current_user.ssh_keys.empty?
+          .warning You have to <a href="/#{current_user.name}/settings">upload a public key</a> before you can start coding.
         != yield
       %footer
         Powered by <a href="http://github.com/rkh/bithug">Bithug</a>,
