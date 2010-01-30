@@ -36,7 +36,7 @@ module Bithug
       def gravatar_url(mail, size, default)
         "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}&d=#{default}"
       end
-      
+
       def gravatar(mail, size = 80, default = "wavatar")
         "<img src='#{gravatar_url(mail, size, default)}' alt='' width='#{size}' height='#{size}'>"
       end
@@ -48,19 +48,15 @@ module Bithug
       def repo
         return unless user
         repo = repo_named(user.name / params[:repository])
-        # maybe you should check access here ...
-        begin
-          repo.check_access_rights(current_user)
-        rescue Bithug::ReadAccessDeniedError
-          return
-        end
-        repo
+        repo if repo and repo.check_access_rights(current_user)
+      rescue Bithug::ReadAccessDeniedError
+        nil
       end
-      
+
       def owned?
         repo.owner == current_user
       end
-      
+
       def title
         Bithug.title
       end
@@ -129,7 +125,7 @@ module Bithug
       # this will grant the other user read/write access according to the url spec
       pass unless %w(w r).include? params[:read_or_write]
       user.grant_access(:user => params[:other_username], :repo => repo, 
-                        :access => params[:read_or_write])
+      :access => params[:read_or_write])
     end
 
     post "/:username/:repository/revoke/:read_or_write/:other_username" do
@@ -138,7 +134,7 @@ module Bithug
       # (fails silently if the other user wasn't allowed in the first place)
       pass unless %w(w r).include? params[:read_or_write]
       user.revoke_access(:user => params[:other_username], :repo => repo, 
-                         :access => params[:read_or_write])
+      :access => params[:read_or_write])
     end
 
     post "/:username/:repository/create" do
@@ -150,8 +146,8 @@ module Bithug
       # GIT will try to fork from the remote
       pass unless user == current_user
       Repository.create(:owner => user, :name => params[:repository], 
-                        :vcs => params["post"]["vcs"], 
-                        :remote => params["post"]["remote"])
+      :vcs => params["post"]["vcs"], 
+      :remote => params["post"]["remote"])
     end
 
     post "/:username/:repository/fork" do
