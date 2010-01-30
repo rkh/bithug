@@ -15,8 +15,6 @@ class Bithug::Key < Ohm::Model
   attribute :value
 
   def remove(user)
-    user.ssh_keys.delete(key)
-    user.save
     self.delete
     # BUG: SANITIZE USERNAME FOR REGEX!
     File.open(KEYS_FILE+Time.now.to_i.to_s, 'w') do |out|
@@ -28,7 +26,26 @@ class Bithug::Key < Ohm::Model
 
     # BUG: LOCKING HAS TO BE PLACED HERE, OR CHECK IF THE TSTAMP
     # OF THE OLD FILE CHANGED
-    FileUtils.mv(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
+    FileUtils.cp(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
+  end
+
+  def save
+    super if safe?
+  end
+
+  def safe?
+    return false if value.include? "\n"
+    pp value.split
+    type, blob = value.split
+    return false if blob.nil? || type.nil?
+    blob = blob.unpack("m*").first
+    reader = Net::SSH::Buffer.new(blob)
+    begin
+      reader.read_key
+    rescue NotImplementedError
+      false
+    end
+    true
   end
   
   class << self
@@ -47,25 +64,6 @@ class Bithug::Key < Ohm::Model
         f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"
       end
       key
-    end
-    
-    def validate
-      raise Net::SSH::Exception, "public key at #{filename} is not valid" unless valid?
-    end
-    
-    def valid?
-     data = value
-  	  type, blob = data.split(/ /)
-  	  false if blob.nil? || type.nil?
-  	  blob = blob.unpack("m*").first
-  	  reader = Net::SSH::Buffer.new(blob)
-  	  begin
-  	    reader.read_key
-  	  rescue NotImplementedError
-  	    false
-  	  end
-  	  true
-  	end
-  	
+    end	
   end
 end

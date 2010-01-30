@@ -21,7 +21,7 @@ module Bithug::LogInfo
       __repository__.add(repo)
     end
 
-    def author_model
+    def user
       # return a temporary (not-saved) user if we cannot 
       # find a user with the given name 
       User.find(:name => author).first || User.new(:name => author)
@@ -35,6 +35,10 @@ module Bithug::LogInfo
     def hash
       # return a new hash by XOR'ing
       date_time.hash ^ revision.hash
+    end
+
+    def to_s
+      "#{user.name} pushed to #{repository.name}.\n" + message
     end
   end
 end

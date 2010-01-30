@@ -94,10 +94,11 @@ module Bithug
     end
     
     # This is used by the shell
-    def check_access_rights(user, writeaccess=false)
-      return if owner == user
+    def check_access_rights(user, writeaccess=false)      
+      return true if owner == user
       raise ReadAccessDeniedError, "#{name}: #{user.name} has no read-access" unless readers.include? user or public?
       raise WriteAccessDeniedError, "#{name}: #{user.name} has no write-access" unless self.writers.include? user or !writeaccess
+      true
     end
     
     def log_recent_activity(user=nil)

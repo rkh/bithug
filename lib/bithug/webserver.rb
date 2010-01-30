@@ -48,8 +48,7 @@ module Bithug
       def repo
         return unless user
         repo = repo_named(user.name / params[:repository])
-        #repo if repo and repo.check_access_rights(current_user)
-        repo
+        repo if repo and repo.check_access_rights(current_user)
       rescue Bithug::ReadAccessDeniedError
         nil
       end
