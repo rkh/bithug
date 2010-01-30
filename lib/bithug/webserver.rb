@@ -61,8 +61,8 @@ module Bithug
         Bithug.title
       end
       
-      def log_entries
-        user.following.all.collect { |u| u.recent_activity }.sort_by { |i| i.date_time }
+      def log_entries(num = 30)
+        user.following.all.collect { |u| u.recent_activity(num) }.sort_by { |i| i.date_time }[0..num]
       end
 
     end
