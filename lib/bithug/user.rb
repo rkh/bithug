@@ -27,6 +27,13 @@ module Bithug
 
     index :name
     
+    def recent_activity(num=10)
+      ([commits.recent(num), forks.recent(num), 
+       rights.recent(num), network.recent(num)].sort_by do |i|
+        i.date_time
+      end)[0..num]
+    end
+    
     def following?(user)
       following.all.include? user
     end
@@ -35,7 +42,7 @@ module Bithug
       Bithug::LogInfo::FollowInfo.create.tap do |f|
         f.active_user = self
         f.passive_user = user
-	f.started_following = start
+        f.started_following = start
       end.save
     end
 
