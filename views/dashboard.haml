@@ -1,0 +1,20 @@
+%aside
+  != gravatar(current_user.email, 30)
+  %h2 What do you want to do?
+  %ul
+    %li Create a <a href="/#{current_user.name}/new">repository</a>.
+    %li Go to your <a href="/#{current_user.name}">profile</a>.
+    %li Change your <a href="http://en.gravatar.com">profile pricture</a>.
+    %li Add <a href="/#{current_user.name}/settings">a public key</a>.
+    %li Set up <a href="/#{current_user.name}/settings">twitter</a>.
+    %li Add <a href="/#{current_user.name}/feed">your feed</a> to your RSS reader.
+
+%h2 What is going on?
+- if log_entries.empty?
+  Start following to fill your feed.
+- log_entries(30).each do |item|
+  .item
+    != gravatar item.user.email, 40
+    .text
+      %h4= time_ago item.date_time
+      = item.to_s

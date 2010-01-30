@@ -1,6 +1,8 @@
 .infoBox
   != gravatar(user.email, 80)
   %h1= user.real_name || user.name
+  .description
+    #{user.followers.size} followers, #{user.following.size} following, #{user.repositories.size} repositories
   - if current_user?
     %a.button{:href => "/#{user.name}/settings"} Settings
   - else

@@ -33,6 +33,9 @@ body
         color: rgba(0, 0, 0, 0.7)
         image: url(/__big_band__/overlay-button.png)
         repeat: repeat-x
+      +transition("background", "2s")
+      &:hover  
+        background-color: rgba(0, 0, 0, 0.9)
       nav
         a
           font-size: 80%
@@ -46,11 +49,14 @@ body
           color: rgba(0, 0, 0, 0.7)
           image: url(/__big_band__/overlay-button.png)
           repeat: repeat-x
-        width: 10%
+        +transition("background", "3s")
+        &:hover  
+          background-color: rgba(0, 0, 0, 0.4)
+        width: 20%
         text-align: center
         position: absolute
         top: 0px
-        left: 45%
+        left: 40%
         font-size: 80%
 
     header, footer
@@ -168,11 +174,74 @@ body
           +fancy-button-link(#061, 25px)
         a:hover
           text-decoration: none
+        .description
+          font-size: 12px
+          margin: 0px
+            top: -10px
+            bottom: 3px
+      
+      aside
+        float: right
+        width: 270px
+        border: none
+          left: dashed 1px #ddd
+        min-height: 250px
+        h2
+          width: 230px
+        img
+          +box-shadow(1px 1px 6px rgba(0, 0, 0, 0.3))
+          border: solid 1px rgba(0, 0, 0, 0.6)
+          float: left
+          position: relative
+          top: 15px
+          margin: 5px 10px
+        ul
+          font-size: 14px
+          padding: 0
+          margin: 0
+            left: 25px
+          li
+            +transition("color", "7s")
+            color: #555
+            margin: 0
+              top: 10px
+              left: 5px
+            a, a:visited
+              +transition("color", "0.5s")
+              color: #555
+        &:hover
+          ul li
+            color: #ddd
+            a
+              color: #061
           
       .info
         font-size: 13px
         padding: 3px
         color: #555
+      
+      .item
+        display: table
+        width: 300px
+        font-size: 14px
+        margin-bottom: 10px
+        float: left
+        h4
+          margin: 0
+          padding: 0
+        .text
+          display: table-cell
+          vertical-align: top
+          margin: 0
+          padding: 5px 15px
+          width: 255px
+        .gravatar
+          display: table-cell
+          vertical-align: center
+          +box-shadow(1px 1px 6px rgba(0, 0, 0, 0.3))
+          border: solid 1px rgba(0, 0, 0, 0.6)
+          padding: 0
+          margin: 0
       
       .warning
         color: #b00

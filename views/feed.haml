@@ -6,7 +6,7 @@
     %description A list of the most recent activities of the people you follow
     %language en-us
     %pubDate= Time.now
-    - for item in log_entries
+    - log_entries.each do |item|
       %item
         /stubbing, i'm going to work on this ASAP
         %title= "#{item.class.to_s} for #{item.user.name}"
