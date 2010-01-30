@@ -159,8 +159,8 @@ module Bithug
 
     post "/:username/:repository/fork" do
       pass unless repo
-      # This will fork the repo for the current user 
-      repo.fork(current_user)
+      repo.fork current_user
+      redirect "/#{current_user.name}/#{params[:repository]}"
     end
 
     get "/:username/:repository/:commit_spec" do
