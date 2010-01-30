@@ -1,5 +1,5 @@
 !!! XML
-%rss{ :version => "2.0" }
+%rss{:version => "2.0"}
   %channel
     %title= "Private Bithug Feed for #{user.name}"
     %link= "/#{user.name}/feed.xml"
@@ -9,7 +9,7 @@
     - for item in log_entries
       %item
         /stubbing, i'm going to work on this ASAP
-        %title= "#{item.class.to_s} for #{item.user.name}
+        %title= "#{item.class.to_s} for #{item.user.name}"
         %description= item.to_s
         /%link= url(:question, :stripped_title => question.stripped_title)
         /%guid= question.id
