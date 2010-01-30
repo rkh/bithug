@@ -1,0 +1,10 @@
+%aside
+  != gravatar(current_user.email, 30)
+  %h2 What do you want to do?
+  %ul
+    %li Create a <a href="/#{current_user.name}/new">repository</a>.
+    %li Change your <a href="http://en.gravatar.com">profile pricture</a>.
+    %li Add <a href="/#{current_user.name}/settings">a public key</a>.
+    %li Set up <a href="/#{current_user.name}/settings">twitter</a>.
+
+%h2 What is going on?

@@ -179,6 +179,41 @@ body
           margin: 0px
             top: -10px
             bottom: 3px
+      
+      aside
+        float: right
+        width: 270px
+        border: none
+          left: dashed 1px #ddd
+        min-height: 250px
+        h2
+          width: 230px
+        img
+          +box-shadow(1px 1px 6px rgba(0, 0, 0, 0.3))
+          border: solid 1px rgba(0, 0, 0, 0.6)
+          float: left
+          position: relative
+          top: 15px
+          margin: 5px 10px
+        ul
+          font-size: 14px
+          padding: 0
+          margin: 0
+            left: 25px
+          li
+            +transition("color", "5s")
+            color: #555
+            margin: 0
+              top: 10px
+              left: 5px
+            a, a:visited
+              +transition("color", "0.5s")
+              color: #555
+        &:hover
+          ul li
+            color: #bbb
+            a
+              color: #061
           
       .info
         font-size: 13px
