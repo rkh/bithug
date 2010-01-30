@@ -66,6 +66,7 @@ module Bithug::Twitter
     end
 
     def twitter_post(text)
+      pp "Posting #{text} to Twitter for #{self.name}" 
       twitter_client.update(text[0..139]) if twitter_authorized?
     end
 
@@ -100,15 +101,18 @@ module Bithug::Twitter
     include Bithug::ServiceHelper
 
     def fork(new_owner)
-      new_owner.twitter_client.update("I just forked #{repo.name} on Bithug!")
       owner.twitter_post("My project #{repo.name} on Bithug was just forked by #{new_owner.name}!")
       super
     end
 
     class_methods do
       def create(options = {})
-        super.tap do
-          owner.twitter_post("I just created #{repo.name} on Bithug. Check it out!")
+        super.tap do |repo|
+	  if options[:remote]
+	    repo.owner.twitter_post("I just forked #{options[:name]} on Bithug.")
+	  else
+	    repo.owner.twitter_post("I just created #{options[:name]} on Bithug. Check it out!")
+	  end
         end
       end
     end
