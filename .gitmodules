@@ -37,3 +37,6 @@
 [submodule "vendor/twitter_oauth"]
 	path = vendor/twitter_oauth
 	url = git://github.com/timfel/twitter_oauth.git
+[submodule "twitter_oauth"]
+	path = twitter_oauth
+	url = git@github.com:timfel/twitter_oauth.git
