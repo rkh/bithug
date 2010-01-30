@@ -29,11 +29,17 @@ module Bithug
   end
   
   module TestMethods
+    
     def logged_in
       user, password = "user", "password"
       app.auth_agent.register user, password
       basic_auth user, password
     end
+    
+    def write_file(name, content)
+      File.open(name, "w") { |f| f.write content }
+    end
+    
   end
   
 end

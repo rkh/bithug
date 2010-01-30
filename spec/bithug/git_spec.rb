@@ -30,15 +30,17 @@ describe Bithug::Wrapper::Git do
   end
 
   it "should be able to list repository contents" do
-    repo = Bithug::Wrapper::Git.new("lsrepo", "testrepo")
-    repo.exec("clone", repo.remote, repo.path)
-    FileUtils.mkdir_p(repo.path/"subdir"/"subdir2")
-    File.open(repo.path/"test2.txt", 'w') { |f| f.write("Some testfilesssss") }
-    File.open(repo.path/"subdir"/"test.txt", 'w') { |f| f.write("Some other testfile") }
-    File.open(repo.path/"subdir"/"subdir2"/"test.txt", 'w') { |f| f.write("Some deep testfile") }
-    repo.exec("add", ".")
-    repo.exec("commit", "-m", '"test commit"')
-    repo.exec("push", "origin", "master")
+    repo = Bithug::Wrapper::Git.new "lsrepo", "testrepo"
+    repo.exec "clone", repo.remote, repo.path
+    repo.path.chdir do
+      mkdir_p "subdir/subdir2"
+      write_file "test2.txt", "Some testfilesssss"
+      write_file "subdir/test.txt", "Some other testfile"
+      write_file "subdir/subdir2/test.txt", "Some deep testfile"
+    end
+    repo.exec "add", "."
+    repo.exec "commit", "-m", '"test commit"'
+    repo.exec "push", "origin", "master"
     @repo.ls["test2.txt"].should_not be_nil
     @repo.ls["subdir"]["test.txt"].should_not be_nil
     @repo.ls["subdir"]["subdir2"]["test.txt"].should_not be_nil
