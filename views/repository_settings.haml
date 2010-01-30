@@ -7,7 +7,7 @@
   %input{:type => :submit, :value => "Store"}
 
 %h2 Access Rights
-%a.button{:href => "/#{repo.name}/toggle_public"}= toggle_public
+%a{:href => "/#{repo.name}/toggle_public"}= toggle_public
 - unless repo.public?
   %h3 Users with readaccess to your repository
   - repo.readers.each do |u|
@@ -29,6 +29,8 @@
   %input{:type => :text, :name => :other_username}
   - unless repo.public?
     %input{:type => :radio, :name => :read_or_write, :value => "r"} Read only
-  %input{:type => :radio, :name => :read_or_write, :value => "w"} Read and Write
+    %input{:type => :radio, :name => :read_or_write, :value => "w"} Read and Write
+  - else
+    %input{:type => :hidden, :name => :read_or_write, :value => "w"}
   %input{:type => :submit, :value => "Store"}
 
