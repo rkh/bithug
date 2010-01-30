@@ -36,8 +36,11 @@ module Bithug
       end
 
       def toggle_public
-	"Mark private" if repo.public?
-	"Make public" unless repo.public?
+	if repo.public?
+	  "Mark private" 
+	else
+	  "Make public"
+	end
       end
 
       def gravatar_url(mail, size, default)

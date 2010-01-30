@@ -89,7 +89,7 @@ module Bithug::Twitter
       super
     end
 
-    def revoke_access
+    def revoke_access(options)
       twitter_post("I revoked write #{"and read" if options[:access] == 'r'}" +
                    "access rights for #{options[:user].name} to my repository "+
                    "#{options[:repo]} on Bithug!")
