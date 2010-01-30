@@ -14,7 +14,7 @@
 - user.ssh_keys.all.compact.each do |key|
   %p
     %h4= key.name
-    %pre.key= key.value
+    %pre.key #{key.value[0..20]} ... #{key.value[-30..-1]}
     %a{:href => "/#{user.name}/delete_key/#{key.id}"} delete
 
 %h3 Add a key
