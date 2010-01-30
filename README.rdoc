@@ -20,19 +20,13 @@ or
   thin start -D -R config.ru
 
 == TODO / Known Bugs
-* Webinterface for creating repos / forking repos / viewing repos
-* Log/Stream generating/output
-	- Commits (./)
-	- Forking (./)
-	- (Un-)Following (./)
-	- Rights-changes (./)
+* Admin interface for repos
+* Remote/svn import/tracking (!)
 * Paper
-* SVN import from HPI
 
 === Nice to have
 * Directory listing (./)
 * Twitter
-* RSS
 
 === After Deadline
 * Switch from Ohm to something else

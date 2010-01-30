@@ -25,15 +25,22 @@
   %input{:type => :text, :name => :value}
   %input{:type => :submit, :value => "store"}
 
-- if user.twitter_authorized?
-  %h3 Your Twitter Connection
-  = user.twitter_user_name
-- else
-  %h3 Connect to Twitter
-Please visit the URL below and come back with the PIN to authorize Bithug
-to use your Twitter account
-= user.twitter_request_authorization
-%form{:method => "post", :action => "/#{user.name}/connect_to_twitter"}
-  %label{:for => :pin} PIN: 
-  %input{:type => :text, :name => :pin}
+- if defined? Bithug::Twitter::User and user.is_a? Bithug::Twitter::User
+  - if user.twitter_authorized?
+    %h2 Your Twitter Connection
+    = user.twitter_user_name
+    %a{:href => "/#{user.name}/clear_twitter_connection"} Clear Account
+  - else
+    %h2 Connect to Twitter
+    - if user.twitter_authorization_requested?
+      %form{:method => "post", :action => "/#{user.name}/connect_to_twitter"}
+        %label{:for => :pin} PIN: 
+        %input{:type => :text, :name => :pin}
+        %input{:type => :submit, :value => "continue"}
+      .info
+        %a{:href => "/#{user.name}/clear_twitter_connection"} Re-request Authentication PIN
+    - else
+      .info
+        Please visit the <a href="#{user.twitter_request_authorization}">Twitter</a> and come back with the PIN to authorize Bithug
+        to use your Twitter account
 
