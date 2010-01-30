@@ -22,7 +22,7 @@ module Bithug
     service = const_get(service) unless service.is_a? Module
     options[:only]   ||= [:User, :Repository] 
     options[:except] ||= []
-    (options[:only] - options[:except]).each do |class_name|
+    ([options[:only]].flatten - [options[:except]].flatten).each do |class_name|
       if service.const_defined? class_name
         service.setup options if service.respond_to? :setup
         Bithug.const_get(class_name).send :include, service.const_get(class_name)

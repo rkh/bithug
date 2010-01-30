@@ -48,7 +48,8 @@ module Bithug
       def repo
         return unless user
         repo = repo_named(user.name / params[:repository])
-        repo if repo and repo.check_access_rights(current_user)
+        #repo if repo and repo.check_access_rights(current_user)
+        repo
       rescue Bithug::ReadAccessDeniedError
         nil
       end
@@ -132,7 +133,7 @@ module Bithug
     get "/:username/:repository/?" do
       pass unless repo
       # repo.tree <- returns a nested hash of the (w)hole repository tree
-      haml :repository_tree, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
+      haml :repository, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
     end
 
     post "/:username/:repository/grant" do
