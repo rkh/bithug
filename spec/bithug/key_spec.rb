@@ -27,8 +27,8 @@ describe Bithug::Key do
   end
 
   it "shouldn't accept an invalid key" do
-    pending
-    subject.create(:name => 'Bogus', :value => '123 wee').should_not be_valid
+    subject.create(:name => 'Bogus', :value => '123\nwee').safe?.should be_false
+    subject.create(:name => 'Bogus', :value => '123wee').safe?.should be_false
   end
 
   it "should delete a present key from a user" do
@@ -40,5 +40,4 @@ describe Bithug::Key do
     @user.ssh_keys.should_not include(key)
     @user.ssh_keys.size.should == 0
   end
-
 end

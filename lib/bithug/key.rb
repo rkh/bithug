@@ -28,6 +28,25 @@ class Bithug::Key < Ohm::Model
     # OF THE OLD FILE CHANGED
     FileUtils.cp(KEYS_FILE+Time.now.to_i.to_s, KEYS_FILE)
   end
+
+  def save
+    super if safe?
+  end
+
+  def safe?
+    return false if value.include? "\n"
+    pp value.split
+    type, blob = value.split
+    return false if blob.nil? || type.nil?
+    blob = blob.unpack("m*").first
+    reader = Net::SSH::Buffer.new(blob)
+    begin
+      reader.read_key
+    rescue NotImplementedError
+      false
+    end
+    true
+  end
   
   class << self
     # This will create a new key object and write to the 
@@ -45,26 +64,6 @@ class Bithug::Key < Ohm::Model
         f << AUTHORIZED_KEYS_OPTIONS.gsub("USER", user.name) << key.value << "\n"
       end
       key
-    end
-    
-    def validate
-      raise Net::SSH::Exception, "public key at #{filename} is not valid" unless valid?
-    end
-    
-    def valid?
-     return false if value.include? "\n"
-     data = value
-     type, blob = data.split(/ /)
-  	 return false if blob.nil? || type.nil?
-  	 blob = blob.unpack("m*").first
-  	 reader = Net::SSH::Buffer.new(blob)
-  	 begin
-  	   reader.read_key
-  	 rescue NotImplementedError
-  	   false
-  	 end
-  	 true
-  	end
-  	
+    end	
   end
 end
