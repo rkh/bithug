@@ -7,10 +7,7 @@ module Bithug::Hpi
   end
 
   module User
-    include Bithug::ServiceHelper
-    attribute :real_name
-    attribute :email
-    
+    include Bithug::ServiceHelper 
     stack Bithug::Kerberos::User, Bithug::Local::User#, Bithug::Ldap::User
     
     def login(username)

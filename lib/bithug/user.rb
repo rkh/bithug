@@ -12,6 +12,9 @@ module Bithug
     include Bithug::ServiceHelper
     
     attribute :name
+    attribute :real_name
+    attribute :email
+
     set :following, Bithug::User
     set :followers, Bithug::User
     set :ssh_keys, Bithug::Key
