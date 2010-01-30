@@ -169,5 +169,11 @@ module Bithug
       haml :feed, {:layout => false, :format => :xhtml}, :log_entries => user.following.all.collect {|u| u.recent_activity}
     end
 
+    post "/:username/connect_to_twitter" do
+      pass unless current_user?
+      current_user.twitter_authorize(params[:pin]
+      redirect "/#{current_user.name}/settings"
+    end
+
   end
 end
