@@ -186,5 +186,11 @@ module Bithug
       redirect "/#{current_user.name}/settings"
     end
 
+    get "/:username/clear_twitter_connection" do
+      pass unless current_user?
+      current_user.twitter_clear_account
+      redirect "/#{current_user.name}/settings"
+    end
+
   end
 end
