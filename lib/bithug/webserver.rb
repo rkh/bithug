@@ -170,6 +170,7 @@ module Bithug
 
     get "/:username/feed" do
       pass unless current_user?
+      content_type :rss
       haml :feed, :layout => false, :format => :xhtml
     end
 
