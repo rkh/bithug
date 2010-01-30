@@ -34,3 +34,17 @@ or
 * Twitter
 * RSS
 
+== Setup
+Ideally, when you install bithug on a server, you would 
+create an unpriviliged git user on that machine. That 
+user should have a private ruby stack with the dependencies 
+and git and bin/bithug-serve need to be in his PATH. 
+
+Configure your modules and the redis connection, and you're 
+good to go! (see: config.rb)
+
+Running bithug is then as easy as starting the webserver with 
+  ruby init.rb
+All users will need to authenticate against their supplied 
+public-keys, the bithug shell invoked by bithug-serve will take 
+care of checking access rights and logging repository activity.
