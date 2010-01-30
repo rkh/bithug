@@ -25,3 +25,15 @@
   %input{:type => :text, :name => :value}
   %input{:type => :submit, :value => "store"}
 
+- if user.twitter_authorized?
+  %h3 Your Twitter Connection
+  = user.twitter_user_name
+- else
+  %h3 Connect to Twitter
+Please visit the URL below and come back with the PIN to authorize Bithug
+to use your Twitter account
+= user.twitter_request_authorization
+%form{:method => "post", :action => "/#{user.name}/connect_to_twitter"}
+  %label{:for => :pin} PIN: 
+  %input{:type => :text, :name => :pin}
+

@@ -173,5 +173,11 @@ module Bithug
       haml :feed, :layout => false, :format => :xhtml
     end
 
+    post "/:username/connect_to_twitter" do
+      pass unless current_user?
+      current_user.twitter_authorize(params[:pin])
+      redirect "/#{current_user.name}/settings"
+    end
+
   end
 end
