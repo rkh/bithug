@@ -33,7 +33,7 @@ module Bithug::Wrapper
     end
 
     def ls(commit_ish = "HEAD")
-      exec("ls-tree", "-tlr", commit_ish).lines.inject({}) do |tree, line|
+      exec("ls-tree", "-rtl", commit_ish).lines.inject({}) do |tree, line|
         return tree unless line =~ /[0-9]+ (.*) ([a-z0-9]+) +(-|[0-9]+)\t(.*)/
         type, sha1, size, path = $1, $2, $3, $4
         item = path.split("/").inject(tree) { |subtree, subpath| subtree[subpath] ||= {} }
