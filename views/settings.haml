@@ -1,14 +1,16 @@
 != haml :user_info, :layout => false
 
-%h2 Your Account
+%h2 Profile
 %form{:method => "post", :action => "/#{user.name}/settings"}
   %label{:for => :real_name} Your Name:
   %input{:type => :text, :name => :real_name, :value => "#{user.real_name}"}
   %label{:for => :email} Your E-Mail:
   %input{:type => :text, :name => :email, :value => "#{user.email}"}
   %input{:type => :submit, :value => "store"}
+  .info
+    To change your avatar, visit <a href="http://en.gravatar.com/">gravatar.com</a>.
 
-%h2 Your public keys
+%h2 Public keys
 - user.ssh_keys.all.each do |key|
   %p
     %h4= key.name
