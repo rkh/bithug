@@ -13,7 +13,9 @@ Bithug is a small, experimental Github clone.
 * Lightweight (uses Sinatra and Redis)
 
 == Road Map/Planned Features
-* Repository browsing
+* Commit Views / File Views (currently only supports directory views)
+* Better error handling (currently not many error messages for the user)
+* Bug fixes (currently issues browsing old commits/other branches)
 * Experimental switch of persistence layer (possibly to Maglev)
 * AMQ / background jobs for forking/repo creation and such
 
