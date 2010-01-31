@@ -80,7 +80,7 @@ module Bithug
       end
 
       def time_ago(time)
-        ChronicDuration.output(Time.now.to_i - time.to_i) << " ago"
+        ChronicDuration.output(Time.now.to_i - time.to_i).to_s << " ago"
       end
 
     end
