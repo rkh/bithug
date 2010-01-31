@@ -1,10 +1,20 @@
 != haml :repository_info, :layout => false
 
 - if tree[:type] == "tree"
+  %h2= is_subtree ? "#{commit_spec}: #{params["splat"].first}" : commit_spec
   .listing
+    .heading
+      .cell File
+      .cell Size
+      .cell Revision
+      .cell &nbsp;
     - if is_subtree
       .tree
-        %a{:href => "/#{repo.name}/#{commit_spec}/#{params["splat"].first.dirname}"} ..
+        .name
+          %a{:href => "/#{repo.name}/#{commit_spec}/#{params["splat"].first.dirname}"} ..
+        .size –
+        .revision –
+        .commitMessage &nbsp;
     - tree.sort_by { |k,v| k.to_s }.each do |name, data|
       - next unless data.is_a? Hash
       %div{:class => "#{data[:type]}#{" file_#{File.extname name}" unless data[:type] == "tree"}"}
@@ -16,8 +26,19 @@
               %a{:href => "/#{repo.name}/#{commit_spec}/#{name}"}= name
           - else
             = name
-        .revision= data[:revision]    
-        .size= data[:size]
+        .size= data[:size] || "–"
+        .revision
+          - if data[:revision]
+            %a{:href => "/#{repo.name}/#{data[:revision]}"}= data[:revision][0..4]
+          - else
+            –
+        .commitMessage
+          - if data[:revision] and info = Bithug::LogInfo::CommitInfo.find(:revision => data[:revision]).first
+            %a{:href => "/#{info.user.name}"}
+              != gravatar info.user.email, "10px"
+            = info.message[0..140]
+          - else
+            &nbsp;
 
 .commitInfoBox
   %h3 Recent Commits
