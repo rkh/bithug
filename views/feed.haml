@@ -15,6 +15,5 @@
         /%guid= question.id
         /%author= question.user
         %author= item.user.display_name
-        %pubDate= Time.at(item.date_time)
-
+        %pubDate= Time.at(item.date_time.to_i)
 
