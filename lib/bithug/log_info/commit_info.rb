@@ -37,8 +37,8 @@ module Bithug::LogInfo
       date_time.hash ^ revision.hash
     end
 
-    def to_s(mode = nil)
-      "#{user.display mode} pushed to #{repository.display mode}.\n" + message
+    def to_s(mode = nil, options = {})
+      "#{user.display mode, options} pushed to #{repository.display mode, options}.\n" + message
     end
   end
 end

@@ -22,8 +22,8 @@ module Bithug::LogInfo
     # To satisfy the "interface"
     alias user active_user
     
-    def to_s(mode = nil)
-      "#{user.display mode} #{following? ? "start" : "stop"}ed following #{passive_user.display mode}"
+    def to_s(mode = nil, options = {})
+      "#{user.display mode, options} #{following? ? "start" : "stop"}ed following #{passive_user.display mode, options}"
     end
   end
 end

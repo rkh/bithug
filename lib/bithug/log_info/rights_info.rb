@@ -47,10 +47,10 @@ module Bithug::LogInfo
       access_change.end_with?("r") && access_revoked?
     end
 
-    def to_s(mode = nil)
-      "#{user.display(mode)} #{access_granted? ? "granted" : "removed"} " + 
+    def to_s(mode = nil, options = {})
+      "#{user.display(mode, options)} #{access_granted? ? "granted" : "removed"} " + 
       "#{access_change.end_with?("r") ? "read" : "write"} access in " +
-      "#{repository.display(mode)} for #{changed_user.display(mode)}"
+      "#{repository.display(mode, options)} for #{changed_user.display(mode, options)}"
     end
   end
 end
