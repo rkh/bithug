@@ -66,7 +66,6 @@ module Bithug::Twitter
     end
 
     def twitter_post(text)
-      pp "Posting #{text} to Twitter for #{self.name}" 
       twitter_client.update(text[0..139]) if twitter_authorized?
     end
 
