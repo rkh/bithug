@@ -57,6 +57,10 @@ module Bithug
       raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
     end
 
+    def rename_repository(new_name)
+      raise ConfigurationError, "#{vcs.to_s} is an unhandled VCS"
+    end
+
     def fork(new_owner)
       name_without_owner = name.gsub(owner.name,"").gsub("/","")
       new_repo = self.class.create(:vcs => vcs, :name => name_without_owner, 
@@ -82,8 +86,6 @@ module Bithug
         f.repository = self
       end.save
     end 
-
-
 
     def grant_access(options)
       readers.add(options[:user])
@@ -113,7 +115,16 @@ module Bithug
     end
 
     def set_public(flag = true)
-      self.public == flag.to_s
+      self.public = flag.to_s
+      self.save
+    end
+
+    # This is overwritten to actually remove the repository from storage or 
+    # whatever is configured on delete
+    def remove
+      remove_repository
+      owner.repositories.delete(self)
+      self.delete
     end
 
     class_methods do
@@ -132,12 +143,6 @@ module Bithug
         end
       end
 
-      # This is overwritten to actually remove the repository from storage or 
-      # whatever is configured on delete
-      def delete
-        remove_repository
-        super
-      end
     end
   end
 

@@ -21,6 +21,16 @@ module Bithug::Wrapper
       FileUtils.rm_rf path
     end
 
+    def rename(new_name)
+      new_path = File.join(path.split("/").tap do |p|
+        p.pop
+        p << new_name
+      end)
+      File.join(new_path)
+      FileUtils.mv(path, new_path)
+      @path = new_path
+    end
+
     def log
       splitter = "-"*20 << rand(2**32).to_s << "-"*20 << "\n"
       entries  = exec("log", "--pretty=format:'#{splitter}%aN\n%ae\n%H\n%at\n%s\n'").split(splitter)

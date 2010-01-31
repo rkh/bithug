@@ -1,0 +1,21 @@
+haml :repository
+  %h1= repo.name
+
+  %h2 Rights
+  #readers
+  %h2 ReadAccess
+    repo.readers.each do |r|
+      r.name
+  
+  #writers
+  %h2 WriteAccess
+    repo.writers.each do |w|
+      r.name
+      
+  #grant
+  Grant User Rights
+  render :partial => "right", :locals => {@type => "grant"}}
+      
+  #revoke
+  Revoke User Rights
+  render :partial => "right", :locals => {@type => "revoke"}}

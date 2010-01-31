@@ -1,0 +1,4 @@
+%h2 Are you sure you want do to that?
+%h3= message
+%a.button{:href => "#{request.path_info}/confirmed"} Yes, do it!
+%a.button{:href => return_url} I've changed my mind, please take me back!

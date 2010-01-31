@@ -89,7 +89,7 @@ module Bithug::Twitter
       super
     end
 
-    def revoke_access
+    def revoke_access(options)
       twitter_post("I revoked write #{"and read" if options[:access] == 'r'}" +
                    "access rights for #{options[:user].name} to my repository "+
                    "#{options[:repo]} on Bithug!")
@@ -103,6 +103,13 @@ module Bithug::Twitter
     def fork(new_owner)
       owner.twitter_post("My project #{repo.name} on Bithug was just forked by #{new_owner.name}!")
       super
+    end
+
+    def rename_repository(new_name)
+      old_name = name
+      repo = super
+      owner.twitter_post("I changed the name of my project #{old_name} to #{owner.name/new_name}.")
+      repo
     end
 
     class_methods do

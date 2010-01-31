@@ -12,6 +12,13 @@ module Bithug::Git
       wrapper.remove
     end
 
+    def rename_repository(new_name)
+      return super if vcs.to_s != "git"
+      wrapper.rename(new_name)
+      self.name = owner.name/new_name
+      self.save
+    end
+
     def log_recent_activity(user=nil)
       log = wrapper.log.collect do |item|
         Bithug::LogInfo::CommitInfo.new.tap do |c|

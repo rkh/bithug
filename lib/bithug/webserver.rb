@@ -35,6 +35,14 @@ module Bithug
         "#{"un" if current_user.following? user}follow"
       end
 
+      def toggle_public
+	if repo.public?
+	  "Mark private" 
+	else
+	  "Make public"
+	end
+      end
+
       def gravatar_url(mail, size, default)
         "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}&d=#{default}"
       end
@@ -107,10 +115,14 @@ module Bithug
 
     post "/:username/new" do
       pass unless current_user?
-      reponame = params["repo_name"]
-      vcs = params["vcs"] || "git"
-      Repository.create(:name => reponame, :owner => user, :vcs => vcs, :remote => params["remote"])
-      redirect "/#{user.name}/#{reponame}"
+      vcs = params[:vcs] || "git"
+      unless vcs == "svn" && !params[:remote]
+        reponame = params[:repo_name]
+        Repository.create(:name => reponame, :owner => user, :vcs => vcs, :remote => params[:remote])
+        redirect "/#{user.name}/#{reponame}"
+      else
+        redirect "/:username/new"
+      end
     end
 
     get "/:username/settings" do
@@ -145,17 +157,47 @@ module Bithug
       haml :repository, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
     end
 
-    post "/:username/:repository/grant" do
-      # epxects :read_or_write and :other_username
-      pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
-      user.grant_access :user => params[:other_username], :repo => repo, :access => params[:read_or_write]
+    get "/:username/:repository/admin/?" do
+      pass unless repo and current_user? 
+      # repo.tree <- returns a nested hash of the (w)hole repository tree
+      haml :repository_settings, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
+    end
+
+    post "/:username/:repository/admin/?" do
+      pass unless repo and current_user? 
+      # repo.tree <- returns a nested hash of the (w)hole repository tree
+      repo.rename_repository(params[:name])
+      redirect "/#{user.name}/#{params[:name]}/admin"
+    end
+
+    get "/:username/:repository/delete/?" do
+      pass unless repo and current_user?
+      haml :confirmation, {}, :return_url => "/#{repo.name}",
+	 :message => "Are you sure you want to delete your repository #{repo.name}? This action cannot be undone!"
+    end
+
+    get "/:username/:repository/delete/confirmed" do
+      pass unless repo and current_user?
+      repo.remove
+      redirect "/#{user.name}"
+    end
+
+    get "/:username/:repository/toggle_public?" do
+      pass unless repo and current_user? 
+      repo.set_public(!repo.public?)
       redirect "/#{repo.name}/admin"
     end
 
-    post "/:username/:repository/revoke" do
+    post "/:username/:repository/grant" do
       # epxects :read_or_write and :other_username
       pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
-      user.revoke_access :user => params[:other_username], :repo => repo, :access => params[:read_or_write]
+      user.grant_access :user => user_named(params[:other_username]), :repo => repo, :access => params[:read_or_write]
+      redirect "/#{repo.name}/admin"
+    end
+
+    get "/:username/:repository/revoke/:read_or_write/:other_username" do
+      pass unless repo and %w(w r).include? params[:read_or_write] and current_user? and user_named params[:other_username]
+      user.revoke_access :user => user_named(params[:other_username]), :repo => repo, :access => params[:read_or_write]
       redirect "/#{repo.name}/admin"
     end
 
@@ -172,6 +214,11 @@ module Bithug
         subpath[subtree]
       end
       haml :repository, {}, :tree => tree, :is_subtree => params["splat"].empty?, :commit_spec => params[:commit_spec]
+    end
+    
+    get "/:username/:repository/admin" do
+      pass unless repo
+      haml :repository, :admin
     end
 
     get "/:username/feed" do
