@@ -72,7 +72,7 @@ module Bithug
       end
 
       def log_entries(num = 30)
-        current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }[0..num]
+        current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }.reverse[0..num]
       end
 
       def time_ago(time)
