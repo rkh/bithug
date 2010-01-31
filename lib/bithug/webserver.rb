@@ -75,7 +75,7 @@ module Bithug
         current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }.reverse[0..num]
       end
 
-      def commit_entries(num = 15)
+      def commit_entries(num = 5)
 	repo.recent_activity(num).reverse
       end
 
