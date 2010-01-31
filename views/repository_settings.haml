@@ -9,8 +9,8 @@
   %a{:href => "/#{repo.name}/delete"} Delete this repository.
 
 %h2 Access Rights
-
-%a{:href => "/#{repo.name}/toggle_public"}= toggle_public
+.info
+  %a{:href => "/#{repo.name}/toggle_public"}= toggle_public
 %h3 Users with read access
 - if repo.public?
   .info This repository is public and everybody can read it.
