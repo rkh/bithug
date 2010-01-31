@@ -127,6 +127,14 @@ module Bithug
       self.delete
     end
 
+    def display(mode = nil)
+      case mode
+      when :link then "/#{name}"
+      when :html then "<a href='#{display :link}'>#{display}</a>"
+      else name
+      end
+    end
+
     class_methods do
       # This is overwritten to immediately create the underlying repo using the 
       # configured method, and also modify the name for uniqueness in the system 

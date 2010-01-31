@@ -22,4 +22,4 @@
     != gravatar item.user.email, 40
     .text
       %h4= time_ago item.date_time
-      = item.to_s
+      != item.to_s :html

@@ -15,8 +15,8 @@ module Bithug::LogInfo
       end
     end
 
-    def to_s
-      "#{user.name} forked #{original.name}"
+    def to_s(mode = nil)
+      "#{user.display mode} forked #{original.display mode}"
     end
   end
 end

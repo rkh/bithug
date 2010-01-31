@@ -10,7 +10,7 @@
       %item
         /stubbing, i'm going to work on this ASAP
         %title= "#{item.class.to_s} for #{item.user.name}"
-        %description= item.to_s
+        %description= item.to_s :html
         /%link= url(:question, :stripped_title => question.stripped_title)
         /%guid= question.id
         /%author= question.user
