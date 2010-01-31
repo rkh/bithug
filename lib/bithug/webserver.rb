@@ -211,13 +211,15 @@ module Bithug
       redirect "/#{current_user.name}/#{params[:repository]}"
     end
 
-    get "/:username/:repository/:commit_spec/?*" do
+    get "/:username/:repository/:commit_spec/?*/?" do
       pass unless repo
-      tree = params["splat"].first.split("/").inject repo.tree(params[:commit_spec]) do |subtree, subpath|
-        pass unless subpath.include? subpath
-        subpath[subtree]
+      commit_spec = "master" if params[:commit_spec].nil? or params[:commit_spec].empty?
+      commit_spec ||= params[:commit_spec]
+      tree = params["splat"].first.split("/").inject repo.tree(commit_spec) do |subtree, subpath|
+        pass unless subtree.include? subpath
+        subtree[subpath]
       end
-      haml :repository, {}, :tree => tree, :is_subtree => params["splat"].empty?, :commit_spec => params[:commit_spec]
+      haml :repository, {}, :tree => tree, :is_subtree => !params["splat"].first.empty?, :commit_spec => params[:commit_spec]
     end
     
     get "/:username/:repository/admin" do

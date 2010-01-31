@@ -1,7 +1,20 @@
 != haml :repository_info, :layout => false
 
-.files
-  %pre= tree.inspect
+- if tree[:type] == "tree"
+  .listing
+    - if is_subtree
+      .tree
+        %a{:href => "/#{repo.name}/#{commit_spec}/#{params["splat"].first.dirname}"} ..
+    - tree.sort_by { |k,v| k.to_s }.each do |name, data|
+      - next unless data.is_a? Hash
+      %div{:class => "#{data[:type]}#{" file_#{File.extname name}" unless data[:type] == "tree"}"}
+        - if data[:type] == "tree"
+          - if is_subtree
+            %a{:href => "/#{repo.name}/#{commit_spec}/#{params["splat"].first}/#{name}"}= name
+          - else
+            %a{:href => "/#{repo.name}/#{commit_spec}/#{name}"}= name
+        - else
+          = name
 
 .commitInfoBox
   %h3 Recent Commits
