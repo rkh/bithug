@@ -75,8 +75,12 @@ module Bithug
         current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }.reverse[0..num]
       end
 
+      def commit_entries(num = 15)
+	repo.recent_activity(num).reverse
+      end
+
       def time_ago(time)
-        ChronicDuration.output((Time.now - time).to_i) << " ago"
+        ChronicDuration.output(Time.now.to_i - time.to_i) << " ago"
       end
 
     end

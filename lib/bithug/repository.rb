@@ -24,7 +24,9 @@ module Bithug
     index :owners
 
     def recent_activity(num=10)
-      ([commits.recent(num), forks.recent(num), rights.recent(num)].sort_by do |i|
+      ([commits, forks, rights].collect do |ary| 
+        Bithug::LogInfo.recent(ary, num)
+      end.flatten.sort_by do |i|
         i.date_time
       end)[0..num]
     end
@@ -137,6 +139,7 @@ module Bithug
         super.tap do |repo|
           repo.create_repository
           repo.owner = owner
+	  log_recent_activity
           repo.save
           owner.repositories.add(repo)
           owner.save
