@@ -105,6 +105,14 @@ module Bithug
     def display_name
       real_name || name
     end
+    
+    def display(mode = nil)
+      case mode
+      when :link then "/#{name}"
+      when :html then "<a href='#{display :link}'>#{display}</a>"
+      else display_name
+      end
+    end
 
     class_methods do
       # The method at the end of the authentication chain
