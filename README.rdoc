@@ -41,7 +41,10 @@ Bithug is a small, experimental Github clone.
                                                | krb5-auth is the preferred option, but works
                                                | only on MRI/REE and Rubinius.
                                                | Rubinius, JRuby, MacRuby and Meglav already ship
-                                               | with ffi.
+                                               | with ffi. To use the ffi krb5 implementation,
+                                               | you will have to run 'make' in vendor/simple-krb5/ext
+                                               | once. You will need the krb5 development headers.
+                                               |
                                                |
   Git                                          | sudo (port|apt-get|yum|brew) install git-core
                                                |
