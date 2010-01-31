@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'pathname'
-$LOAD_PATH.unshift(Pathname.new(__FILE__).dirname.join("..").expand_path.to_s)
+path = Pathname(__FILE__).realpath.dirname.dirname
+$LOAD_PATH.unshift path.to_s, path.join("lib").to_s
 require 'init'
 Bithug::Shell.new(ARGV[0]).run
