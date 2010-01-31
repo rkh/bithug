@@ -14,6 +14,8 @@
 %h3 Users with read access
 - if repo.public?
   .info This repository is public and everybody can read it.
+- elsif repo.readers.empty?
+  .info No user has write access.
 - else
   - repo.readers.each do |u|
     .item
@@ -23,20 +25,27 @@
         %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
 
 %h3 Users with write access
-- repo.writers.each do |u|
-  .item
-    != gravatar u.email, 40
-    .text
-      %h4= u.display_name
-      %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke access
+- if repo.writers.empty?
+  .info No user has write access.
+- else
+  - repo.writers.each do |u|
+    .item
+      != gravatar u.email, 40
+      .text
+        %h4= u.display_name
+        %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke access
 
+%h3 Add user to project
 %form{:method => "post", :action => "/#{repo.name}/grant"}
   %label{:for => :other_username} Grant access to a user:
   %input{:type => :text, :name => :other_username}
+  %br
   - if repo.public?
     %input{:type => :hidden, :name => :read_or_write, :value => "w"}
   - else  
-    %input{:type => :radio, :name => :read_or_write, :value => "r", :checked => "checked"} Read only
-    %input{:type => :radio, :name => :read_or_write, :value => "w"} Read and Write
+    %input{:type => :radio, :name => :read_or_write, :value => "r", :checked => "checked", :id => :read}
+    %label.radio{:for => :read} Read only
+    %input{:type => :radio, :name => :read_or_write, :value => "w", :id => :write}
+    %label.radio{:for => :write} Read and Write
   %input{:type => :submit, :value => "Store"}
 
