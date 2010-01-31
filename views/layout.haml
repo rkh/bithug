@@ -25,6 +25,7 @@
         - if current_user.ssh_keys.all.compact.empty?
           .warning You have to <a href="/#{current_user.name}/settings">upload a public key</a> before you can start coding.
         != yield
+        .bottom
       %footer
         Powered by <a href="http://github.com/rkh/bithug">Bithug</a>,
         <a href="http://www.sinatrarb.com">Sinatra</a>, <a href="http://code.google.com/p/redis/">Redis</a>
