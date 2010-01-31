@@ -48,6 +48,5 @@
     .item
       != gravatar item.user.email, 40
       .text
-        %small= item.user.name
         %h4= time_ago item.date_time
-        != item.to_s :html
+        != item.to_s :html, :message_length => 140

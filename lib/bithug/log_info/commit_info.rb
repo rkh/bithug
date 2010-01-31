@@ -38,7 +38,8 @@ module Bithug::LogInfo
     end
 
     def to_s(mode = nil, options = {})
-      "#{user.display mode, options} pushed to #{repository.display mode, options}.\n" + message
+      options[:message_length] ||= -1
+      "#{user.display mode, options} pushed to #{repository.display mode, options}.\n" + message[0..options[:message_length]]
     end
   end
 end
