@@ -44,7 +44,7 @@ module Bithug::Wrapper
     end
 
     def ls(commit_ish = "HEAD")
-      exec("ls-tree", "-lrt", commit_ish).lines.inject({}) do |tree, line|
+      exec("ls-tree", "-l", "-r", "-t", commit_ish).lines.inject({}) do |tree, line|
         return tree unless line =~ /[0-9]+ (.*) ([a-z0-9]+) +(-|[0-9]+)\t(.*)/
         type, sha1, size, path = $1, $2, $3, $4
         # note: since starting with tree, item becomes part of tree!
