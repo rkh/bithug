@@ -63,7 +63,7 @@ Inside that file you may configure your Bithug system.
 The simplest configuration should look something like this:
 
   Bithug.configure do
-    Ohm.connect :host => "127.0.0.1", :port => 6379 # Your redis server
+    use :Redis, :host => "127.0.0.1", :port => 6379 # Your redis server
     use :Git
     use :Local
   end
@@ -75,7 +75,7 @@ to use either Kerberos or LDAP or both.
 If you are inside HPI, it is even easier:
 
   Bithug.configure do
-    Ohm.connect :host => "127.0.0.1", :port => 6379
+    use :Redis, :host => "127.0.0.1", :port => 6379
     use :Hpi
   end
 
@@ -84,7 +84,7 @@ A full blown configuration could look like this:
   Bithug.configure do
     
     # Redis connection
-    Ohm.connect :host => "127.0.0.1", :port => 6379
+    use :Redis, :host => "127.0.0.1", :port => 6379
     
     # Git repo support
     use :Git
@@ -108,6 +108,10 @@ A full blown configuration could look like this:
     title hostname
     
   end
+
+Note that names like :Twitter or :Git refer to Modules which represent Bithug extensions.
+You can easily provide you own, documentation might follow (for now, have a look at the source,
+lib/bithug/hpi.rb might be a good starting point).
 
 === Running a ruby shell
 Make sure redis is running.
