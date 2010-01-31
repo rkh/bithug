@@ -29,6 +29,7 @@ module Bithug
   end
 
   def self.use(service, options = {})
+    return Ohm.connect(options) if service == :Redis
     service = const_get(service) unless service.is_a? Module
     options[:only]   ||= [:User, :Repository] 
     options[:except] ||= []
