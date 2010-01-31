@@ -15,6 +15,7 @@ Bithug is a small, experimental Github clone.
 == Road Map/Planned Features
 * Repository browsing
 * Experimental switch of persistence layer (possibly to Maglev)
+* AMQ / background jobs for forking/repo creation and such
 
 == How do I install Bithug?
 

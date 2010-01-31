@@ -1,14 +1,25 @@
 != haml :user_info, :layout => false
-#repositories
+%h2 Repositories
 
-  #owned_repositories
-    - user.repositories.each do |r|
-      %a{:href => "/#{r.name}"}= r.name
+- unless user.repositories.empty?
+  %h3 Own repositories
+  - user.repositories.each do |r|
+    %a{:href => "/#{r.name}"}= r.name
 
-  #writeable_repositories
-    - user.writeable_repositories.each do |r|
-      %a{:href => "/#{r.name}"}= r.name
+- unless user.writeable_repositories.empty?
+  %h3 Write access
+  - user.writeable_repositories.each do |r|
+    %a{:href => "/#{r.name}"}= r.name
 
-  #readable_repositories
-    - user.readable_repositories.each do |r|
-      %a{:href => "/#{r.name}"}= r.name
+- unless user.readable_repositories.empty?
+  %h3 Read access
+  - user.readable_repositories.each do |r|
+    %a{:href => "/#{r.name}"}= r.name
+
+%h2 Recent activity
+- user.recent_activity(30).each do |item|
+  .item
+    != gravatar item.user.email, 40
+    .text
+      %h4= time_ago item.date_time
+      = item.to_s
