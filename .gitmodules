@@ -49,3 +49,6 @@
 [submodule "vendor/ruby-hmac"]
 	path = vendor/ruby-hmac
 	url = http://github.com/topfunky/ruby-hmac.git
+[submodule "vendor/simple_krb5"]
+	path = vendor/simple_krb5
+	url = git://github.com/timfel/simple_krb5.git
