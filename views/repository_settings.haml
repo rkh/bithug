@@ -1,11 +1,12 @@
 != haml :repository_info, :layout => false
 
 %h2= "Settings for Project #{repo.name}"
-.info %a.button{:href => "/#{repo.name}/delete"} Delete this repository.
 %form{:method => "post", :action => request.path_info}
   %label{:for => :name} Project Name:
   %input{:type => :text, :name => :name, :value => "#{repo.name.gsub(user.name,"").gsub("/","")}"}
   %input{:type => :submit, :value => "Store"}
+.info
+  %a{:href => "/#{repo.name}/delete"} Delete this repository.
 
 %h2 Access Rights
 
@@ -19,7 +20,7 @@
       != gravatar u.email, 40
       .text
         %h4= u.name
-         %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
+        %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
 
 %h3 Users with write access
 - repo.writers.each do |u|
@@ -27,7 +28,7 @@
     != gravatar u.email, 40
     .text
       %h4= u.name
-       %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke access
+      %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke access
 
 %form{:method => "post", :action => "/#{repo.name}/grant"}
   %label{:for => :other_username} Grant access to a user:
