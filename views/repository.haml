@@ -13,4 +13,4 @@
       .text
         %small= item.user.name
         %h4= time_ago item.date_time
-        = "#{item.message[0..139]}#{"..." if item.message.size > 139}"
+        != item.to_s :html
