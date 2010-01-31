@@ -15,7 +15,7 @@
 - if repo.public?
   .info This repository is public and everybody can read it.
 - elsif repo.readers.empty?
-  .info No user has write access.
+  .info No user has read access.
 - else
   - repo.readers.each do |u|
     .item
