@@ -23,7 +23,7 @@ module Bithug
     end
 
     def run
-      unless repo = Bithug::Repository.find(:name, @repository).first
+      unless repo = Bithug::Repository.find(:name => @repository).first
         raise Bithug::UnknownRepositoryError, "Could not find a repository named #{@repository}" 
       end
       repo.check_access_rights(@user, @writeaccess)
