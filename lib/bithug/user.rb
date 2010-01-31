@@ -101,17 +101,22 @@ module Bithug
     def connected_repositories(via)
       Bithug::Repository.all.select {|r| r.send(via).include? self}
     end
+    
+    def display_name
+      real_name || name
+    end
 
     class_methods do
       # The method at the end of the authentication chain
       def authenticate(username, password, options = {})
         false
       end
-  
+
       # The method to be called if an authentication succeeded
       def login(username)
         Bithug::User.find(:name => username).first || Bithug::User.create(:name => username)
       end
+      
     end
   end
   

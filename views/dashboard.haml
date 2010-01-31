@@ -11,7 +11,7 @@
 
 %h2 What is going on?
 - if log_entries.empty?
-  Start following to fill your feed.
+  Start following folks to fill your feed.
 - log_entries(30).each do |item|
   .item
     != gravatar item.user.email, 40

@@ -19,7 +19,7 @@
     .item
       != gravatar u.email, 40
       .text
-        %h4= u.name
+        %h4= u.display_name
         %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
 
 %h3 Users with write access
@@ -27,7 +27,7 @@
   .item
     != gravatar u.email, 40
     .text
-      %h4= u.name
+      %h4= u.display_name
       %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke access
 
 %form{:method => "post", :action => "/#{repo.name}/grant"}

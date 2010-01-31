@@ -14,7 +14,7 @@
         /%link= url(:question, :stripped_title => question.stripped_title)
         /%guid= question.id
         /%author= question.user
-        %author= item.user.name
+        %author= item.user.display_name
         %pubDate= Time.at(item.date_time)
 
 
