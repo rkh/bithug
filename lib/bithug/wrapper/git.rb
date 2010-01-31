@@ -48,7 +48,11 @@ module Bithug::Wrapper
         return tree unless line =~ /[0-9]+ (.*) ([a-z0-9]+) +(-|[0-9]+)\t(.*)/
         type, sha1, size, path = $1, $2, $3, $4
         # note: since starting with tree, item becomes part of tree!
-        item = path.split("/").inject(tree) { |subtree, subpath| subtree[subpath] ||= {} }
+        item = path.split("/").inject(tree) do |subtree, subpath|
+          subtree[:type] = "tree"
+          subtree[subpath] ||= {}
+        end
+        item[:type] = type
         item.merge! :revision => sha1, :size => size unless type == "tree"
         tree
       end
