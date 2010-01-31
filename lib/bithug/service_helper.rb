@@ -16,8 +16,8 @@ module Bithug
 
       def included(klass)
         super
-        klass.extend class_methods
         postponed.each { |m,a,b| klass.send(m, *a, &b) }
+        klass.extend class_methods
       end
 
       def class_methods(&block)
