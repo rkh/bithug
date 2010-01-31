@@ -129,7 +129,7 @@ module Bithug
       self.delete
     end
 
-    def display(mode = nil)
+    def display(mode = nil, options = {})
       case mode
       when :link then "/#{name}"
       when :html then "<a href='#{display :link}'>#{display}</a>"
