@@ -111,7 +111,7 @@ A full blown configuration could look like this:
 
 Note that names like :Twitter or :Git refer to Modules which represent Bithug extensions.
 You can easily provide you own, documentation might follow (for now, have a look at the source,
-+lib/bithug/hpi.rb+ might be a good starting point).
+lib/bithug/hpi.rb might be a good starting point).
 
 === Running a ruby shell
 Make sure redis is running.
