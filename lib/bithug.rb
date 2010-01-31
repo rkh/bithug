@@ -37,7 +37,7 @@ module Bithug
         service.setup options if service.respond_to? :setup
         Bithug.const_get(class_name).send :include, service.const_get(class_name)
       else
-        warn "#{service} does not offer #{class_name}"
+        #warn "#{service} does not offer #{class_name}"
       end
     end
   end

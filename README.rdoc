@@ -1,47 +1,138 @@
 = Bithug
-More docs to come.
-Also, code is probably broken and in some flux atm.
-Come back after 2010/01/31 (that's our deadline).
+Bithug is a small, experimental Github clone.
+
+== Features
+* Git access management
+* Private and public repositories
+* Forking
+* Following/Feed generation
+* SVN import/tracking
+* Kerberos/LDAP support
+* Twitter integration
+* Gravatar support
+* Lightweight (uses Sinatra and Redis)
+
+== Road Map/Planned Features
+* Repository browsing
+* Experimental switch of persistence layer (possibly to Maglev)
 
 == How do I install Bithug?
-You don't.
 
-Having said that:
-Run +rake+ to set things up. Also, you'll need redis.
+=== Pre-requirements
 
-== Starting the server
+  General pre-requirement                      | What we used for development/deployment
+  ---------------------------------------------|---------------------------------------------
+  Unix with a SSH server (we)                  | Fedora Linux 12 and Mac OSX 10.6
+                                               | with OpenSSH. Any Linux/BSD should work.
+                                               |
+  A decent ruby implementation (>= 1.8.7)      | Rubinius 1.0.0-rc2 and JRuby 1.4.0, installed
+                                               | with RVM. We experienced frequent segmentation
+                                               | faults with the official Ruby implementation.
+                                               |
+  A web server                                 | Mongrel. All Rubies ship with Webrick, but it
+                                               | has poor performance. For deployment, consider
+                                               | Passenger/Apache.
+                                               |
+  Redis                                        | Installed from official tar ball on Linux.
+                                               | Via MacPorts on OSX.
+                                               |
+  Kerberos Support (optional)                  | You'll need either to install our patched
+                                               | krb5-auth* or install ruby ffi.
+                                               | krb5-auth is the preferred option, but works
+                                               | only on MRI/REE and Rubinius.
+                                               | Rubinius, JRuby, MacRuby and Meglav already ship
+                                               | with ffi.
+                                               |
+  Git                                          | sudo (port|apt-get|yum|brew) install git-core
+                                               |
 
-Try something along the lines of
+  * gem install timfel-krb5-auth
 
+All other requirements are shipped with Bithug inside the vendor directory.
+
+=== Getting the source
+  git clone git://github.com/rkh/bithug.git
+  cd bithug
+  git submodule init
+  git submodule update
+
+=== Configuring Bithug
+In the projects root directory, create a +config.rb+.
+Inside that file you may configure your Bithug system.
+
+The simplest configuration should look something like this:
+
+  Bithug.configure do
+    Ohm.connect :host => "127.0.0.1", :port => 6379 # Your redis server
+    use :Git
+    use :Local
+  end
+
+Note that "Local" was mainly used for development (read: there is no admin interface
+to manage the users, users cannot change their passwords) and it is highly recommended
+to use either Kerberos or LDAP or both.
+
+If you are inside HPI, it is even easier:
+
+  Bithug.configure do
+    Ohm.connect :host => "127.0.0.1", :port => 6379
+    use :Hpi
+  end
+
+A full blown configuration could look like this:
+
+  Bithug.configure do
+    
+    # Redis connection
+    Ohm.connect :host => "127.0.0.1", :port => 6379
+    
+    # Git repo support
+    use :Git
+    
+    # Subversion repo support
+    use :Svn
+    
+    # Twitter integration
+    use :Twitter, :consumer_key => "...", :consumer_secret => "..."
+    
+    # LDAP authentication
+    use :Ldap, :host => "ldap.com", :port => 10
+    
+    # Hostname for git url
+    hostname "example.com"
+    
+    # System user (for urls)
+    git_user "git"
+    
+    # Sets title to hostname ("example.com")
+    title hostname
+    
+  end
+
+=== Running a ruby shell
+Make sure redis is running.
+
+In the root directory, run
+  irb -rinit
+
+=== Starting the server
+Ideally, when you install bithug on a server, you would
+create an unpriviliged git user on that machine. That
+user should have a private ruby stack with the dependencies,
+git and bin/bithug-serve need to be in his PATH.
+
+Also, make sure redis is running.
+
+As that user, try something along the lines of
   ruby init.rb
-
 or
-
   thin start -D -R config.ru
+or
+  rackup
 
-== TODO / Known Bugs
-* Admin interface for repos
-* Remote/svn import/tracking (!)
-* Paper
+Starting on another port:
+  ruby init.rb -p 80
 
-=== Nice to have
-* Directory listing (./)
-* Twitter
-
-=== After Deadline
-* Switch from Ohm to something else
-
-== Setup
-Ideally, when you install bithug on a server, you would 
-create an unpriviliged git user on that machine. That 
-user should have a private ruby stack with the dependencies 
-and git and bin/bithug-serve need to be in his PATH. 
-
-Configure your modules and the redis connection, and you're 
-good to go! (see: config.rb)
-
-Running bithug is then as easy as starting the webserver with 
-  ruby init.rb
 All users will need to authenticate against their supplied 
 public-keys, the bithug shell invoked by bithug-serve will take 
 care of checking access rights and logging repository activity.
