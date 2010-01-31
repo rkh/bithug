@@ -1,38 +1,41 @@
 != haml :repository_info, :layout => false
 
 %h2= "Settings for Project #{repo.name}"
+.info %a.button{:href => "/#{repo.name}/delete"} Delete this repository.
 %form{:method => "post", :action => request.path_info}
   %label{:for => :name} Project Name:
   %input{:type => :text, :name => :name, :value => "#{repo.name.gsub(user.name,"").gsub("/","")}"}
   %input{:type => :submit, :value => "Store"}
-%br
-%a.button{:href => "/#{repo.name}/delete"} Delete this repository
 
 %h2 Access Rights
+
 %a{:href => "/#{repo.name}/toggle_public"}= toggle_public
-- unless repo.public?
-  %h3 Users with readaccess to your repository
+%h3 Users with read access
+- if repo.public?
+  .info This repository is public and everybody can read it.
+- else
   - repo.readers.each do |u|
-    %h4
-      != gravatar u.email, 30
-      = u.name
-      %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
-- else 
-  %h3 This repository is public and everybody can read it
-%h3 Users with writeaccess to your repository
+    .item
+      != gravatar u.email, 40
+      .text
+        %h4= u.name
+         %a{:href => "/#{repo.name}/revoke/r/#{u.name}"} Revoke access
+
+%h3 Users with write access
 - repo.writers.each do |u|
-  %h4
-    != gravatar u.email, 30
-    = u.name
-    %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke write access
-    
+  .item
+    != gravatar u.email, 40
+    .text
+      %h4= u.name
+       %a{:href => "/#{repo.name}/revoke/w/#{u.name}"} Revoke access
+
 %form{:method => "post", :action => "/#{repo.name}/grant"}
   %label{:for => :other_username} Grant access to a user:
   %input{:type => :text, :name => :other_username}
-  - unless repo.public?
-    %input{:type => :radio, :name => :read_or_write, :value => "r"} Read only
-    %input{:type => :radio, :name => :read_or_write, :value => "w"} Read and Write
-  - else
+  - if repo.public?
     %input{:type => :hidden, :name => :read_or_write, :value => "w"}
+  - else  
+    %input{:type => :radio, :name => :read_or_write, :value => "r", :checked => "checked"} Read only
+    %input{:type => :radio, :name => :read_or_write, :value => "w"} Read and Write
   %input{:type => :submit, :value => "Store"}
 
