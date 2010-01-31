@@ -34,7 +34,6 @@ module Bithug::Wrapper
     def log
       splitter = "-"*20 << rand(2**32).to_s << "-"*20 << "\n"
       entries  = exec("log", "--pretty=format:'#{splitter}%aN\n%ae\n%H\n%at\n%s\n'").split(splitter)
-      puts entries
       entries.shift
       entries.map do |raw|
         data = raw.split("\n", 5)
