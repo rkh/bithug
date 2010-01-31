@@ -5,7 +5,8 @@
   Start committing to this repository. This is Open-Source!
 - commit_entries.each do |item|
   .item
-    != gravatar item.user.email, 40
+    != gravatar item.user.email, 28
+    %small= item.user.name
     .text
       %h4= time_ago item.date_time
       = "#{item.message[0..139]}#{"..." if item.message.size > 139}"
