@@ -147,7 +147,7 @@ module Bithug
         super.tap do |repo|
           repo.create_repository
           repo.owner = owner
-	  log_recent_activity
+	  repo.log_recent_activity
           repo.save
           owner.repositories.add(repo)
           owner.save
