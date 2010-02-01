@@ -14,7 +14,7 @@ module Bithug::Wrapper
     end
 
     def init
-      remote ? exec("clone", "--bare", @remote, @path) : exec("init", "--bare")
+      @remote ? exec("clone", "--bare", @remote, @path) : exec("init", "--bare")
     end
 
     def remove
