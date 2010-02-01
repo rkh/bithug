@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'pathname'
 path = Pathname(__FILE__).realpath.dirname.dirname
-$LOAD_PATH.unshift path.to_s, path.join("lib").to_s
-require 'init'
+$LOAD_PATH.unshift(path.to_s, path.join("lib").to_s, *Dir.glob(File.expand_path("vendor/*/lib", path.to_s)))
+require 'bithug'
+require 'config'
 Bithug::Shell.new(ARGV[0]).run
