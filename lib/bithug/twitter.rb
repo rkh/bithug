@@ -100,7 +100,7 @@ module Bithug::Twitter
     include Bithug::ServiceHelper
 
     def fork(new_owner)
-      owner.twitter_post("My project #{repo.name} on Bithug was just forked by #{new_owner.name}!")
+      owner.twitter_post("My project #{name} on Bithug was just forked by #{new_owner.name}!")
       super
     end
 
