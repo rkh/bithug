@@ -17,7 +17,7 @@ module Bithug::Hpi
         super(username).tap do |user|
           user.real_name = username.split(".").map { |s| s.capitalize }.join " "
           user.email = email
-        end
+        end.save
       end
 
       def authenticate(email, *whatever)
@@ -27,6 +27,11 @@ module Bithug::Hpi
 
       def user_from_mail(email)
         $1.downcase if email =~ /^([^@]+\.[^@]+)@(student\.)?hpi\.uni-potsdam\.de$/
+      end
+
+      def find(hash)
+        hash[:name] = user_from_mail(hash[:name]) if user_from_mail(hash[:name])
+        super(hash)
       end
 
     end
