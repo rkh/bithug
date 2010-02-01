@@ -68,8 +68,10 @@ module Bithug::Wrapper
 
     def exec(command, *args)
       chdir(path) do
-         string = %x[git #{command} #{args.join(" ")} 2>&1]
-         File.open('/tmp/bithug.log', 'a') {|f| f << "\n#{Time.now}: git #{command} #{args.join(" ")} -> #{string}" }
+         cmd = "#{command} #{args.join(" ")} 2>&1"
+         cmd = "git #{cmd}" unless command.start_with? "git"
+         string = %x[#{cmd}]
+         File.open('/tmp/bithug.log', 'a') {|f| f << "\n#{Time.now}: #{cmd} -> #{string}" }
 	 string
       end
     end
