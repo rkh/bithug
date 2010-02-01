@@ -67,11 +67,16 @@ module Bithug::Wrapper
     end
 
     def exec(command, *args)
-      chdir(path) { %x[git #{command} #{args.join(" ")} 2>&1] }
+      chdir(path) do
+         string = %x[git #{command} #{args.join(" ")} 2>&1]
+         File.open('/tmp/bithug.log', 'a') {|f| f << "\n#{Time.now}: git #{command} #{args.join(" ")} -> #{string}" }
+	 string
+      end
     end
 
     def expand_remote(remote)
       return remote if !remote or remote =~ /^[a-z]{3,4}:\/\/|^[a-z]+@/
+      return remote if remote.start_with? "/"
       File.expand_path(File.join(ENV["HOME"], remote))
     end
   end
