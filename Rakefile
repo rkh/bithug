@@ -30,7 +30,7 @@ end
 from "yard", "big_band/integration/yard" do
   task :default => :doc
   YARD::Rake::YardocTask.new("doc") do |t|
-    t.options += %w[--main README.rdoc --backtrace]
+    t.options << "--backtrace"
     t.after = lambda { `cp -R docs/images/ doc/images/` }
   end
 end
