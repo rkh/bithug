@@ -19,7 +19,7 @@ class Bithug::Cli < Thor
     end
     
     def setup_config(file)
-      Bithug.config ||= Bithug::ConfigDsl.new
+      Bithug.config ||= Bithug::ConfigDsl.new options[:env]
       if File.exist? file
         Bithug.instance_eval File.read(file), file, 1
       elsif file == "config.rb" and File.exist? "config.example.rb"
