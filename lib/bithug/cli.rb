@@ -4,7 +4,8 @@ require "thor"
 class Bithug::Cli < Thor
   include Thor::Actions
   default_task :help
-  class_option :ext,    :aliases => "-e", :desc => "Ruby extension library to use", :banner => "LIB"
+  class_option :ext,    :aliases => "-x", :desc => "Ruby extension library to use", :banner => "LIB"
+  class_option :env,    :aliases => "-e", :desc => "Sets environment (you know, like in rails)", :default => "development"
   class_option :config, :aliases => "-c", :desc => "Config file to load", :banner => "FILE", :default => "config.rb"
 
   no_tasks do
