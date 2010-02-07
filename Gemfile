@@ -12,7 +12,6 @@ group :general do
 end
 
 group :webserver do
-  gem "swiftiply",     "~> 0.6.1.1"
   gem "thin",          "~> 1.2.5"
   gem "sinatra",       "~> 0.9.4"
   gem "async_sinatra", "~> 0.1.5"
