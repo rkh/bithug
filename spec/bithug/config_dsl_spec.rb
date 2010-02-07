@@ -30,29 +30,4 @@ describe Bithug::ConfigDsl do
 
   end
 
-  describe :map_arguments do
-
-    it "should map an array to a hash" do
-      subject.map_arguments([42, 23], :foo, :bar).should == { :foo => 42, :bar => 23 }
-    end
-
-    it "should merge in hash values" do
-      subject.map_arguments([42, {:bar => 23}], :foo, :bar).should == { :foo => 42, :bar => 23 }
-      subject.map_arguments([{ :foo => 42, :bar => 23 }], :foo, :bar).should == { :foo => 42, :bar => 23 }
-    end
-
-    it "should be able to handle missing data" do
-      subject.map_arguments([42], :foo, :bar).should == { :foo => 42 }
-    end
-
-    it "should raise an error when passed too many arguments" do
-      lambda { subject.map_arguments([1, 2, 3], :foo, :bar) }.should raise_error
-    end
-    
-    it "should take a hash with defaul values" do
-      subject.map_arguments([42], :foo, :bar, :foo => 23, :bar => 23, :blah => 23).should == { :foo => 42, :bar => 23, :blah => 23 }
-    end
-
-  end
-
 end

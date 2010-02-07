@@ -9,7 +9,7 @@ class Bithug::Cli < Thor
   class_option :config, :aliases => "-c", :desc => "Config file to load", :banner => "FILE", :default => "config.rb"
 
   no_tasks do
-    
+
     def setup_environment
       options.each { |k,v| send "setup_#{k}", v if respond_to? "setup_#{k}" }
     end
@@ -17,7 +17,7 @@ class Bithug::Cli < Thor
     def setup_ext(value)
       Monkey.backend = value
     end
-    
+
     def setup_config(file)
       Bithug.config ||= Bithug::ConfigDsl.new options[:env]
       if File.exist? file
