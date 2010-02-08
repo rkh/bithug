@@ -18,14 +18,9 @@ class Bithug::Cli < Thor
     end
 
     def setup_config(file)
-      Bithug.config ||= Bithug::ConfigDsl.new options[:env]
-      if File.exist? file
-        Bithug.instance_eval File.read(file), file, 1
-      elsif file == "config.rb" and File.exist? "config.example.rb"
-        setup_config "config.example.rb"
-      else
-        puts "config file #{file} does not exist"
-      end
+      Bithug.config ||= Bithug::Config.new options[:env]
+      raise ArgumentError, "config file #{file} does not exist" unless File.exist? file
+      Bithug.config.load_file file
     end
 
     def initialize(args=[], opts={}, config={})

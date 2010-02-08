@@ -1,9 +1,16 @@
 require "bithug"
 
-class Bithug::ConfigDsl
+class Bithug::Config
+
+  def default_config
+  end
 
   def initialize(env = :development)
     @environment = env.to_sym
+  end
+
+  def load_file(file)
+    instance_eval File.read(file), file, 1
   end
 
   ##
