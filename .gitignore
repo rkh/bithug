@@ -2,13 +2,9 @@
 /tmp
 /.sass-cache
 /doc
-config/user.yml
-spec/user.yml
-webrat.log
+/spec/tmp/
 .yardoc
-vendor
+*.log
 *.rbc
-config.rb
 *.rdb
 *~
-spec/tmp/
