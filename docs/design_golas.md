@@ -7,11 +7,12 @@ Design goals for the Bithug refactoring:
 * Async/non-blocking for everything
 * Clustering / worker queues
 * Real time ajax updates for feed
+* Webhooks / API that is GitHub compatible
 
 Technology
 ----------
 
-* Swiftiply for clustering
+* Swiftiply for clustering?
 * Redis for queues / data
 * Grit for git integration
 * EventMachine
