@@ -26,14 +26,18 @@ GIT
     monkey-lib (0.5.3)
       backports
 
+GIT
+  remote: https://github.com/timfel/bcrypt-ruby.git
+  revision: 6bb57e07aa90b3bea96f2e369387dd7e6dc6fae5
+  specs:
+    bcrypt-ruby (2.1.3)
+
 GEM
   remote: http://rubygems.org/
   specs:
     async-rack (0.5.1)
       rack (~> 1.1)
     backports (2.3.0)
-    bcrypt-ruby (3.0.0)
-    bcrypt-ruby (3.0.0-java)
     bouncy-castle-java (1.5.0146.1)
     chronic_duration (0.9.6)
       numerizer (~> 0.1.1)
@@ -53,19 +57,14 @@ GEM
       bouncy-castle-java
     json (1.5.4)
     mime-types (1.16)
-    nest (1.1.0)
-      redis (~> 2.1)
     net-ssh (2.2.1)
     numerizer (0.1.1)
     oauth (0.4.5)
-    ohm (0.1.3)
-      nest (~> 1.0)
     rack (1.3.2)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
     rack-flash (0.1.2)
       rack
-    redis (2.2.2)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -115,7 +114,6 @@ GEM
       sinatra (~> 1.0)
       sinatra-sugar (~> 0.5.0)
     tilt (1.3.3)
-    timfel-krb5-auth (0.8)
     twitter_oauth (0.4.3)
       json (>= 1.1.9)
       mime-types (>= 1.16)
@@ -129,7 +127,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt-ruby (~> 3.0)
+  bcrypt-ruby!
   big_band!
   chronic_duration
   compass
@@ -140,11 +138,9 @@ DEPENDENCIES
   monkey-lib!
   net-ssh (~> 2.2)
   oauth
-  ohm
   rack-contrib
   rspec
   ruby-hmac
   sinatra
-  timfel-krb5-auth
   twitter_oauth
   yard
