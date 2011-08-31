@@ -20,11 +20,6 @@ module Sinatra
     register Sinatra::MoreServer
     register Sinatra::Namespace
 
-    configure(:development) do
-      require 'sinatra/reloader'
-      register Sinatra::Reloader
-    end
-
     set :app_file, caller_files.first.expand_path unless app_file?
     set :haml, :format => :html5, :escape_html => true
     enable :sessions, :method_override, :show_exceptions
