@@ -1,6 +1,6 @@
 require "bithug"
 require "sinatra/big_band"
-require "md5"
+require "digest/md5"
 require "chronic_duration"
 
 
@@ -44,7 +44,7 @@ module Bithug
       end
 
       def gravatar_url(mail, size, default)
-        "http://www.gravatar.com/avatar/#{MD5::md5(mail)}?s=#{size}&d=#{default}"
+        "http://www.gravatar.com/avatar/#{Digest::MD5::new.update(mail)}?s=#{size}&d=#{default}"
       end
 
       def gravatar(mail, size = 80, default = "wavatar")

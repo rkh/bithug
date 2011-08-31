@@ -3,7 +3,9 @@ module Bithug
     module ClassMethods
 
       def postpone(*names)
-        names.each { |name| eval "def #{name}(*a,&b); postponed << [__method__, a, b]; end" }
+        names.each do |name|
+          eval "def #{name}(*a,&b); postponed << [:#{name}, a, b]; end"
+        end
       end
 
       def postponed
