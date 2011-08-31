@@ -44,7 +44,7 @@ module Bithug
       end
 
       def gravatar_url(mail, size, default)
-        "http://www.gravatar.com/avatar/#{Digest::MD5::new.update(mail)}?s=#{size}&d=#{default}"
+        "http://www.gravatar.com/avatar/#{Digest::MD5::new.update(mail.to_s)}?s=#{size}&d=#{default}"
       end
 
       def gravatar(mail, size = 80, default = "wavatar")
