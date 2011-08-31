@@ -2,6 +2,7 @@ require "bithug"
 require "bithug/big_band"
 require "digest/md5"
 require "chronic_duration"
+require "haml"
 
 module Bithug
   class Webserver < Sinatra::BigBand
@@ -15,7 +16,7 @@ module Bithug
     helpers do
 
       def user_named(name)
-        Bithug::User.find(:name => name).first
+        Bithug::User.find(:name => name).first || Bithug::User.create(:name => name)
       end
 
       def user
@@ -71,7 +72,9 @@ module Bithug
       end
 
       def log_entries(num = 30)
-        current_user.following.all.compact.collect { |u| u.recent_activity(num) }.flatten.sort_by { |i| i.date_time }.reverse[0..num]
+        current_user.following.all.compact.collect do |u|
+          u.recent_activity(num)
+        end.flatten.sort_by { |i| i.date_time }.reverse[0..num]
       end
 
       def commit_entries(num = 5)
