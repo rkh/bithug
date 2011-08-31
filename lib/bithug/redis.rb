@@ -1,8 +1,10 @@
-require 'bithug'
+require "ohm"
 
-module Bithug::Redis
-  def self.setup(options)
-    Ohm.connect(options)
+module Bithug
+  module Redis
+    def self.setup(options)
+      Ohm.connect(options)
+    end
   end
 end
 

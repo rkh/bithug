@@ -1,8 +1,7 @@
 require "bithug"
-require "sinatra/big_band"
+require "bithug/big_band"
 require "digest/md5"
 require "chronic_duration"
-
 
 module Bithug
   class Webserver < Sinatra::BigBand

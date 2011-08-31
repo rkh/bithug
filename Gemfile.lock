@@ -1,0 +1,150 @@
+GIT
+  remote: https://github.com/rkh/big_band.git
+  revision: 3138cde4ea3fa52c307d8aee4b5b6a4ab943a3a7
+  specs:
+    big_band (0.5.0)
+      async-rack (~> 0.5.0)
+      haml-more (~> 0.5.0)
+      monkey-lib (~> 0.5.0)
+      rack-flash (>= 0.1.1)
+      sinatra-advanced-routes (~> 0.5.0)
+      sinatra-compass (~> 0.5.0)
+      sinatra-config-file (~> 0.5.0)
+      sinatra-default_charset (>= 0.2.0)
+      sinatra-extension (~> 0.5.0)
+      sinatra-more-server (~> 0.5.0)
+      sinatra-namespace (~> 0.5.0)
+      sinatra-reloader (~> 0.5.0)
+      sinatra-sugar (~> 0.5.0)
+      sinatra-test-helper (~> 0.5.0)
+      yard-sinatra (~> 0.5.0)
+
+GIT
+  remote: https://github.com/rkh/monkey-lib.git
+  revision: cd3c08de3c02df83625197caec21684954411775
+  specs:
+    monkey-lib (0.5.3)
+      backports
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    async-rack (0.5.1)
+      rack (~> 1.1)
+    backports (2.3.0)
+    bcrypt-ruby (3.0.0)
+    bcrypt-ruby (3.0.0-java)
+    bouncy-castle-java (1.5.0146.1)
+    chronic_duration (0.9.6)
+      numerizer (~> 0.1.1)
+    chunky_png (1.2.1)
+    compass (0.11.5)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    diff-lcs (1.1.3)
+    extlib (0.9.15)
+    fssm (0.2.7)
+    haml (3.1.2)
+    haml-more (0.5.1)
+      haml (>= 2.2.20)
+      monkey-lib (~> 0.5.2)
+    jruby-openssl (0.7.4)
+      bouncy-castle-java
+    json (1.5.4)
+    mime-types (1.16)
+    nest (1.1.0)
+      redis (~> 2.1)
+    net-ssh (2.2.1)
+    numerizer (0.1.1)
+    oauth (0.4.5)
+    ohm (0.1.3)
+      nest (~> 1.0)
+    rack (1.3.2)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-flash (0.1.2)
+      rack
+    redis (2.2.2)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.4)
+    rspec-expectations (2.6.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.6.0)
+    ruby-hmac (0.4.0)
+    sass (3.1.7)
+    sinatra (1.2.6)
+      rack (~> 1.1)
+      tilt (>= 1.2.2, < 2.0)
+    sinatra-advanced-routes (0.5.1)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-compass (0.5.0)
+      compass (>= 0.8.17)
+      haml-more (~> 0.5.0)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-config-file (0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-default_charset (0.2.0)
+      sinatra (>= 1.0)
+    sinatra-extension (0.5.0)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-more-server (0.5.0)
+      sinatra (~> 1.0)
+    sinatra-namespace (0.5.1)
+      monkey-lib (~> 0.5.2)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-reloader (0.5.0)
+      sinatra (~> 1.0)
+      sinatra-advanced-routes (~> 0.5.0)
+    sinatra-sugar (0.5.1)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+    sinatra-test-helper (0.5.0)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    tilt (1.3.3)
+    timfel-krb5-auth (0.8)
+    twitter_oauth (0.4.3)
+      json (>= 1.1.9)
+      mime-types (>= 1.16)
+      oauth (>= 0.4.1)
+    yard (0.6.8)
+    yard-sinatra (0.5.1)
+      yard (~> 0.6.0)
+
+PLATFORMS
+  java
+  ruby
+
+DEPENDENCIES
+  bcrypt-ruby (~> 3.0)
+  big_band!
+  chronic_duration
+  compass
+  extlib
+  haml
+  jruby-openssl
+  mime-types
+  monkey-lib!
+  net-ssh (~> 2.2)
+  oauth
+  ohm
+  rack-contrib
+  rspec
+  ruby-hmac
+  sinatra
+  timfel-krb5-auth
+  twitter_oauth
+  yard

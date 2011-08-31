@@ -1,4 +1,3 @@
-require "ohm"
 require "monkey"
 require "bithug/service_helper"
 
