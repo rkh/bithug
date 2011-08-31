@@ -1,6 +1,6 @@
 [submodule "vendor/ohm"]
 	path = vendor/ohm
-	url = git://github.com/rkh/ohm.git
+	url = git://github.com/soveran/ohm.git
 [submodule "vendor/big_band"]
 	path = vendor/big_band
 	url = git://github.com/rkh/big_band.git
