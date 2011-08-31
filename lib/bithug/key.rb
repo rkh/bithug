@@ -1,6 +1,8 @@
 require 'bithug'
 require 'fileutils'
-require 'net/ssh'
+unless RUBY_ENGINE == "maglev"
+  require 'net/ssh'
+end
 
 class Bithug::Key < Bithug::Model
   KEYS_FILE = File.expand_path ".ssh/authorized_keys", ENV["HOME"]
@@ -38,6 +40,7 @@ class Bithug::Key < Bithug::Model
     return false if value.include? "\n"
     type, blob = value.split
     return false if blob.nil? || type.nil?
+    return true if RUBY_ENGINE == "maglev" # Net::SSH is broken on MagLev
     blob = blob.unpack("m*").first
     reader = Net::SSH::Buffer.new(blob)
     begin
