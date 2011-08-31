@@ -45,7 +45,7 @@
 	url = http://github.com/hpoydar/chronic_duration.git
 [submodule "vendor/oauth"]
 	path = vendor/oauth
-	url = http://github.com/rkh/oauth.git
+	url = http://github.com/oauth/oauth-ruby.git
 [submodule "vendor/ruby-hmac"]
 	path = vendor/ruby-hmac
 	url = http://github.com/topfunky/ruby-hmac.git
