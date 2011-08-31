@@ -1,5 +1,5 @@
 module Bithug::LogInfo
-  class RightsInfo < Ohm::Model
+  class RightsInfo < Model
     include LogHelper
 
     attribute :access_change

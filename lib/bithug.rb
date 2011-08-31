@@ -29,16 +29,15 @@ module Bithug
   end
 
   def self.use(service, options = {})
-    return Ohm.connect(options) if service == :Redis
     service = const_get(service) unless service.is_a? Module
     options[:only]   ||= [:User, :Repository] 
     options[:except] ||= []
+    service.setup options if service.respond_to? :setup
     ([options[:only]].flatten - [options[:except]].flatten).each do |class_name|
       if service.const_defined? class_name
-        service.setup options if service.respond_to? :setup
         Bithug.const_get(class_name).send :include, service.const_get(class_name)
       else
-        #warn "#{service} does not offer #{class_name}"
+        warn "#{service} does not offer #{class_name}"
       end
     end
   end

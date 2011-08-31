@@ -1,5 +1,5 @@
 module Bithug::LogInfo
-  class FollowInfo < Ohm::Model
+  class FollowInfo < Model
     include LogHelper
 
     attribute :started_following

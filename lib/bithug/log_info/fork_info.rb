@@ -1,5 +1,5 @@
 module Bithug::LogInfo
-  class ForkInfo < Ohm::Model
+  class ForkInfo < Model
     include LogHelper
 
     set :__user__, Bithug::User

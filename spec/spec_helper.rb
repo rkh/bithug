@@ -21,7 +21,7 @@ mkdir_p TEMP_DIR
 
 module Bithug
   configure do
-    Ohm.connect(:host => "127.0.0.1", :port => 6380)
+    use :Redis, :host => "127.0.0.1", :port => 6379
     Ohm.flush
     use :Local
     use :Git

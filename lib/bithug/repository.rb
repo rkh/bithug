@@ -2,7 +2,7 @@ module Bithug
 
   # We use the Repository class in the 
   # logging infos, so we will need it here 
-  class Repository < Ohm::Model
+  class Repository < Model
   end
 
   module AbstractRepository
@@ -157,7 +157,7 @@ module Bithug
     end
   end
 
-  class Repository < Ohm::Model
+  class Repository < Model
     include AbstractRepository unless ancestors.include? AbstractRepository
   end
 

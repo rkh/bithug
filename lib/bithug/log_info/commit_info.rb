@@ -1,5 +1,5 @@
 module Bithug::LogInfo
-  class CommitInfo < Ohm::Model
+  class CommitInfo < Model
     include LogHelper
     attribute :message
     attribute :revision # SHA1 Sum, Revision, whatever

@@ -4,7 +4,7 @@ module Bithug
 
   # We use the User class in the AbstractUser
   # We need to pre-define it  
-  class User < Ohm::Model
+  class User < Model
   end
 
   # A user of Bithug - nice and pretty
@@ -128,7 +128,7 @@ module Bithug
     end
   end
   
-  class User < Ohm::Model
+  class User < Model
     include Bithug::AbstractUser unless ancestors.include? Bithug::AbstractUser
   end
 

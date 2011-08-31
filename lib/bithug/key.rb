@@ -2,7 +2,7 @@ require 'bithug'
 require 'fileutils'
 require 'net/ssh'
 
-class Bithug::Key < Ohm::Model
+class Bithug::Key < Bithug::Model
   KEYS_FILE = File.expand_path ".ssh/authorized_keys", ENV["HOME"]
   AUTHORIZED_KEYS_OPTIONS = 'command="$HOME/bithug/bin/bithug-serve USER",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty '
   
