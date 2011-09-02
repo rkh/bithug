@@ -6,7 +6,6 @@ require "bithug/webserver"
 require "config" unless ENV['RACK_ENV'] == 'test'
 
 require "yaml"
-JSON = YAML unless defined? JSON
 
 Bithug::Webserver.configure do |app|
   app.app_file = __FILE__
