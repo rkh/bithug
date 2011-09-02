@@ -29,7 +29,7 @@ module Bithug
 
   def self.use(service, options = {})
     service = const_get(service) unless service.is_a? Module
-    options[:only]   ||= [:User, :Repository] 
+    options[:only]   ||= [:User, :Repository]
     options[:except] ||= []
     service.setup options if service.respond_to? :setup
     ([options[:only]].flatten - [options[:except]].flatten).each do |class_name|

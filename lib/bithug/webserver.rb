@@ -31,11 +31,11 @@ module Bithug
       end
 
       def toggle_public
-	if repo.public?
-	  "Mark private" 
-	else
-	  "Make public"
-	end
+  if repo.public?
+    "Mark private"
+  else
+    "Make public"
+  end
       end
 
       def gravatar_url(mail, size, default)
@@ -73,7 +73,7 @@ module Bithug
       end
 
       def commit_entries(num = 5)
-	repo.recent_activity(num).reverse
+  repo.recent_activity(num).reverse
       end
 
       def time_ago(time)
@@ -159,13 +159,13 @@ module Bithug
     end
 
     get "/:username/:repository/admin/?" do
-      pass unless repo and current_user? 
+      pass unless repo and current_user?
       # repo.tree <- returns a nested hash of the (w)hole repository tree
       haml :repository_settings, {}, :commit_spec => "master", :tree => repo.tree("master"), :is_subtree => false
     end
 
     post "/:username/:repository/admin/?" do
-      pass unless repo and current_user? 
+      pass unless repo and current_user?
       # repo.tree <- returns a nested hash of the (w)hole repository tree
       repo.rename_repository(params[:name])
       redirect "/#{user.name}/#{params[:name]}/admin"
@@ -174,7 +174,7 @@ module Bithug
     get "/:username/:repository/delete/?" do
       pass unless repo and current_user?
       haml :confirmation, {}, :return_url => "/#{repo.name}",
-	 :message => "Are you sure you want to delete your repository #{repo.name}? This action cannot be undone!"
+   :message => "Are you sure you want to delete your repository #{repo.name}? This action cannot be undone!"
     end
 
     get "/:username/:repository/delete/confirmed" do
@@ -184,7 +184,7 @@ module Bithug
     end
 
     get "/:username/:repository/toggle_public?" do
-      pass unless repo and current_user? 
+      pass unless repo and current_user?
       repo.set_public(!repo.public?)
       redirect "/#{repo.name}/admin"
     end
@@ -218,7 +218,7 @@ module Bithug
       end
       haml :repository, {}, :tree => tree, :is_subtree => !params["splat"].first.empty?, :commit_spec => params[:commit_spec]
     end
-    
+
     get "/:username/:repository/admin" do
       pass unless repo
       haml :repository, :admin
