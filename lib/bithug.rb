@@ -40,4 +40,9 @@ module Bithug
       end
     end
   end
+
+  def self.middleware(service, *args, &block)
+    service = const_get(service) unless service.is_a? Module
+    Bithug::Webserver.use(service, *args, &block)
+  end
 end

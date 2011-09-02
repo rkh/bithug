@@ -6,12 +6,7 @@ require "haml"
 
 module Bithug
   class Webserver < Sinatra::BigBand
-
     enable :sessions
-
-    use Rack::Auth::Basic do |username, password|
-      Bithug::User.login(username) if Bithug::User.authenticate(username, password)
-    end
 
     helpers do
 
