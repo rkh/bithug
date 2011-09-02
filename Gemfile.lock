@@ -26,18 +26,15 @@ GIT
     monkey-lib (0.5.3)
       backports
 
-GIT
-  remote: https://github.com/timfel/bcrypt-ruby.git
-  revision: 6bb57e07aa90b3bea96f2e369387dd7e6dc6fae5
-  specs:
-    bcrypt-ruby (2.1.3)
-
 GEM
+  remote: http://w2-stdev-ub10-01.gemstone.com:9292/
   remote: http://rubygems.org/
   specs:
     async-rack (0.5.1)
       rack (~> 1.1)
     backports (2.3.0)
+    bcrypt-ruby (3.0.0)
+    bcrypt-ruby (3.0.0-java)
     bouncy-castle-java (1.5.0146.1)
     chronic_duration (0.9.6)
       numerizer (~> 0.1.1)
@@ -56,6 +53,13 @@ GEM
     jruby-openssl (0.7.4)
       bouncy-castle-java
     json (1.5.4)
+    json (1.5.4-java)
+    json_pure (1.5.4)
+      spruz (~> 0.2.8)
+    maglev-webtools (0.2.1)
+      json (~> 1.5)
+      rack (~> 1.1)
+      rack-contrib (~> 1.1)
     mime-types (1.16)
     net-ssh (2.2.1)
     numerizer (0.1.1)
@@ -113,6 +117,7 @@ GEM
       monkey-lib (~> 0.5.0)
       sinatra (~> 1.0)
       sinatra-sugar (~> 0.5.0)
+    spruz (0.2.13)
     tilt (1.3.3)
     twitter_oauth (0.4.3)
       json (>= 1.1.9)
@@ -127,13 +132,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt-ruby!
+  bcrypt-ruby (~> 3.0)
   big_band!
   chronic_duration
   compass
   extlib
   haml
   jruby-openssl
+  json_pure
+  maglev-webtools
   mime-types
   monkey-lib!
   net-ssh (~> 2.2)
