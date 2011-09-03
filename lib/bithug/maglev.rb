@@ -30,7 +30,7 @@ unless defined? Bithug::Model
         def flatten; self.class.new.tap {|s| s.concat!(to_a.flatten) }; end
 
         def sort_by(property, options = {})
-          sorted = to_a.sort_by(property)
+          sorted = to_a.sort_by {|a| a.send(property) }
           sorted.reverse! if options[:order] == "DESC"
           sorted
         end
