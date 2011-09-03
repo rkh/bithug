@@ -77,6 +77,7 @@ unless defined? Bithug::Model
           properties.each do |k,v|
             o.instance_variable_set("@#{k}", v)
           end
+          o.save
         end
       end
 
