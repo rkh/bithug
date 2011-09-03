@@ -70,6 +70,8 @@ unless defined? Bithug::Model
         end
       end
 
+      attr_accessor :date_time
+
       def self.create(properties)
         new.tap do |o|
           properties.each do |k,v|
@@ -80,6 +82,7 @@ unless defined? Bithug::Model
 
       def initialize
         @new_record = true
+        self.date_time = DateTime.now
       end
 
       def save
