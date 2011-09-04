@@ -1,7 +1,9 @@
 require 'bithug'
 require 'fileutils'
-unless RUBY_ENGINE == "maglev"
+begin
   require 'net/ssh'
+rescue LoadError
+  # Ignore, if not loadable
 end
 
 class Bithug::Key < Bithug::Model
@@ -40,13 +42,14 @@ class Bithug::Key < Bithug::Model
     return false if value.include? "\n"
     type, blob = value.split
     return false if blob.nil? || type.nil?
-    return true if RUBY_ENGINE == "maglev" # Net::SSH is broken on MagLev
-    blob = blob.unpack("m*").first
-    reader = Net::SSH::Buffer.new(blob)
-    begin
-      reader.read_key
-    rescue NotImplementedError
-      false
+    if defined? Net::SSH
+      blob = blob.unpack("m*").first
+      reader = Net::SSH::Buffer.new(blob)
+      begin
+        reader.read_key
+      rescue NotImplementedError
+        return false
+      end
     end
     true
   end

@@ -11,7 +11,7 @@ module Bithug
     helpers do
 
       def user_named(name)
-        Bithug::User.find(:name => name).first || Bithug::User.create(:name => name)
+        Bithug::User.find(:name => name).first
       end
 
       def user
