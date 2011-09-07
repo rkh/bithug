@@ -69,7 +69,7 @@ unless defined? Bithug::Model
     end
 
     def self.find(properties)
-      Db[self.class.name].select do |user|
+      Db[self.name].select do |user|
         properties.all? do |k,v|
           user.instance_variable_get("@#{k}") == v
         end
